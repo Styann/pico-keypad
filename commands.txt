@@ -1,0 +1,8 @@
+rm * -r
+
+cmake -D PICO_SDK_PATH=/Pico/pico-sdk ..
+
+make picotest
+
+minicom -b 115200 -o -D /dev/ttyACM0
+
