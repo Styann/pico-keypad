@@ -1,8 +1,9 @@
 rm * -r
 
-cmake -D PICO_SDK_PATH=/Pico/pico-sdk ..
+cmake -D PICO_NUMPAD_PATH=/Pico/pico-numpad ..
 
 make picotest
 
 minicom -b 115200 -o -D /dev/ttyACM0
 
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&1111122123411111111111111111111111111111111111111111

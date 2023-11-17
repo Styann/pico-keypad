@@ -5,19 +5,48 @@
 #include "tusb.h"
 #include "../lib/tinyusb/usb_descriptors.h"
 
-void init_keys(){
-    gpio_pull_up(KEY);
+static int8_t current_layout;
+
+void init_keys(void){
+    gpio_pull_up(KEY_1.pin);
+    gpio_pull_up(KEY_2.pin);
+    gpio_pull_up(KEY_3.pin);
+    gpio_pull_up(KEY_4.pin);
+    current_layout = 0;
 }
 
-hid_keyboard_report_t key1 = {0, 0, {HID_KEY_1, 0, 0, 0, 0, 0}};
-
-void send_keyboard_report(){
+void send_keyboard_report(void){
     hid_keyboard_report_t key_state = {0};
 
     static bool has_sent_macro = false;
     
-    if(!gpio_get(KEY)){
-        memcpy(&key_state, &key1, sizeof(hid_keyboard_report_t));
+    if(!gpio_get(KEY_1.pin)){
+        memcpy(
+            &key_state,
+            &layouts[current_layout].keyboard_reports[KEY_1.layout_index],
+            sizeof(hid_keyboard_report_t)
+        );
+    }
+    else if(!gpio_get(KEY_2.pin)){
+        memcpy(
+            &key_state,
+            &layouts[current_layout].keyboard_reports[KEY_2.layout_index],
+            sizeof(hid_keyboard_report_t)
+        );
+    }
+    else if(!gpio_get(KEY_3.pin)){
+        memcpy(
+            &key_state,
+            &layouts[current_layout].keyboard_reports[KEY_3.layout_index],
+            sizeof(hid_keyboard_report_t)
+        );
+    }
+    else if(!gpio_get(KEY_4.pin)){
+        memcpy(
+            &key_state,
+            &layouts[current_layout].keyboard_reports[KEY_4.layout_index],
+            sizeof(hid_keyboard_report_t)
+        );
     }
 
     if(key_state.modifier != 0 || key_state.keycode[0] != 0){
