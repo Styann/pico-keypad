@@ -4,6 +4,7 @@
 #include "pico/binary_info.h"
 #include "pico/multicore.h"
 #include "hardware/gpio.h"
+#include "hardware/adc.h"
 
 #include "tusb.h"
 //#include "bsp/board.h"
@@ -12,13 +13,7 @@
 #include "Keys/Keys.h"
 
 
-//#include "FreeRTOS.h"
-//#include "FreeRTOSConfig.h"
-//#include "task.h"
-//FreeRTOS
-//xTaskCreate(hid_task, "hid_task", 128, NULL, 1, NULL);
-//vTaskStartScheduler();
-
+#define POTENTIOMETER_PIN 1
 #define LED_PIN 15
 #define DEFAULT_LED_PIN 25
 
@@ -28,7 +23,12 @@ int main(void) {
     
     stdio_init_all();
     tusb_init();
-    init_keys();
+    keys_init();
+    
+    adc_init();
+    adc_gpio_init(1);
+    adc_select_input(0);
+    int led_state = 0;
 
     struct repeating_timer keyboard_timer;
 
@@ -42,9 +42,19 @@ int main(void) {
     gpio_init(LED_PIN);
     gpio_set_dir(LED_PIN, GPIO_OUT);
 
+    gpio_init(POTENTIOMETER_PIN);
+    gpio_set_dir(POTENTIOMETER_PIN, GPIO_IN);
+
     while(true){
         tud_task();
-        gpio_put(LED_PIN, 1);
+
+        long result = (float)adc_read() / 10.23;
+        if(result >= 50){
+            led_state = 0;
+        }else if(result < 50){
+            led_state = 1;  
+        } 
+        gpio_put(LED_PIN, led_state);
     }
     
     return 0;

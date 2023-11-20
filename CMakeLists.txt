@@ -37,6 +37,7 @@ target_link_libraries(pico-numpad
     pico_stdlib
     pico_multicore
     hardware_pio
+    hardware_adc
     #FreeRTOS-Kernel
     #FreeRTOS-Kernel-Heap4
     tinyusb_device
