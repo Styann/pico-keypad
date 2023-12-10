@@ -4,25 +4,25 @@ include(pico_sdk_import.cmake)
 
 #include($ENV{FREERTOS_KERNEL_PATH}/portable/ThirdParty/GCC/RP2040/FreeRTOS_Kernel_import.cmake)
 
-project(pico-numpad C CXX ASM)
+project(pico-keypad C CXX ASM)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 
 pico_sdk_init()
 
-add_executable(pico-numpad
-    ${PICO_NUMPAD_PATH}/pico-numpad.c
+add_executable(pico-keypad
+    ${PICO_NUMPAD_PATH}/pico-keypad.c
     ${PICO_NUMPAD_PATH}/lib/tinyusb/usb_descriptors.c
     ${PICO_NUMPAD_PATH}/Keys/Keys.c
 )
 
-target_sources(pico-numpad PUBLIC
-    ${PICO_NUMPAD_PATH}/pico-numpad.c
+target_sources(pico-keypad PUBLIC
+    ${PICO_NUMPAD_PATH}/pico-keypad.c
     ${PICO_NUMPAD_PATH}/lib/tinyusb/usb_descriptors.c
     ${PICO_NUMPAD_PATH}/Keys/Keys.c
 )
 
-target_include_directories(pico-numpad PUBLIC
+target_include_directories(pico-keypad PUBLIC
     ${PICO_SDK_PATH}/src/lib/tinyusb
 )
 
@@ -33,7 +33,7 @@ target_include_directories(pico-numpad PUBLIC
 #    ${FREERTOS_KERNEL_PATH}/list.c
 #)
 
-target_link_libraries(pico-numpad
+target_link_libraries(pico-keypad
     pico_stdlib
     pico_multicore
     hardware_pio
@@ -44,5 +44,5 @@ target_link_libraries(pico-numpad
     tinyusb_board
 )
 
-pico_add_extra_outputs(pico-numpad)
-pico_enable_stdio_usb(pico-numpad 1)
+pico_add_extra_outputs(pico-keypad)
+pico_enable_stdio_usb(pico-keypad 1)

@@ -29,18 +29,23 @@ static const key KEY13 = {0,  {0, 0, {HID_KEY_KEYPAD_2       , 0, 0, 0, 0, 0}}};
 static const key KEY14 = {0,  {0, 0, {HID_KEY_KEYPAD_3       , 0, 0, 0, 0, 0}}}; 
 static const key KEY15 = {0,  {0, 0, {HID_KEY_KEYPAD_ENTER   , 0, 0, 0, 0, 0}}}; 
 static const key KEY16 = {0,  {0, 0, {HID_KEY_KEYPAD_0       , 0, 0, 0, 0, 0}}}; 
-static const key KEY17 = {0,  {0, 0, {HID_KEY_KEYPAD_DECIMAL , 0, 0, 0, 0, 0}}}; */
+static const key KEY17 = {0,  {0, 0, {HID_KEY_KEYPAD_DECIMAL , 0, 0, 0, 0, 0}}};*/
+
+static const uint8_t columns_pins[LAYOUT_COLUMN_LENGTH] = {2, 3, 4, 5};
+static const uint8_t rows_pins[LAYOUT_ROW_LENGTH] = {11, 12, 13, 14, 15};
 
 static const hid_keyboard_report_t layout[LAYOUT_ROW_LENGTH][LAYOUT_COLUMN_LENGTH] = {
     {
-        {0, 0, {HID_KEY_NUM_LOCK       , 0, 0, 0, 0, 0}},
+        //{0, 0, {HID_KEY_NUM_LOCK       , 0, 0, 0, 0, 0}},
+        {HID_KEY_SHIFT_RIGHT, 0, {0     , 0, 0, 0, 0, 0}},
         {0, 0, {HID_KEY_KEYPAD_DIVIDE  , 0, 0, 0, 0, 0}},
         {0, 0, {HID_KEY_KEYPAD_MULTIPLY, 0, 0, 0, 0, 0}},
         {0, 0, {HID_KEY_KEYPAD_SUBTRACT, 0, 0, 0, 0, 0}}
     },
     {
-        {0, 0, {HID_KEY_KEYPAD_7       , 0, 0, 0, 0, 0}}, 
-        {0, 0, {HID_KEY_KEYPAD_8       , 0, 0, 0, 0, 0}}, 
+        //{0, 0, {HID_KEY_KEYPAD_7       , 0, 0, 0, 0, 0}},
+        {0, 0, {HID_KEY_A     , 0, 0, 0, 0, 0}},
+        {0, 0, {HID_KEY_KEYPAD_8       , 0, 0, 0, 0, 0}},
         {0, 0, {HID_KEY_KEYPAD_9       , 0, 0, 0, 0, 0}}, 
         {0, 0, {HID_KEY_KEYPAD_ADD     , 0, 0, 0, 0, 0}}
     },
@@ -57,14 +62,16 @@ static const hid_keyboard_report_t layout[LAYOUT_ROW_LENGTH][LAYOUT_COLUMN_LENGT
         {0, 0, {HID_KEY_KEYPAD_0       , 0, 0, 0, 0, 0}}
     },
     {
-        {0, 0, {HID_KEY_KEYPAD_DECIMAL , 0, 0, 0, 0, 0}}
-        , NULL, NULL, NULL
+        {0, 0, {HID_KEY_KEYPAD_DECIMAL , 0, 0, 0, 0, 0}},
+        {0, 0, {HID_KEY_NONE           , 0, 0, 0, 0, 0}},
+        {0, 0, {HID_KEY_NONE           , 0, 0, 0, 0, 0}},
+        {0, 0, {HID_KEY_NONE           , 0, 0, 0, 0, 0}}
     }
-}
+};
 
 
 void keys_init(void);
-void send_keyboard_report(void);         
+void send_keyboard_report(void);
         
 /*typedef struct {
     hid_keyboard_report_t keyboard_reports[LAYOUT_LENGTH];

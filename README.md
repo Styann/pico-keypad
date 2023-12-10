@@ -1,1 +1,1 @@
-# pico-numpad
+# pico-keypad
