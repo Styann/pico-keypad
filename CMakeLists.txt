@@ -11,15 +11,15 @@ set(CMAKE_CXX_STANDARD 17)
 pico_sdk_init()
 
 add_executable(pico-keypad
-    ${PICO_NUMPAD_PATH}/pico-keypad.c
-    ${PICO_NUMPAD_PATH}/lib/tinyusb/usb_descriptors.c
-    ${PICO_NUMPAD_PATH}/Keys/Keys.c
+    ${PICO_KEYPAD_PATH}/src/pico-keypad.c
+    ${PICO_KEYPAD_PATH}/src/lib/tinyusb/usb_descriptors.c
+    ${PICO_KEYPAD_PATH}/src/Keys/Keys.c
 )
 
 target_sources(pico-keypad PUBLIC
-    ${PICO_NUMPAD_PATH}/pico-keypad.c
-    ${PICO_NUMPAD_PATH}/lib/tinyusb/usb_descriptors.c
-    ${PICO_NUMPAD_PATH}/Keys/Keys.c
+    ${PICO_KEYPAD_PATH}/src/pico-keypad.c
+    ${PICO_KEYPAD_PATH}/src/lib/tinyusb/usb_descriptors.c
+    ${PICO_KEYPAD_PATH}/src/Keys/Keys.c
 )
 
 target_include_directories(pico-keypad PUBLIC

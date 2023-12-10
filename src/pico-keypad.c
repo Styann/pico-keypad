@@ -32,8 +32,6 @@ int main(void) {
 
     while(true){
         tud_task();
-
-        //gpio_put(LED_PIN, 1);
     }
     
     return 0;
