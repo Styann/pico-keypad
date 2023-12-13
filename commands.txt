@@ -6,6 +6,9 @@ cp /Pico/pico-keypad/src/build/pico-keypad.uf2 /media/vboxuser/RPI-RP2/
 
 make pico-keypad
 
+666
+
+
 
 
 

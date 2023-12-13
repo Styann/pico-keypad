@@ -26,6 +26,8 @@ void keys_init(void){
 
 void send_keyboard_report(void){
     hid_keyboard_report_t key_state = {0};
+    //uint8_t modifiers = 0x00;
+
     static bool has_sent_macro = false;
 
     scan_keypad_row(0, &key_state) ||
@@ -59,19 +61,35 @@ bool scan_keypad_row(uint8_t row, hid_keyboard_report_t *report){
     busy_wait_us_32(1);
 
     if(!gpio_get(columns_pins[0])) {
-        memcpy(report, &layout[row][0], HID_KEYBOARD_REPORT_SIZE);
+        if(layout[row][0].modifier != 0){
+            report->modifier |= layout[row][0].modifier;
+        }else{
+            memcpy(report, &layout[row][0], HID_KEYBOARD_REPORT_SIZE);
+        }
         goto pressed;
     } 
     else if(!gpio_get(columns_pins[1])){
-        memcpy(report, &layout[row][1], HID_KEYBOARD_REPORT_SIZE);
+        if(layout[row][1].modifier != 0){
+            report->modifier |= layout[row][1].modifier;
+        }else{
+            memcpy(report, &layout[row][1], HID_KEYBOARD_REPORT_SIZE);
+        }
         goto pressed;
     }
     else if(!gpio_get(columns_pins[2])){
-        memcpy(report, &layout[row][2], HID_KEYBOARD_REPORT_SIZE);
+        if(layout[row][2].modifier != 0){
+            report->modifier |= layout[row][2].modifier;
+        }else{
+            memcpy(report, &layout[row][2], HID_KEYBOARD_REPORT_SIZE);
+        }
         goto pressed;
     }
     else if(!gpio_get(columns_pins[3])){
-        memcpy(report, &layout[row][3], HID_KEYBOARD_REPORT_SIZE);
+        if(layout[row][3].modifier != 0){
+            report->modifier |= layout[row][3].modifier;
+        }else{
+            memcpy(report, &layout[row][3], HID_KEYBOARD_REPORT_SIZE);
+        }
         goto pressed;
     }
     
