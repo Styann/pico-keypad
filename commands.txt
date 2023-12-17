@@ -1,12 +1,75 @@
 rm -r CMakeFiles elf2uf2 generated pico-sdk pioasm cmake_install.cmake CMakeCache.txt Makefile
 
-cmake -D PICO_NUMPAD_PATH=/Pico/pico-keypad ../../
+cmake -D PICO_KEYPAD_PATH=/Pico/pico-keypad ../../
 
 cp /Pico/pico-keypad/src/build/pico-keypad.uf2 /media/vboxuser/RPI-RP2/
 
 make pico-keypad
 
-666
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

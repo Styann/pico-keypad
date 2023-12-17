@@ -7,6 +7,7 @@
 
 #define HID_KEYBOARD_REPORT_SIZE sizeof(hid_keyboard_report_t)
 
+
 void keys_init(void){
 
     for(uint8_t r = 0; r < LAYOUT_ROW_LENGTH; r++){
@@ -24,28 +25,26 @@ void keys_init(void){
     return;
 }
 
-void send_keyboard_report(void){
-    hid_keyboard_report_t key_state = {0};
-    //uint8_t modifiers = 0x00;
 
+void scan_keyboard(void){
+    hid_keyboard_report_t key_state = {0};
     static bool has_sent_macro = false;
 
-    scan_keypad_row(0, &key_state) ||
-    scan_keypad_row(1, &key_state) ||
-    scan_keypad_row(2, &key_state) ||
-    scan_keypad_row(3, &key_state) || 
-    scan_key(4, 0, &key_state);
-
+    scan_keypad_row(&key_state, 0);
+    scan_keypad_row(&key_state, 1);
+    scan_keypad_row(&key_state, 2);
+    scan_keypad_row(&key_state, 3);
+    scan_key(&key_state, 4, 0);
+    
     if(key_state.modifier != 0 || key_state.keycode[0] != 0){
         //to send modifier -> KEYBOARD_MODIFIER_LEFTSHIFT | KEYBOARD_MODIFIER_LEFTCTRL
-        has_sent_macro = true;
         tud_hid_keyboard_report(REPORT_ID_KEYBOARD, key_state.modifier, key_state.keycode);
-    }
-    else if(has_sent_macro){
+        has_sent_macro = true;
+    } else{
         tud_hid_keyboard_report(REPORT_ID_KEYBOARD, 0, NULL);
         has_sent_macro = false;
     }
-    
+
     return;
     /*consumer control example
     uint16_t vempty = 0;
@@ -54,64 +53,55 @@ void send_keyboard_report(void){
     tud_hid_report(REPORT_ID_CONSUMER_CONTROL, &vdown, 2);*/
 }
 
-bool scan_keypad_row(uint8_t row, hid_keyboard_report_t *report){
-    //I know the goto statement isn't recommended, but I wanted to use it.
+
+void set_keyboard_report(hid_keyboard_report_t *keyboard_report, key *the_key){
+
+    if(the_key->modifier != 0){
+        keyboard_report->modifier |= the_key->modifier;
+    } else {
+        if(keyboard_report->keycode[0] == 0) keyboard_report->keycode[0] = the_key->keycode;
+        else if(keyboard_report->keycode[1] == 0) keyboard_report->keycode[1] = the_key->keycode;
+        else if(keyboard_report->keycode[2] == 0) keyboard_report->keycode[2] = the_key->keycode;
+        else if(keyboard_report->keycode[3] == 0) keyboard_report->keycode[3] = the_key->keycode;
+        else if(keyboard_report->keycode[4] == 0) keyboard_report->keycode[4] = the_key->keycode;
+        else if(keyboard_report->keycode[5] == 0) keyboard_report->keycode[5] = the_key->keycode;
+    }
+
+    return;
+}
+
+
+void scan_keypad_row(hid_keyboard_report_t *keyboard_report, uint8_t row){
     gpio_set_dir(rows_pins[row], GPIO_OUT);
     gpio_put(rows_pins[row], 0);
     busy_wait_us_32(1);
 
     if(!gpio_get(columns_pins[0])) {
-        if(layout[row][0].modifier != 0){
-            report->modifier |= layout[row][0].modifier;
-        }else{
-            memcpy(report, &layout[row][0], HID_KEYBOARD_REPORT_SIZE);
-        }
-        goto pressed;
+        set_keyboard_report(keyboard_report, &layout[row][0]);
     } 
-    else if(!gpio_get(columns_pins[1])){
-        if(layout[row][1].modifier != 0){
-            report->modifier |= layout[row][1].modifier;
-        }else{
-            memcpy(report, &layout[row][1], HID_KEYBOARD_REPORT_SIZE);
-        }
-        goto pressed;
+    if(!gpio_get(columns_pins[1])){
+        set_keyboard_report(keyboard_report, &layout[row][1]);
     }
-    else if(!gpio_get(columns_pins[2])){
-        if(layout[row][2].modifier != 0){
-            report->modifier |= layout[row][2].modifier;
-        }else{
-            memcpy(report, &layout[row][2], HID_KEYBOARD_REPORT_SIZE);
-        }
-        goto pressed;
+    if(!gpio_get(columns_pins[2])){
+        set_keyboard_report(keyboard_report, &layout[row][2]);
     }
-    else if(!gpio_get(columns_pins[3])){
-        if(layout[row][3].modifier != 0){
-            report->modifier |= layout[row][3].modifier;
-        }else{
-            memcpy(report, &layout[row][3], HID_KEYBOARD_REPORT_SIZE);
-        }
-        goto pressed;
+    if(!gpio_get(columns_pins[3])){
+        set_keyboard_report(keyboard_report, &layout[row][3]);
     }
-    
-    gpio_set_dir(rows_pins[row], GPIO_IN);  
-    return false;
 
-    pressed:
-    gpio_set_dir(rows_pins[row], GPIO_IN);
-    return true;
+    gpio_set_dir(rows_pins[row], GPIO_IN); 
+    return;
 }
 
-bool scan_key(uint8_t row, uint8_t column, hid_keyboard_report_t *report){
+void scan_key(hid_keyboard_report_t *keyboard_report, uint8_t row, uint8_t column){
     gpio_set_dir(rows_pins[row], GPIO_OUT);
     gpio_put(rows_pins[row], 0);
     busy_wait_us_32(1);
 
-    bool pin_value = !gpio_get(columns_pins[column]);
-
-    if(pin_value){
-        memcpy(report, &layout[row][column], HID_KEYBOARD_REPORT_SIZE);
+    if(!gpio_get(columns_pins[column])){
+        set_keyboard_report(keyboard_report, &layout[row][column]);
     }
 
     gpio_set_dir(rows_pins[row], GPIO_IN);  
-    return pin_value;
+    return;
 }

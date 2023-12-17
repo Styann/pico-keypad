@@ -42,7 +42,7 @@ bool keyboard_timer_callback(struct repeating_timer *t){
         tud_remote_wakeup();
     }
     else if(tud_hid_ready()){
-        send_keyboard_report();
+        scan_keyboard();
     }
 
     return true;
