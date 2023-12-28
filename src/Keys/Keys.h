@@ -11,13 +11,13 @@ typedef struct {
     uint8_t keycode;
     uint8_t modifier;
     uint8_t consumer_control;
-} key;
+} keyboard_key_t;
 
 void keys_init(void);
 
-void set_keyboard_report(hid_keyboard_report_t *keyboard_report, key *the_key);
+void set_keyboard_report(hid_keyboard_report_t *keyboard_report, keyboard_key_t *key);
 
-void scan_keyboard(void);
+void irq_scan_keyboard(void);
 
 void scan_keypad_row(hid_keyboard_report_t *keyboard_report, uint8_t row);
 void scan_key(hid_keyboard_report_t *keyboard_report, uint8_t row, uint8_t column);
@@ -25,82 +25,37 @@ void scan_key(hid_keyboard_report_t *keyboard_report, uint8_t row, uint8_t colum
 static const uint8_t columns_pins[LAYOUT_COLUMN_LENGTH] = {2, 3, 4, 5};
 static const uint8_t rows_pins[LAYOUT_ROW_LENGTH] = {11, 12, 13, 14, 15};
 
-static key layout[LAYOUT_ROW_LENGTH][LAYOUT_COLUMN_LENGTH] = {
+static keyboard_key_t layout[LAYOUT_ROW_LENGTH][LAYOUT_COLUMN_LENGTH] = {
     {
-        {HID_KEY_W              , 0, 0},
-        //{KEYBOARD_MODIFIER_LEFTCTRL, 0, {HID_KEY_CONTROL_LEFT, 0, 0, 0, 0, 0}},
-        //{0, 0, {HID_KEY_NUM_LOCK       , 0, 0, 0, 0, 0}},
+        {HID_KEY_NUM_LOCK       , 0, 0},
         {HID_KEY_KEYPAD_DIVIDE  , 0, 0},
         {HID_KEY_KEYPAD_MULTIPLY, 0, 0},
         {HID_KEY_KEYPAD_SUBTRACT, 0, 0}
     },
     {
-        {HID_KEY_A         , 0, 0},
-        //{KEYBOARD_MODIFIER_LEFTSHIFT, 0, {HID_KEY_SHIFT_LEFT, 0, 0, 0, 0, 0}},
-        //{0, 0, {HID_KEY_KEYPAD_7       , 0, 0, 0, 0, 0}},
-        {HID_KEY_KEYPAD_8  , 0, 0},
-        {HID_KEY_KEYPAD_9  , 0, 0}, 
-        {HID_KEY_KEYPAD_ADD, 0, 0}
+        {HID_KEY_KEYPAD_7       , 0, 0},
+        {HID_KEY_KEYPAD_8       , 0, 0},
+        {HID_KEY_KEYPAD_9       , 0, 0}, 
+        {HID_KEY_KEYPAD_ADD     , 0, 0}
     },
     {
-        {HID_KEY_D           , 0, 0},
-        //{0, 0, {HID_KEY_ESCAPE, 0, 0, 0, 0, 0}},
-        //{0, 0, {HID_KEY_KEYPAD_4       , 0, 0, 0, 0, 0}}, 
-        {HID_KEY_KEYPAD_5    , 0, 0}, 
-        {HID_KEY_KEYPAD_6    , 0, 0}, 
-        {HID_KEY_KEYPAD_ENTER, 0, 0}
+        {HID_KEY_KEYPAD_4       , 0, 0}, 
+        {HID_KEY_KEYPAD_5       , 0, 0}, 
+        {HID_KEY_KEYPAD_6       , 0, 0}, 
+        {HID_KEY_KEYPAD_ENTER   , 0, 0}
     },
     {
-        {HID_KEY_KEYPAD_1, 0, 0}, 
-        {HID_KEY_KEYPAD_2, 0, 0}, 
-        {HID_KEY_KEYPAD_3, 0, 0}, 
-        {HID_KEY_KEYPAD_0, 0, 0}
+        {HID_KEY_KEYPAD_1       , 0, 0}, 
+        {HID_KEY_KEYPAD_2       , 0, 0}, 
+        {HID_KEY_KEYPAD_3       , 0, 0}, 
+        {HID_KEY_KEYPAD_0       , 0, 0}
     },
     {
-        {HID_KEY_KEYPAD_DECIMAL, 0, 0},
-        {HID_KEY_NONE          , 0, 0},
-        {HID_KEY_NONE          , 0, 0},
-        {HID_KEY_NONE          , 0, 0}
+        {HID_KEY_KEYPAD_DECIMAL , 0, 0},
+        {HID_KEY_NONE           , 0, 0},
+        {HID_KEY_NONE           , 0, 0},
+        {HID_KEY_NONE           , 0, 0}
     }
 };
-
-/*static hid_keyboard_report_t layout[LAYOUT_ROW_LENGTH][LAYOUT_COLUMN_LENGTH] = {
-    {
-        {0, 0, {HID_KEY_W              , 0, 0, 0, 0, 0}},
-        //{KEYBOARD_MODIFIER_LEFTCTRL, 0, {HID_KEY_CONTROL_LEFT, 0, 0, 0, 0, 0}},
-        //{0, 0, {HID_KEY_NUM_LOCK       , 0, 0, 0, 0, 0}},
-        {0, 0, {HID_KEY_KEYPAD_DIVIDE  , 0, 0, 0, 0, 0}},
-        {0, 0, {HID_KEY_KEYPAD_MULTIPLY, 0, 0, 0, 0, 0}},
-        {0, 0, {HID_KEY_KEYPAD_SUBTRACT, 0, 0, 0, 0, 0}}
-    },
-    {
-        {0, 0, {HID_KEY_A, 0, 0, 0, 0, 0}},
-        //{KEYBOARD_MODIFIER_LEFTSHIFT, 0, {HID_KEY_SHIFT_LEFT, 0, 0, 0, 0, 0}},
-        //{0, 0, {HID_KEY_KEYPAD_7       , 0, 0, 0, 0, 0}},
-        {0, 0, {HID_KEY_KEYPAD_8       , 0, 0, 0, 0, 0}},
-        {0, 0, {HID_KEY_KEYPAD_9       , 0, 0, 0, 0, 0}}, 
-        {0, 0, {HID_KEY_KEYPAD_ADD     , 0, 0, 0, 0, 0}}
-    },
-    {
-        {0, 0, {HID_KEY_D, 0, 0, 0, 0, 0}},
-        //{0, 0, {HID_KEY_ESCAPE, 0, 0, 0, 0, 0}},
-        //{0, 0, {HID_KEY_KEYPAD_4       , 0, 0, 0, 0, 0}}, 
-        {0, 0, {HID_KEY_KEYPAD_5       , 0, 0, 0, 0, 0}}, 
-        {0, 0, {HID_KEY_KEYPAD_6       , 0, 0, 0, 0, 0}}, 
-        {0, 0, {HID_KEY_KEYPAD_ENTER   , 0, 0, 0, 0, 0}}
-    },
-    {
-        {0, 0, {HID_KEY_KEYPAD_1       , 0, 0, 0, 0, 0}}, 
-        {0, 0, {HID_KEY_KEYPAD_2       , 0, 0, 0, 0, 0}}, 
-        {0, 0, {HID_KEY_KEYPAD_3       , 0, 0, 0, 0, 0}}, 
-        {0, 0, {HID_KEY_KEYPAD_0       , 0, 0, 0, 0, 0}}
-    },
-    {
-        {0, 0, {HID_KEY_KEYPAD_DECIMAL , 0, 0, 0, 0, 0}},
-        {0, 0, {HID_KEY_NONE           , 0, 0, 0, 0, 0}},
-        {0, 0, {HID_KEY_NONE           , 0, 0, 0, 0, 0}},
-        {0, 0, {HID_KEY_NONE           , 0, 0, 0, 0, 0}}
-    }
-};*/
 
 #endif

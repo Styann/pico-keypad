@@ -1,13 +1,9 @@
-#include <stdio.h>
+//#include <stdio.h>
 
-#include "pico/stdlib.h"
-#include "pico/binary_info.h"
-#include "pico/multicore.h"
 #include "hardware/gpio.h"
-#include "hardware/adc.h"
+#include "hardware/timer.h"
 
 #include "tusb.h"
-//#include "bsp/board.h"
 #include "lib/tinyusb/usb_descriptors.h"
 
 #include "Keys/Keys.h"
@@ -42,7 +38,7 @@ bool keyboard_timer_callback(struct repeating_timer *t){
         tud_remote_wakeup();
     }
     else if(tud_hid_ready()){
-        scan_keyboard();
+        irq_scan_keyboard();
     }
 
     return true;
