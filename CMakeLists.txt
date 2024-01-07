@@ -12,12 +12,14 @@ add_executable(pico-keypad
     ${PICO_KEYPAD_PATH}/src/pico-keypad.c
     ${PICO_KEYPAD_PATH}/src/lib/tinyusb/usb_descriptors.c
     ${PICO_KEYPAD_PATH}/src/Keys/Keys.c
+    ${PICO_KEYPAD_PATH}/src/usb/usb_device.c
 )
 
 target_sources(pico-keypad PUBLIC
     ${PICO_KEYPAD_PATH}/src/pico-keypad.c
     ${PICO_KEYPAD_PATH}/src/lib/tinyusb/usb_descriptors.c
     ${PICO_KEYPAD_PATH}/src/Keys/Keys.c
+    ${PICO_KEYPAD_PATH}/src/usb/usb_device.c
 )
 
 target_include_directories(pico-keypad PUBLIC
