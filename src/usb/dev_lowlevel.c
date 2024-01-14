@@ -6,6 +6,9 @@
 
 #include <stdio.h>
 
+// For led 
+#include "hardware/gpio.h"
+
 // Pico
 #include "pico/stdlib.h"
 
@@ -275,6 +278,14 @@ void usb_start_transfer(struct usb_endpoint_configuration *ep, uint8_t *buf, uin
     *ep->buffer_control = val;
 }
 
+void usb_send_hid_keyboard_report(struct usb_hid_keyboard_report *keyboard_report){
+    struct usb_endpoint_configuration *ep = usb_get_endpoint_configuration(EP_IN_HID);
+
+    struct usb_hid_keyboard_report *kr = keyboard_report;
+
+    usb_start_transfer(ep, (uint8_t *)kr, sizeof(struct usb_hid_keyboard_report));
+}
+
 /**
  * @brief Send device descriptor to host
  *
@@ -292,12 +303,13 @@ void usb_handle_device_descriptor(volatile struct usb_setup_packet *pkt) {
 void usb_handle_report_descriptor(volatile struct usb_setup_packet *pkt){
     struct usb_endpoint_configuration *ep = usb_get_endpoint_configuration(EP0_IN_ADDR);
 
+    uint8_t *buf = dev_config.hid_report_descriptor;
     //ep->next_pid = 1;
 
     usb_start_transfer(
         ep,
-        &dev_config.hid_report_descriptor,
-        MIN(sizeof(USB_HID_REPORT_DESCRIPTOR_LENGTH), pkt->wLength)
+        (uint8_t *)buf,
+        MIN(63, pkt->wLength)
     );
 }
 
@@ -426,15 +438,12 @@ void usb_handle_setup_packet(void) {
             usb_set_device_address(pkt);
         } else if (req == USB_REQUEST_SET_CONFIGURATION) {
             usb_set_device_configuration(pkt);
-        }
-        else if(req == USB_HID_REQUEST_SET_IDLE){
-            uint8_t value = pkt->wValue;
-            usb_acknowledge_out_request();
         } else {
             usb_acknowledge_out_request();
             printf("Other OUT request (0x%x)\r\n", pkt->bRequest);
         }
-    } else if (req_direction == USB_DIR_IN) {
+    } 
+    else if (req_direction == USB_DIR_IN) {
         if (req == USB_REQUEST_GET_DESCRIPTOR) {
             uint16_t descriptor_type = pkt->wValue >> 8;
 
@@ -454,15 +463,32 @@ void usb_handle_setup_packet(void) {
                     printf("GET STRING DESCRIPTOR\r\n");
                     break;
 
-                case USB_HID_DESCRIPTOR_TYPE_REPORT:
-                    usb_handle_report_descriptor(pkt);
-                    break;
-
                 default:
                     printf("Unhandled GET_DESCRIPTOR type 0x%x\r\n", descriptor_type);
             }
         } else {
             printf("Other IN request (0x%x)\r\n", pkt->bRequest);
+        }
+    }
+    else if(req_direction == 0x21){
+        if(req == USB_HID_REQUEST_SET_IDLE){
+            //uint8_t value = pkt->wValue;
+            usb_acknowledge_out_request();
+        }
+        else if(req == USB_HID_REQUEST_SET_REPORT){
+            gpio_put(16, false);
+            usb_acknowledge_out_request();
+        } else {
+            usb_acknowledge_out_request();
+        }
+    } 
+    else if(req_direction == EP_IN_HID){
+        uint16_t descriptor_type = pkt->wValue >> 8;
+
+        switch(descriptor_type){
+            case USB_HID_DESCRIPTOR_TYPE_REPORT:
+                usb_handle_report_descriptor(pkt);
+                break;
         }
     }
 }
