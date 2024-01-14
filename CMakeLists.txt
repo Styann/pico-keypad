@@ -10,34 +10,25 @@ pico_sdk_init()
 
 add_executable(pico-keypad
     ${PICO_KEYPAD_PATH}/src/pico-keypad.c
-    ${PICO_KEYPAD_PATH}/src/lib/tinyusb/usb_descriptors.c
-    ${PICO_KEYPAD_PATH}/src/Keys/Keys.c
-    ${PICO_KEYPAD_PATH}/src/usb/usb_device.c
+    #${PICO_KEYPAD_PATH}/src/Keys/Keys.c
+    ${PICO_KEYPAD_PATH}/src/usb/dev_lowlevel.c
 )
 
 target_sources(pico-keypad PUBLIC
     ${PICO_KEYPAD_PATH}/src/pico-keypad.c
-    ${PICO_KEYPAD_PATH}/src/lib/tinyusb/usb_descriptors.c
-    ${PICO_KEYPAD_PATH}/src/Keys/Keys.c
-    ${PICO_KEYPAD_PATH}/src/usb/usb_device.c
-)
-
-target_include_directories(pico-keypad PUBLIC
-    ${PICO_SDK_PATH}/src/lib/tinyusb
+    #${PICO_KEYPAD_PATH}/src/Keys/Keys.c
+    ${PICO_KEYPAD_PATH}/src/usb/dev_lowlevel.c
 )
 
 target_link_libraries(pico-keypad
     pico_stdlib
     pico_multicore
     hardware_pio
-    hardware_adc
-    tinyusb_device
-    tinyusb_board
+    hardware_resets
+    hardware_irq
 )
 
 pico_add_extra_outputs(pico-keypad)
-pico_enable_stdio_usb(pico-keypad 1)
-
 
 message(${CMAKE_C_COMPILER})
 message(${CMAKE_CXX_COMPILER})

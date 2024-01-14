@@ -3,37 +3,43 @@
 #include "hardware/gpio.h"
 #include "hardware/timer.h"
 
-#include "tusb.h"
-#include "lib/tinyusb/usb_descriptors.h"
-
-#include "Keys/Keys.h"
+#include "usb/dev_lowlevel.h"
+//#include "Keys/Keys.h"
 
 
 bool keyboard_timer_callback(struct repeating_timer *t);
 
 int main(void) {   
     
-    //stdio_init_all();
-    tusb_init();
-    keys_init();
+    stdio_init_all();
+    usb_device_init();
+    //keys_init();
 
-    struct repeating_timer keyboard_timer;
+    while(!is_configured()){
+        tight_loop_contents();
 
-    add_repeating_timer_ms(
+    }
+    //struct repeating_timer keyboard_timer;
+
+    /*add_repeating_timer_ms(
         10, //10ms
         keyboard_timer_callback,
         NULL,
         &keyboard_timer
-    );
+    );*/
+
+    // Get ready to rx from host
+    usb_start_transfer(usb_get_endpoint_configuration(EP1_OUT_ADDR), NULL, 64);
+
 
     while(true){
-        tud_task();
+        tight_loop_contents();
     }
     
     return 0;
 }
 
-bool keyboard_timer_callback(struct repeating_timer *t){
+/*bool keyboard_timer_callback(struct repeating_timer *t){
     if(tud_suspended()){
         tud_remote_wakeup();
     }
@@ -42,32 +48,4 @@ bool keyboard_timer_callback(struct repeating_timer *t){
     }
 
     return true;
-}
-
-
-
-
-// TinyUSB HID callbacks
-
-uint16_t tud_hid_get_report_cb(uint8_t instance, uint8_t report_id, hid_report_type_t report_type, uint8_t *buffer, uint16_t reqlen){
-    return 0;
-}
-
-void tud_hid_set_report_cb(uint8_t instance, uint8_t report_id, hid_report_type_t report_type, uint8_t const *buffer, uint16_t bufsize){
-
-}
-
-void tud_hid_report_complete_cb(uint8_t instance, uint8_t const *report, uint16_t len) {}
-
-
-// TinyUSB Device callbacks
-
-void tud_cdc_line_state_cb(uint8_t itf, bool dtr, bool rts) {}
-
-void tud_mount_cb() {}
-
-void tud_unmount_cb() {}
-
-void tud_suspend_cb(bool remote_wakeup_en) {}
-
-void tud_resume_cb() {}
+}*/
