@@ -53,10 +53,9 @@ void irq_scan_keyboard(void){
     
     if(key_state.modifier != 0 || key_state.keycode[0] != 0){
         //to send modifier -> KEYBOARD_MODIFIER_LEFTSHIFT | KEYBOARD_MODIFIER_LEFTCTRL
-        tud_hid_keyboard_report(REPORT_ID_KEYBOARD, key_state.modifier, key_state.keycode);
+        //send_keyboard_report();
         has_sent_report = true;
     } else{
-        tud_hid_keyboard_report(REPORT_ID_KEYBOARD, 0, NULL);
         has_sent_report = false;
     }
 

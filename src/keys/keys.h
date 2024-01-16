@@ -1,6 +1,7 @@
 #ifndef KEYS_H
 #define KEYS_H
 
+#include "pico/stdlib"
 #include "../usb/usb_hid.h"
 
 #define LAYOUT_LENGTH 17

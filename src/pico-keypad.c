@@ -24,7 +24,7 @@ int main(void) {
     }
 
     // Get ready to rx from host
-    usb_start_transfer(usb_get_endpoint_configuration(EP1_OUT_ADDR), NULL, 64);
+    usb_start_transfer(usb_get_endpoint_configuration(EP0_OUT_ADDR), NULL, 64);
 
     /*struct repeating_timer keyboard_timer;
     add_repeating_timer_ms(
@@ -34,7 +34,8 @@ int main(void) {
         &keyboard_timer
     );*/
 
-    struct usb_hid_keyboard_report keyboard_report = {0, 0, {0xe0, 0, 0, 0, 0, 0}};
+    struct usb_hid_keyboard_report keyboard_report = {0x01, 0, {0, 0x04, 0, 0, 0, 0}};
+    usb_send_hid_keyboard_report(&keyboard_report);
 
     while(true){
         tight_loop_contents();

@@ -14,6 +14,7 @@
 
 // For memcpy
 #include <string.h>
+#include <stdlib.h>
 
 // Include descriptor struct definitions
 #include "usb_common.h"
