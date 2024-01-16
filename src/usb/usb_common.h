@@ -60,7 +60,7 @@
 #define USB_FEAT_DEVICE_REMOTE_WAKEUP   0x01
 #define USB_FEAT_TEST_MODE                0x02
 
-#define USB_DESCRIPTOR_TYPE_ENDPOINT 0x05
+//#define USB_DESCRIPTOR_TYPE_ENDPOINT 0x05
 
 struct usb_setup_packet {
     uint8_t bmRequestType;
@@ -134,43 +134,5 @@ struct usb_endpoint_descriptor_long {
     uint8_t bRefresh;
     uint8_t bSyncAddr;
 } __attribute__((packed));
-
-
-#define USB_HID_LOCAL_FRENCH 0x08
-#define USB_HID_USAGE_PAGE_KEYBOARD 0x07
-
-
-#define HID_USAGE_DESKTOP_KEYBOARD 0x06
-#define HID_USAGE_DESKTOP_KEYPAD 0x07
-
-#define EP_IN_HID 0x81
-
-#define INTERFACE_CLASS_TYPE_HID 0x03
-
-#define USB_HID_DESCRIPTOR_TYPE_HID 0x21
-#define USB_HID_DESCRIPTOR_TYPE_REPORT 0x22
-#define USB_HID_DESCRIPTOR_TYPE_PHYSICAL 0x23
-
-#define USB_INTERFACE_PROTOCOL_NONE 0x00
-#define USB_INTERFACE_PROTOCOL_KEYBOARD 0x01
-#define USB_INTERFACE_PROTOCOL_MOUSE 0x02
-
-struct usb_hid_descriptor {
-    uint8_t bLength;
-    uint8_t bDescriptorType;
-    
-    uint16_t bcdHID;
-    uint8_t bCountryCode;
-    uint8_t bNumDescriptors;
-    
-    uint8_t bReportType;
-    uint16_t wReportLength;
-} __packed;
-
-struct usb_hid_keyboard_report {
-    uint8_t modifier;
-    uint8_t reserved;
-    uint8_t keycode[6];
-} __packed;
 
 #endif

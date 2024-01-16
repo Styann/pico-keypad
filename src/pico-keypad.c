@@ -34,7 +34,7 @@ int main(void) {
         &keyboard_timer
     );*/
 
-    struct usb_hid_keyboard_report keyboard_report = {0, 0, {0Xe0, 0, 0, 0, 0, 0}};
+    struct usb_hid_keyboard_report keyboard_report = {0, 0, {0xe0, 0, 0, 0, 0, 0}};
 
     while(true){
         tight_loop_contents();

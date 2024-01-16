@@ -32,15 +32,6 @@
 #define usb_hw_set ((usb_hw_t *)hw_set_alias_untyped(usb_hw))
 #define usb_hw_clear ((usb_hw_t *)hw_clear_alias_untyped(usb_hw))
 
-// Function prototypes for our device specific endpoint handlers defined
-// later on
-void ep0_in_handler(uint8_t *buf, uint16_t len);
-void ep0_out_handler(uint8_t *buf, uint16_t len);
-void ep1_out_handler(uint8_t *buf, uint16_t len);
-void ep2_in_handler(uint8_t *buf, uint16_t len);
-
-void ep1_in_hid_handler(uint8_t *buf, uint16_t len);
-
 // Global device address
 static bool should_set_address = false;
 static uint8_t dev_addr = 0;
@@ -59,7 +50,7 @@ static struct usb_device_configuration dev_config = {
         .interface_descriptor = &hid_interface_descriptor,
         .config_descriptor = &config_descriptor,
         .hid_descriptor = &hid_descriptor,
-        .hid_report_descriptor = &hid_report_descriptor,
+        .hid_report_descriptor = hid_report_descriptor,
         .lang_descriptor = lang_descriptor,
         .descriptor_strings = descriptor_strings,
         .endpoints = {
@@ -185,7 +176,7 @@ void usb_setup_endpoint(const struct usb_endpoint_configuration *ep) {
  * @brief Set up the endpoint control register for each endpoint.
  *
  */
-void usb_setup_endpoints() {
+void usb_setup_endpoints(void) {
     const struct usb_endpoint_configuration *endpoints = dev_config.endpoints;
     for (int i = 0; i < USB_NUM_ENDPOINTS; i++) {
         if (endpoints[i].descriptor && endpoints[i].handler) {
@@ -198,7 +189,7 @@ void usb_setup_endpoints() {
  * @brief Set up the USB controller in device mode, clearing any previous state.
  *
  */
-void usb_device_init() {
+void usb_device_init(void) {
     // Reset usb controller
     reset_block(RESETS_RESET_USBCTRL_BITS);
     unreset_block_wait(RESETS_RESET_USBCTRL_BITS);
@@ -478,18 +469,19 @@ void usb_handle_setup_packet(void) {
         else if(req == USB_HID_REQUEST_SET_REPORT){
             gpio_put(16, false);
             usb_acknowledge_out_request();
-        } else {
-            usb_acknowledge_out_request();
         }
     } 
     else if(req_direction == EP_IN_HID){
-        uint16_t descriptor_type = pkt->wValue >> 8;
+        if(req == USB_REQUEST_GET_DESCRIPTOR){
+            uint16_t descriptor_type = pkt->wValue >> 8;
 
-        switch(descriptor_type){
-            case USB_HID_DESCRIPTOR_TYPE_REPORT:
-                usb_handle_report_descriptor(pkt);
-                break;
+            switch(descriptor_type){
+                case USB_HID_DESCRIPTOR_TYPE_REPORT:
+                    usb_handle_report_descriptor(pkt);
+                    break;
+            }
         }
+
     }
 }
 
@@ -533,7 +525,7 @@ static void usb_handle_buff_done(uint ep_num, bool in) {
  * buffers have been sent / received. Notify each endpoint where this
  * is the case.
  */
-static void usb_handle_buff_status() {
+static void usb_handle_buff_status(void) {
     uint32_t buffers = usb_hw->buf_status;
     uint32_t remaining_buffers = buffers;
 

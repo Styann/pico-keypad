@@ -8,6 +8,60 @@
 #define DEV_LOWLEVEL_H_
 
 #include "usb_common.h"
+#include "usb_hid.h"
+
+// Function prototypes for our device specific endpoint handlers defined
+// later on
+void ep0_in_handler(uint8_t *buf, uint16_t len);
+void ep0_out_handler(uint8_t *buf, uint16_t len);
+void ep1_out_handler(uint8_t *buf, uint16_t len);
+void ep2_in_handler(uint8_t *buf, uint16_t len);
+
+void ep1_in_hid_handler(uint8_t *buf, uint16_t len);
+
+bool is_configured(void);
+
+struct usb_endpoint_configuration *usb_get_endpoint_configuration(uint8_t addr);
+
+uint8_t usb_prepare_string_descriptor(const unsigned char *str);
+
+static inline uint32_t usb_buffer_offset(volatile uint8_t *buf);
+
+void usb_setup_endpoint(const struct usb_endpoint_configuration *ep);
+
+void usb_setup_endpoints(void);
+
+void usb_device_init(void);
+
+static inline bool ep_is_tx(struct usb_endpoint_configuration *ep);
+
+void usb_start_transfer(struct usb_endpoint_configuration *ep, uint8_t *buf, uint16_t len);
+
+void usb_send_hid_keyboard_report(struct usb_hid_keyboard_report *keyboard_report);
+
+void usb_handle_device_descriptor(volatile struct usb_setup_packet *pkt);
+
+void usb_handle_report_descriptor(volatile struct usb_setup_packet *pkt);
+
+void usb_handle_config_descriptor(volatile struct usb_setup_packet *pkt);
+
+void usb_bus_reset(void);
+
+void usb_handle_string_descriptor(volatile struct usb_setup_packet *pkt);
+
+void usb_acknowledge_out_request(void);
+
+void usb_set_device_address(volatile struct usb_setup_packet *pkt);
+
+void usb_set_device_configuration(volatile struct usb_setup_packet *pkt);
+
+void usb_handle_setup_packet(void);
+
+static void usb_handle_ep_buff_done(struct usb_endpoint_configuration *ep);
+
+static void usb_handle_buff_done(uint ep_num, bool in);
+
+static void usb_handle_buff_status(void);
 
 typedef void (*usb_ep_handler)(uint8_t *buf, uint16_t len);
 
@@ -32,7 +86,7 @@ struct usb_device_configuration {
     const struct usb_interface_descriptor *interface_descriptor;
     const struct usb_configuration_descriptor *config_descriptor;
     const struct usb_hid_descriptor *hid_descriptor;
-    const struct uint8_t *hid_report_descriptor;
+    const uint8_t *hid_report_descriptor;
     const unsigned char *lang_descriptor;
     const unsigned char **descriptor_strings;
     // USB num endpoints is 16
