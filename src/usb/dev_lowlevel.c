@@ -14,7 +14,6 @@
 
 // For memcpy
 #include <string.h>
-#include <stdlib.h>
 
 // Include descriptor struct definitions
 #include "usb_common.h"
@@ -270,12 +269,14 @@ void usb_start_transfer(struct usb_endpoint_configuration *ep, uint8_t *buf, uin
     *ep->buffer_control = val;
 }
 
+
+/**
+ * @brief Send keyboard report to host
+ * @author Styann
+ */
 void usb_send_hid_keyboard_report(struct usb_hid_keyboard_report *keyboard_report){
     struct usb_endpoint_configuration *ep = usb_get_endpoint_configuration(EP_IN_HID);
-
-    struct usb_hid_keyboard_report *kr = keyboard_report;
-
-    usb_start_transfer(ep, (uint8_t *)kr, sizeof(struct usb_hid_keyboard_report));
+    usb_start_transfer(ep, (uint8_t *)keyboard_report, sizeof(struct usb_hid_keyboard_report));
 }
 
 /**
@@ -291,7 +292,10 @@ void usb_handle_device_descriptor(volatile struct usb_setup_packet *pkt) {
     usb_start_transfer(ep, (uint8_t *) d, MIN(sizeof(struct usb_device_descriptor), pkt->wLength));
 }
 
-
+/**
+ * @brief Send report descriptor to host
+ * @author Styann 
+ */
 void usb_handle_report_descriptor(volatile struct usb_setup_packet *pkt){
     struct usb_endpoint_configuration *ep = usb_get_endpoint_configuration(EP0_IN_ADDR);
 
@@ -301,7 +305,7 @@ void usb_handle_report_descriptor(volatile struct usb_setup_packet *pkt){
     usb_start_transfer(
         ep,
         (uint8_t *)buf,
-        MIN(63, pkt->wLength)
+        MIN(USB_HID_REPORT_DESCRIPTOR_LENGTH, pkt->wLength)
     );
 }
 

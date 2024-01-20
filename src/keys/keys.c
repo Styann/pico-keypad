@@ -25,15 +25,9 @@ void keys_init(void){
 }
 
 
-void irq_scan_keyboard(void){
-    struct usb_hid_keyboard_report key_state = {0};
+void isr_scan_keyboard(void){
+    struct usb_hid_keyboard_report key_state = {0, 0, {0, 0, 0, 0, 0, 0}};
     static bool has_sent_report = false;
-
-    /*scan_keypad_row(&key_state, 0);
-    scan_keypad_row(&key_state, 1);
-    scan_keypad_row(&key_state, 2);
-    scan_keypad_row(&key_state, 3);
-    scan_key(&key_state, 4, 0);*/
 
     for(uint8_t r = 0; r < LAYOUT_ROW_LENGTH; r++){
         gpio_set_dir(rows_pins[r], GPIO_OUT);
@@ -53,13 +47,21 @@ void irq_scan_keyboard(void){
     
     if(key_state.modifier != 0 || key_state.keycode[0] != 0){
         //to send modifier -> KEYBOARD_MODIFIER_LEFTSHIFT | KEYBOARD_MODIFIER_LEFTCTRL
-        //send_keyboard_report();
+        usb_send_hid_keyboard_report(&key_state);
         has_sent_report = true;
     } else{
+        usb_send_hid_keyboard_report(&key_state);
         has_sent_report = false;
     }
 
     return;
+
+    /*scan_keypad_row(&key_state, 0);
+    scan_keypad_row(&key_state, 1);
+    scan_keypad_row(&key_state, 2);
+    scan_keypad_row(&key_state, 3);
+    scan_key(&key_state, 4, 0);*/
+
     /*consumer control example
     uint16_t vempty = 0;
     tud_hid_report(REPORT_ID_CONSUMER_CONTROL, &vempty, 2);
@@ -67,7 +69,9 @@ void irq_scan_keyboard(void){
     tud_hid_report(REPORT_ID_CONSUMER_CONTROL, &vdown, 2);*/
 }
 
-
+/**
+ * @brief Add a keycode or a modifier key to the keyboard report
+ */
 void set_keyboard_report(struct usb_hid_keyboard_report *keyboard_report, keyboard_key_t *key){
 
     if(key->modifier != 0){

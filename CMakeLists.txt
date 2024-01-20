@@ -10,13 +10,13 @@ pico_sdk_init()
 
 add_executable(pico-keypad
     ${PICO_KEYPAD_PATH}/src/pico-keypad.c
-    #${PICO_KEYPAD_PATH}/src/Keys/Keys.c
+    ${PICO_KEYPAD_PATH}/src/keys/keys.c
     ${PICO_KEYPAD_PATH}/src/usb/dev_lowlevel.c
 )
 
 target_sources(pico-keypad PUBLIC
     ${PICO_KEYPAD_PATH}/src/pico-keypad.c
-    #${PICO_KEYPAD_PATH}/src/Keys/Keys.c
+    ${PICO_KEYPAD_PATH}/src/keys/keys.c
     ${PICO_KEYPAD_PATH}/src/usb/dev_lowlevel.c
 )
 

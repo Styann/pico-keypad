@@ -1,7 +1,7 @@
 #ifndef KEYS_H
 #define KEYS_H
 
-#include "pico/stdlib"
+#include "pico/stdlib.h"
 #include "../usb/usb_hid.h"
 
 #define LAYOUT_LENGTH 17
@@ -18,12 +18,12 @@ void keys_init(void);
 
 void set_keyboard_report(struct usb_hid_keyboard_report *keyboard_report, keyboard_key_t *key);
 
-void irq_scan_keyboard(void);
+void isr_scan_keyboard(void);
 
 // deprecated / unused
-void scan_keypad_row(hid_keyboard_report_t *keyboard_report, uint8_t row);
+void scan_keypad_row(struct usb_hid_keyboard_report *keyboard_report, uint8_t row);
 // deprecated / unused
-void scan_key(hid_keyboard_report_t *keyboard_report, uint8_t row, uint8_t column);
+void scan_key(struct usb_hid_keyboard_report *keyboard_report, uint8_t row, uint8_t column);
 
 static const uint8_t columns_pins[LAYOUT_COLUMN_LENGTH] = {2, 3, 4, 5};
 static const uint8_t rows_pins[LAYOUT_ROW_LENGTH] = {11, 12, 13, 14, 15};

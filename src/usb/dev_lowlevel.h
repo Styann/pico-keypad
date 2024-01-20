@@ -154,7 +154,7 @@ static const struct usb_interface_descriptor hid_interface_descriptor = {
         .bDescriptorType    = USB_DT_INTERFACE,
         .bInterfaceNumber   = 0,
         .bAlternateSetting  = 0,
-        .bNumEndpoints      = 1,    // Interface has 1 endpoints
+        .bNumEndpoints      = 0x01,    // Interface has 1 endpoints
         .bInterfaceClass    = INTERFACE_CLASS_TYPE_HID, // Vendor specific endpoint
         .bInterfaceSubClass = 0,
         .bInterfaceProtocol = 0,
@@ -242,7 +242,7 @@ static const struct usb_hid_descriptor hid_descriptor = {
         
         0x0111, //usb hid version ?
         USB_HID_LOCAL_FRENCH,
-        1,
+        0x01,
 
         USB_HID_DESCRIPTOR_TYPE_REPORT,
         sizeof(hid_report_descriptor) 

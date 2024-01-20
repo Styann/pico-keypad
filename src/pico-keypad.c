@@ -1,13 +1,17 @@
 //#include <stdio.h>
-
+#include "pico/stdlib.h"
 #include "hardware/gpio.h"
 #include "hardware/timer.h"
 
+//usb
 #include "usb/dev_lowlevel.h"
-//#include "Keys/Keys.h"
+
+//keys
+#include "keys/keys.h"
+
 #define LED_PIN 16
 
-bool keyboard_timer_callback(struct repeating_timer *t);
+bool keyboard_timer_callback(struct repeating_timer *timer);
 
 int main(void) {   
     gpio_init(LED_PIN);
@@ -16,45 +20,34 @@ int main(void) {
 
     stdio_init_all();
     usb_device_init();
-    //keys_init();
+    keys_init();
 
     while(!is_configured()){
         tight_loop_contents();
-
     }
 
     // Get ready to rx from host
-    usb_start_transfer(usb_get_endpoint_configuration(EP0_OUT_ADDR), NULL, 64);
+    //usb_start_transfer(usb_get_endpoint_configuration(EP0_OUT_ADDR), NULL, 64);
 
-    /*struct repeating_timer keyboard_timer;
+    struct repeating_timer keyboard_timer;
+
     add_repeating_timer_ms(
         10, //10ms
         keyboard_timer_callback,
         NULL,
         &keyboard_timer
-    );*/
-
-    struct usb_hid_keyboard_report keyboard_report = {0x01, 0, {0, 0x04, 0, 0, 0, 0}};
-    usb_send_hid_keyboard_report(&keyboard_report);
+    );
 
     while(true){
         tight_loop_contents();
-        usb_send_hid_keyboard_report(&keyboard_report);
-        sleep_ms(10);
     }
     
     return 0;
 }
 
-/*bool keyboard_timer_callback(struct repeating_timer *t){
-    if(tud_suspended()){
-        tud_remote_wakeup();
-    }
-    else if(tud_hid_ready()){
-        irq_scan_keyboard();
-    }
-
-
+bool keyboard_timer_callback(struct repeating_timer *timer){
+    isr_scan_keyboard();
+    // if ready -> irq_scan_keyboard();
 
     return true;
-}*/
+}
