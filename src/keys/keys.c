@@ -4,7 +4,8 @@
 #include "hardware/gpio.h"
 #include "hardware/timer.h"
 
-
+#define HIGH 1
+#define LOW 0
 #define HID_KEYBOARD_REPORT_SIZE sizeof(struct usb_hid_keyboard_report)
 
 void keys_init(void){
@@ -12,7 +13,6 @@ void keys_init(void){
     for(uint8_t r = 0; r < LAYOUT_ROW_LENGTH; r++){
         gpio_init(rows_pins[r]);
         gpio_set_dir(rows_pins[r], GPIO_IN);
-        gpio_pull_up(rows_pins[r]);
     }
 
     for(uint8_t c = 0; c < LAYOUT_COLUMN_LENGTH; c++){
@@ -30,8 +30,10 @@ void isr_scan_keyboard(void){
     static bool has_sent_report = false;
 
     for(uint8_t r = 0; r < LAYOUT_ROW_LENGTH; r++){
+        // set selected row as a output
         gpio_set_dir(rows_pins[r], GPIO_OUT);
-        gpio_put(rows_pins[r], 0);
+        // set power to LOW
+        gpio_put(rows_pins[r], LOW);
         busy_wait_us_32(1);
 
         for(uint8_t c = 0; c < LAYOUT_COLUMN_LENGTH; c++){
@@ -42,6 +44,9 @@ void isr_scan_keyboard(void){
             }
         }
 
+        //reset power to HIGH
+        gpio_put(rows_pins[r], HIGH);
+        // reset row as an input
         gpio_set_dir(rows_pins[r], GPIO_IN); 
     }
     
