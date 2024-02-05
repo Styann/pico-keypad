@@ -10,14 +10,36 @@
 #include "keys/keys.h"
 
 #define LED_PIN 16
+#define TOGGLE_PIN 17
 
 bool keyboard_timer_callback(struct repeating_timer *timer);
 
-int main(void) {   
+int main(void) { 
     gpio_init(LED_PIN);
     gpio_set_dir(LED_PIN, GPIO_OUT);
     gpio_put(LED_PIN, true);
 
+    /*bool state;
+    gpio_init(TOGGLE_PIN);
+    gpio_set_dir(TOGGLE_PIN, GPIO_IN);
+    gpio_pull_up(TOGGLE_PIN);
+    bool previous_state = gpio_get(TOGGLE_PIN);
+
+    while (true) {
+        state = gpio_get(TOGGLE_PIN);
+
+        if (state != previous_state) {
+
+            if (!state) {
+                gpio_put(LED_PIN, false);
+            } 
+            else {
+                gpio_put(LED_PIN, true);
+            }
+        }
+
+        sleep_ms(300);
+    }*/
     stdio_init_all();
     usb_device_init();
     keys_init();

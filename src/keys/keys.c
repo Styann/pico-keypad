@@ -23,23 +23,38 @@ void keys_init(void){
 
     return;
 }
+ 
+bool is_key_pressed(uint8_t column_pin) {
+    return !gpio_get(column_pin);
+};
 
+bool is_keyboard_report_empty(struct usb_hid_keyboard_report *keyboard_report) {
+    if(keyboard_report->modifier != 0x00) return false;
+    if(keyboard_report->keycode[0] != 0x00) return false;
+    if(keyboard_report->keycode[1] != 0x00) return false;
+    if(keyboard_report->keycode[2] != 0x00) return false;
+    if(keyboard_report->keycode[3] != 0x00) return false;
+    if(keyboard_report->keycode[4] != 0x00) return false;
+    if(keyboard_report->keycode[5] != 0x00) return false;
+
+    return true;
+}
 
 void isr_scan_keyboard(void){
-    struct usb_hid_keyboard_report key_state = {0, 0, {0, 0, 0, 0, 0, 0}};
+    struct usb_hid_keyboard_report keyboard_report = {0, 0, {0, 0, 0, 0, 0, 0}};
     static bool has_sent_report = false;
 
-    for(uint8_t r = 0; r < LAYOUT_ROW_LENGTH; r++){
+    for (uint8_t r = 0; r < LAYOUT_ROW_LENGTH; r++) {
         // set selected row as a output
         gpio_set_dir(rows_pins[r], GPIO_OUT);
         // set power to LOW
         gpio_put(rows_pins[r], LOW);
         busy_wait_us_32(1);
 
-        for(uint8_t c = 0; c < LAYOUT_COLUMN_LENGTH; c++){
-            if(layout[r][c].keycode != HID_KEY_NONE){
-                if(!gpio_get(columns_pins[c])) {
-                    set_keyboard_report(&key_state, &layout[r][c]);
+        for (uint8_t c = 0; c < LAYOUT_COLUMN_LENGTH; c++) {
+            if (layout[r][c].keycode != KC_NONE) {
+                if (is_key_pressed(columns_pins[c])) {
+                    set_keyboard_report(&keyboard_report, &layout[r][c]);
                 } 
             }
         }
@@ -50,22 +65,20 @@ void isr_scan_keyboard(void){
         gpio_set_dir(rows_pins[r], GPIO_IN); 
     }
     
-    if(key_state.modifier != 0 || key_state.keycode[0] != 0){
+    if (!is_keyboard_report_empty(&keyboard_report)) {
         //to send modifier -> KEYBOARD_MODIFIER_LEFTSHIFT | KEYBOARD_MODIFIER_LEFTCTRL
-        usb_send_hid_keyboard_report(&key_state);
+        usb_send_hid_keyboard_report(&keyboard_report);
         has_sent_report = true;
-    } else{
-        usb_send_hid_keyboard_report(&key_state);
+    }
+    else {
         has_sent_report = false;
+        usb_send_hid_keyboard_report(&keyboard_report);
     }
 
-    return;
+    //struct usb_hid_consumer_control_report consumer = {KC_MEDIA_VOLUME_DECREMENT};
+    //usb_send_hid_consumer_control_report(&consumer);
 
-    /*scan_keypad_row(&key_state, 0);
-    scan_keypad_row(&key_state, 1);
-    scan_keypad_row(&key_state, 2);
-    scan_keypad_row(&key_state, 3);
-    scan_key(&key_state, 4, 0);*/
+    return;
 
     /*consumer control example
     uint16_t vempty = 0;
@@ -79,20 +92,37 @@ void isr_scan_keyboard(void){
  */
 void set_keyboard_report(struct usb_hid_keyboard_report *keyboard_report, keyboard_key_t *key){
 
-    if(key->modifier != 0){
+    if (key->modifier != 0) {
         keyboard_report->modifier |= key->modifier;
     }
     /*else if(key->consumer_control != 0){}*/
-    else{
-        if(keyboard_report->keycode[0] == 0) keyboard_report->keycode[0] = key->keycode;
+    else {
+        if(keyboard_report->keycode[0] == 0)      keyboard_report->keycode[0] = key->keycode;
         else if(keyboard_report->keycode[1] == 0) keyboard_report->keycode[1] = key->keycode;
         else if(keyboard_report->keycode[2] == 0) keyboard_report->keycode[2] = key->keycode;
         else if(keyboard_report->keycode[3] == 0) keyboard_report->keycode[3] = key->keycode;
         else if(keyboard_report->keycode[4] == 0) keyboard_report->keycode[4] = key->keycode;
         else if(keyboard_report->keycode[5] == 0) keyboard_report->keycode[5] = key->keycode;
     }
-
     return;
+}
+
+/**
+ * @brief return 
+*/
+int get_modifier_from_keycode(uint8_t keycode){
+    switch (keycode) {
+        case KC_CTRL_LEFT:     return KC_MOD_CONTROL_LEFT;
+        case KC_SHIFT_LEFT:    return KC_MOD_SHIFT_LEFT;
+        case KC_ALT_LEFT:      return KC_MOD_ALT_LEFT;
+        case KC_GUI_LEFT:      return KC_MOD_GUI_LEFT;
+        case KC_CTRL_RIGHT:    return KC_MOD_CONTROL_RIGHT;
+        case KC_SHIFT_RIGHT:   return KC_MOD_SHIFT_RIGHT;
+        case KC_ALT_RIGHT:     return KC_MOD_ALT_RIGHT;
+        case KC_GUI_RIGHT:     return KC_MOD_GUI_RIGHT;
+        default:               return 0;
+    }
+    return 0;
 }
 
 // deprecated / unused

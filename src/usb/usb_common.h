@@ -60,6 +60,24 @@
 #define USB_FEAT_DEVICE_REMOTE_WAKEUP   0x01
 #define USB_FEAT_TEST_MODE                0x02
 
+//PID
+#define PID_OUT_TOKEN       0b0001 //0x01
+#define PID_IN_TOKEN        0b1001 //0x09
+#define PID_SOF_TOKEN       0b0101
+#define PID_SETUP_TOKEN     0b1101
+#define PID_DATA0           0b0011
+#define PID_DATA1           0b1011
+#define PID_DATA2           0b0111
+#define PID_MDATA           0b1111
+#define PID_ACK_HANDSHAKE   0b0010
+#define PID_NAK_HANDSHAKE   0b1010
+#define PID_STALL_HANDSHAKE 0b1110
+#define PID_NYET_HANDSHAKE  0b0110
+#define PID_PRE_AMBLE       0b1100
+#define PID_ERR             0b1100
+#define PID_SPLIT           0b1000
+#define PID_PING            0b0100
+
 //#define USB_DESCRIPTOR_TYPE_ENDPOINT 0x05
 
 struct usb_setup_packet {

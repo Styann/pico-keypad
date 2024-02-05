@@ -37,7 +37,11 @@ static inline bool ep_is_tx(struct usb_endpoint_configuration *ep);
 
 void usb_start_transfer(struct usb_endpoint_configuration *ep, uint8_t *buf, uint16_t len);
 
+void usb_start_great_pkt_transfer(struct usb_endpoint_configuration *ep, uint8_t *buf, uint16_t len);
+
 void usb_send_hid_keyboard_report(struct usb_hid_keyboard_report *keyboard_report);
+
+void usb_send_hid_consumer_control_report(struct usb_hid_consumer_control_report *consumer_control_report);
 
 void usb_handle_device_descriptor(volatile struct usb_setup_packet *pkt);
 
@@ -199,13 +203,13 @@ static const unsigned char *descriptor_strings[] = {
         (unsigned char *) "Pico Test Device" // Product
 };
 
-#define USB_HID_REPORT_DESCRIPTOR_LENGTH 63 //+ 25
+#define USB_HID_REPORT_DESCRIPTOR_LENGTH 128
 static const uint8_t hid_report_descriptor[USB_HID_REPORT_DESCRIPTOR_LENGTH] = {
-        // usage keyboard
+          // usage keyboard
         0x05, 0x01,
         0x09, 0x06,
                 0xa1, 0x01,
-                //0x85, 0x01, // report id
+                0x85, 0x01, // report id
                 0x05, 0x07, // usage page keyboard/keypad
                 0x19, 0xe0, // usage minimum
                 0x29, 0xe7, // usage maximum
@@ -234,13 +238,13 @@ static const uint8_t hid_report_descriptor[USB_HID_REPORT_DESCRIPTOR_LENGTH] = {
                 0x19, 0x00,
                 0x29, 0x65,
                 0x81, 0x00,
-        0xc0
+        0xc0,
 
         // usage consumer control
-        /*0x05, 0x0c,
+        0x05, 0x0c,
         0x09, 0x01,
                 0xa1, 0x01,
-                //0x85, 0x02,       // report id
+                0x85, 0x02,       // report id
                 0x15, 0x00,       // logical minimum
                 0x26, 0xff, 0x03, // logical maximum
                 0x19, 0x00,       // usage minimum
@@ -248,7 +252,27 @@ static const uint8_t hid_report_descriptor[USB_HID_REPORT_DESCRIPTOR_LENGTH] = {
                 0x95, 0x01,       // report count
                 0x75, 0x10,       // report size
                 0x81, 0x00,
-        0xc0*/
+        0xc0,
+
+        0x00, 0x00,
+        0x00, 0x00,
+        0x00, 0x00,
+        0x00, 0x00,
+        0x00, 0x00,
+        0x00, 0x00,
+        0x00, 0x00,
+        0x00, 0x00,
+        0x00, 0x00,
+        0x00, 0x00,
+        0x00, 0x00,
+        0x00, 0x00,
+        0x00, 0x00,
+        0x00, 0x00,
+        0x00, 0x00,
+        0x00, 0x00,
+        0x00, 0x00,
+        0x00, 0x00,
+        0x00, 0x00,
 };
 
 //HID DESCRIPTOR

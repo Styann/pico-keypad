@@ -11,14 +11,20 @@
 typedef struct {
     uint8_t keycode;
     uint8_t modifier;
-    uint8_t consumer_control;
+    uint16_t consumer_control;
 } keyboard_key_t;
 
 void keys_init(void);
 
-void set_keyboard_report(struct usb_hid_keyboard_report *keyboard_report, keyboard_key_t *key);
+bool is_key_pressed(uint8_t column_pin);
+
+bool is_keyboard_report_empty(struct usb_hid_keyboard_report *keyboard_report);
 
 void isr_scan_keyboard(void);
+
+void set_keyboard_report(struct usb_hid_keyboard_report *keyboard_report, keyboard_key_t *key);
+
+int get_modifier_from_keycode(uint8_t keycode);
 
 // deprecated / unused
 void scan_keypad_row(struct usb_hid_keyboard_report *keyboard_report, uint8_t row);
@@ -30,34 +36,34 @@ static const uint8_t rows_pins[LAYOUT_ROW_LENGTH] = {11, 12, 13, 14, 15};
 
 static keyboard_key_t layout[LAYOUT_ROW_LENGTH][LAYOUT_COLUMN_LENGTH] = {
     {
-        {HID_KEY_NUM_LOCK       , 0, 0},
-        {HID_KEY_KEYPAD_DIVIDE  , 0, 0},
-        {HID_KEY_KEYPAD_MULTIPLY, 0, 0},
-        {HID_KEY_KEYPAD_SUBTRACT, 0, 0}
+        {KC_NUM_LOCK       , 0, 0},
+        {KC_KEYPAD_DIVIDE  , 0, 0},
+        {KC_KEYPAD_MULTIPLY, 0, 0},
+        {KC_KEYPAD_SUBTRACT, 0, 0}
     },
     {
-        {HID_KEY_KEYPAD_7       , 0, 0},
-        {HID_KEY_KEYPAD_8       , 0, 0},
-        {HID_KEY_KEYPAD_9       , 0, 0}, 
-        {HID_KEY_KEYPAD_ADD     , 0, 0}
+        {KC_KEYPAD_7       , 0, 0},
+        {KC_KEYPAD_8       , 0, 0},
+        {KC_KEYPAD_9       , 0, 0}, 
+        {KC_KEYPAD_ADD     , 0, 0}
     },
     {
-        {HID_KEY_KEYPAD_4       , 0, 0}, 
-        {HID_KEY_KEYPAD_5       , 0, 0}, 
-        {HID_KEY_KEYPAD_6       , 0, 0}, 
-        {HID_KEY_KEYPAD_ENTER   , 0, 0}
+        {KC_KEYPAD_4       , 0, 0}, 
+        {KC_KEYPAD_5       , 0, 0}, 
+        {KC_KEYPAD_6       , 0, 0}, 
+        {KC_KEYPAD_ENTER   , 0, 0}
     },
     {
-        {HID_KEY_KEYPAD_1       , 0, 0}, 
-        {HID_KEY_KEYPAD_2       , 0, 0}, 
-        {HID_KEY_KEYPAD_3       , 0, 0}, 
-        {HID_KEY_KEYPAD_0       , 0, 0}
+        {KC_KEYPAD_1       , 0, 0}, 
+        {KC_KEYPAD_2       , 0, 0}, 
+        {KC_KEYPAD_3       , 0, 0}, 
+        {KC_KEYPAD_0       , 0, 0}
     },
     {
-        {HID_KEY_KEYPAD_DECIMAL , 0, 0},
-        {HID_KEY_NONE           , 0, 0},
-        {HID_KEY_NONE           , 0, 0},
-        {HID_KEY_NONE           , 0, 0}
+        {KC_KEYPAD_DECIMAL , 0, 0},
+        {KC_NONE           , 0, 0},
+        {KC_NONE           , 0, 0},
+        {KC_NONE           , 0, 0}
     }
 };
 
