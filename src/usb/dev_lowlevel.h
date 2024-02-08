@@ -97,10 +97,12 @@ struct usb_device_configuration {
     struct usb_endpoint_configuration endpoints[USB_NUM_ENDPOINTS];
 };
 
-#define EP0_IN_ADDR  (USB_DIR_IN  | 0)
-#define EP0_OUT_ADDR (USB_DIR_OUT | 0)
+#define EP0_IN_ADDR  (USB_DIR_IN  | 0) // 0x80
+#define EP0_OUT_ADDR (USB_DIR_OUT | 0) // 0x00
 #define EP1_OUT_ADDR (USB_DIR_OUT | 1)
 #define EP2_IN_ADDR  (USB_DIR_IN  | 2)
+
+#define EP0_BUF_SIZE 64
 
 // EP0 IN and OUT
 static const struct usb_endpoint_descriptor ep0_out = {
@@ -203,7 +205,7 @@ static const unsigned char *descriptor_strings[] = {
         (unsigned char *) "Pico Test Device" // Product
 };
 
-#define USB_HID_REPORT_DESCRIPTOR_LENGTH 128
+#define USB_HID_REPORT_DESCRIPTOR_LENGTH 64 + 26
 static const uint8_t hid_report_descriptor[USB_HID_REPORT_DESCRIPTOR_LENGTH] = {
           // usage keyboard
         0x05, 0x01,
@@ -252,27 +254,7 @@ static const uint8_t hid_report_descriptor[USB_HID_REPORT_DESCRIPTOR_LENGTH] = {
                 0x95, 0x01,       // report count
                 0x75, 0x10,       // report size
                 0x81, 0x00,
-        0xc0,
-
-        0x00, 0x00,
-        0x00, 0x00,
-        0x00, 0x00,
-        0x00, 0x00,
-        0x00, 0x00,
-        0x00, 0x00,
-        0x00, 0x00,
-        0x00, 0x00,
-        0x00, 0x00,
-        0x00, 0x00,
-        0x00, 0x00,
-        0x00, 0x00,
-        0x00, 0x00,
-        0x00, 0x00,
-        0x00, 0x00,
-        0x00, 0x00,
-        0x00, 0x00,
-        0x00, 0x00,
-        0x00, 0x00,
+        0xc0
 };
 
 //HID DESCRIPTOR

@@ -46,7 +46,7 @@ bool is_configured(void){
 }
 
 // Global data buffer for EP0
-static uint8_t ep0_buf[64];
+static uint8_t ep0_buf[EP0_BUF_SIZE];
 
 // Struct defining the device configuration
 static struct usb_device_configuration dev_config = {
@@ -294,6 +294,7 @@ void usb_start_great_pkt_transfer(struct usb_endpoint_configuration *ep, uint8_t
 		chunk = (uint8_t*)realloc(chunk, remainder_size);
 		memcpy(chunk, buf+(len-remainder_size), remainder_size);
         usb_start_transfer(ep, chunk, remainder_size);
+        usb_acknowledge_out_request();
 	}
 
 	free(chunk);

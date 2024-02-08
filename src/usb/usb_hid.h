@@ -210,24 +210,24 @@ struct usb_hid_consumer_control_report {
 #define KC_CRSEL_PROPS          0xA3
 #define KC_EXSEL                0xA4
 // RESERVED					    0xA5-DF
-#define KC_CTRL_LEFT         0xE0
+#define KC_CTRL_LEFT            0xE0
 #define KC_SHIFT_LEFT           0xE1
 #define KC_ALT_LEFT             0xE2
 #define KC_GUI_LEFT             0xE3
-#define KC_CTRL_RIGHT        0xE4
+#define KC_CTRL_RIGHT           0xE4
 #define KC_SHIFT_RIGHT          0xE5
 #define KC_ALT_RIGHT            0xE6
 #define KC_GUI_RIGHT            0xE7
 
 // MODIFIERS
-#define KC_MOD_CONTROL_LEFT     0x01 << 0 //0b00000001
-#define KC_MOD_SHIFT_LEFT       0x01 << 1 //0b00000010
-#define KC_MOD_ALT_LEFT         0x01 << 2 //0b00000100
-#define KC_MOD_GUI_LEFT         0x01 << 3 //0b00001000
-#define KC_MOD_CONTROL_RIGHT    0x01 << 4 //0b00010000
-#define KC_MOD_SHIFT_RIGHT      0x01 << 5 //0b00100000
-#define KC_MOD_ALT_RIGHT        0x01 << 6 //0b01000000
-#define KC_MOD_GUI_RIGHT        0x01 << 7 //0b10000000
+#define KC_MOD_CTRL_LEFT   0x01 << 0 //0b00000001
+#define KC_MOD_SHIFT_LEFT  0x01 << 1 //0b00000010
+#define KC_MOD_ALT_LEFT    0x01 << 2 //0b00000100
+#define KC_MOD_GUI_LEFT    0x01 << 3 //0b00001000
+#define KC_MOD_CTRL_RIGHT  0x01 << 4 //0b00010000
+#define KC_MOD_SHIFT_RIGHT 0x01 << 5 //0b00100000
+#define KC_MOD_ALT_RIGHT   0x01 << 6 //0b01000000
+#define KC_MOD_GUI_RIGHT   0x01 << 7 //0b10000000
 
 // USB HID CONSUMER CONTROL
 /* 

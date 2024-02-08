@@ -24,12 +24,7 @@ void isr_scan_keyboard(void);
 
 void set_keyboard_report(struct usb_hid_keyboard_report *keyboard_report, keyboard_key_t *key);
 
-int get_modifier_from_keycode(uint8_t keycode);
-
-// deprecated / unused
-void scan_keypad_row(struct usb_hid_keyboard_report *keyboard_report, uint8_t row);
-// deprecated / unused
-void scan_key(struct usb_hid_keyboard_report *keyboard_report, uint8_t row, uint8_t column);
+uint8_t get_modifier_from_keycode(uint8_t keycode);
 
 static const uint8_t columns_pins[LAYOUT_COLUMN_LENGTH] = {2, 3, 4, 5};
 static const uint8_t rows_pins[LAYOUT_ROW_LENGTH] = {11, 12, 13, 14, 15};
@@ -42,7 +37,7 @@ static keyboard_key_t layout[LAYOUT_ROW_LENGTH][LAYOUT_COLUMN_LENGTH] = {
         {KC_KEYPAD_SUBTRACT, 0, 0}
     },
     {
-        {KC_KEYPAD_7       , 0, 0},
+        {KV_KEYPAD_7       , 0, 0},
         {KC_KEYPAD_8       , 0, 0},
         {KC_KEYPAD_9       , 0, 0}, 
         {KC_KEYPAD_ADD     , 0, 0}
