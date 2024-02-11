@@ -150,7 +150,7 @@ static const struct usb_interface_descriptor interface_descriptor = {
         .bNumEndpoints      = 2,    // Interface has 2 endpoints
         .bInterfaceClass    = 0xff, // Vendor specific endpoint
         .bInterfaceSubClass = 0,
-        .bInterfaceProtocol = 0,
+        .bInterfaceProtocol = 0x01, // keyboard
         .iInterface         = 0
 };
 
@@ -205,6 +205,14 @@ static const unsigned char *descriptor_strings[] = {
         (unsigned char *) "Pico Test Device" // Product
 };
 
+/*#define USB_HID_REPORT_DESCRIPTOR_LENGTH 54
+static const uint8_t hid_report_descriptor[USB_HID_REPORT_DESCRIPTOR_LENGTH] = {
+        0x05, 0x01, 0x09, 0x06, 0xa1, 0x01, 0x05, 0x08, 0x19, 0x01, 0x29, 0x03, 0x15, 0x00, 0x25, 0x01,
+        0x75, 0x01, 0x95, 0x03, 0x91, 0x02, 0x95, 0x05, 0x91, 0x01, 0x05, 0x07, 0x19, 0xe0, 0x29, 0xe7,
+        0x95, 0x08, 0x81, 0x02, 0x75, 0x08, 0x95, 0x01, 0x81, 0x01, 0x19, 0x00, 0x29, 0x91, 0x26, 0xff,
+        0x00, 0x95, 0x06, 0x81, 0x00, 0xc0                           
+};*/
+
 #define USB_HID_REPORT_DESCRIPTOR_LENGTH 64 + 26
 static const uint8_t hid_report_descriptor[USB_HID_REPORT_DESCRIPTOR_LENGTH] = {
           // usage keyboard
@@ -218,14 +226,15 @@ static const uint8_t hid_report_descriptor[USB_HID_REPORT_DESCRIPTOR_LENGTH] = {
                 0x15, 0x00, // logical minimum
                 0x25, 0x01, // logical maximum
                 0x75, 0x01, //* report size
-                0x95, 0x08, //* report count
-                0x81, 0x02,
-                0x95, 0x01,
-                0x75, 0x08,
-                0x81, 0x01,
-                0x95, 0x05,
-                0x75, 0x01,
+                0x95, 0x08, // Report Count 8
+                0x81, 0x02, // Input
+                0x95, 0x01, // Report Count 1
+                0x75, 0x08, // Report Size 8
+                0x81, 0x01, // Input
+                0x95, 0x05, // Report Count 5
+                0x75, 0x01, // Report Size 1
                 0x05, 0x08,
+
                 0x19, 0x01,
                 0x29, 0x05,
                 0x91, 0x02,
@@ -236,9 +245,10 @@ static const uint8_t hid_report_descriptor[USB_HID_REPORT_DESCRIPTOR_LENGTH] = {
                 0x75, 0x08,
                 0x15, 0x00,
                 0x25, 0x65,
+
                 0x05, 0x07,
                 0x19, 0x00,
-                0x29, 0x65,
+                0x29, 0x80,
                 0x81, 0x00,
         0xc0,
 

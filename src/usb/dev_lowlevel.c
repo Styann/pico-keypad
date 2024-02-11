@@ -40,8 +40,8 @@ static volatile bool configured = false;
 
 /**
  * @author Styann
-*/
-bool is_configured(void){
+ */
+bool is_configured(void) {
     return configured;
 }
 
@@ -275,29 +275,22 @@ void usb_start_transfer(struct usb_endpoint_configuration *ep, uint8_t *buf, uin
 
 /**
  * @author Styann
+ * @brief Sends a packet larger than the buffer size in several smaller packets
  */
 void usb_start_great_pkt_transfer(struct usb_endpoint_configuration *ep, uint8_t *buf, uint16_t len){
     
-    assert(len > 64);
-
 	uint8_t chunksize = 64;
 	uint8_t remainder_size = len % chunksize;
 
-	uint8_t *chunk = (uint8_t*)malloc(chunksize);
-
-	for (uint8_t i = 0; i < (len - remainder_size); i += chunksize) {
-		memcpy(chunk, buf+i, chunksize);
-        usb_start_transfer(ep, chunk, chunksize);
+	for (uint8_t offset = 0; offset < (len - remainder_size); offset += chunksize) {
+        usb_start_transfer(ep, buf + offset, chunksize);
 	}
 
 	if (remainder_size > 0) {
-		chunk = (uint8_t*)realloc(chunk, remainder_size);
-		memcpy(chunk, buf+(len-remainder_size), remainder_size);
-        usb_start_transfer(ep, chunk, remainder_size);
+        usb_start_transfer(ep, buf+(len-remainder_size), remainder_size);
         usb_acknowledge_out_request();
 	}
 
-	free(chunk);
     return;
 }
 
@@ -320,21 +313,22 @@ void usb_send_hid_keyboard_report(struct usb_hid_keyboard_report *keyboard_repor
 }
 
 /**
- * @brief Send consumer control report to host
  * @author Styann
-*/
+ * @brief Send consumer control report to host
+ */
 void usb_send_hid_consumer_control_report(struct usb_hid_consumer_control_report *consumer_control_report){
     struct usb_endpoint_configuration *ep = usb_get_endpoint_configuration(EP_IN_HID);
 
-    uint8_t size = sizeof(uint8_t) + sizeof(struct usb_hid_consumer_control_report);
+    /*uint8_t size = sizeof(uint8_t) + sizeof(uint16_t);
 
     uint8_t *data = (uint8_t*)malloc(size);
     uint8_t pkt_id = 0x02;
 
     memcpy(data, &pkt_id, sizeof(uint8_t));
-    memcpy(data+1, consumer_control_report, sizeof(struct usb_hid_consumer_control_report));
-    usb_start_transfer(ep, (uint8_t *)data, size);
-    free(data);
+    memcpy(data+1, consumer_control_report, sizeof(uint16_t));*/
+    
+    usb_start_transfer(ep, (uint8_t *)consumer_control_report, sizeof(struct usb_hid_consumer_control_report));
+    //free(data);
 }
 
 /**
@@ -351,8 +345,8 @@ void usb_handle_device_descriptor(volatile struct usb_setup_packet *pkt) {
 }
 
 /**
- * @brief Send report descriptor to host
  * @author Styann 
+ * @brief Send report descriptor to host
  */
 void usb_handle_report_descriptor(volatile struct usb_setup_packet *pkt){
     struct usb_endpoint_configuration *ep = usb_get_endpoint_configuration(EP0_IN_ADDR);

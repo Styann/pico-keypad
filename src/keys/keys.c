@@ -6,16 +6,17 @@
 
 #define HIGH 1
 #define LOW 0
-#define HID_KEYBOARD_REPORT_SIZE sizeof(struct usb_hid_keyboard_report)
+#define KRO 6 // Key Rollover
 
 /**
- * @brief Set all rows pins as GPIO INPUT then all columns pins as GPIO INPUT and pull up 
+ * @brief Set all rows pins as OUPUT and HIGH then all columns pins as GPIO INPUT PULL UP 
  */
-void keys_init(void){
+void keys_init(void) {
 
     for (uint8_t r = 0; r < LAYOUT_ROW_LENGTH; r++){
         gpio_init(rows_pins[r]);
-        gpio_set_dir(rows_pins[r], GPIO_IN);
+        gpio_set_dir(rows_pins[r], GPIO_OUT);
+        gpio_put(rows_pins[r], HIGH);
     }
 
     for (uint8_t c = 0; c < LAYOUT_COLUMN_LENGTH; c++){
@@ -28,79 +29,52 @@ void keys_init(void){
 }
 
 /**
- * @brief Return whether the a key is pressed or not
+ * @brief Return whether a key is pressed or not
  * @param column_pin
  */
-bool is_key_pressed(uint8_t column_pin) {
+static bool is_key_pressed(uint8_t column_pin) {
     return !gpio_get(column_pin);
 };
 
 /**
- * @brief Return true if all fields of the keyboard report are set to 0, else false
- * @param keyboard_report 
+ * @brief Set pin as output and set power to 0
  */
-bool is_keyboard_report_empty(struct usb_hid_keyboard_report *keyboard_report) {
-    if (keyboard_report->modifier != 0x00) return false;
-    if (keyboard_report->keycode[0] != 0x00) return false;
-    if (keyboard_report->keycode[1] != 0x00) return false;
-    if (keyboard_report->keycode[2] != 0x00) return false;
-    if (keyboard_report->keycode[3] != 0x00) return false;
-    if (keyboard_report->keycode[4] != 0x00) return false;
-    if (keyboard_report->keycode[5] != 0x00) return false;
-
-    return true;
+static inline void set_pin_output_write_low(uint8_t pin) {
+    gpio_set_dir(pin, GPIO_OUT);
+    gpio_put(pin, LOW);
 }
 
 /**
- * @brief Loop through the matrix and add a the pressed key to the keyboard report then send it
+ * @brief Set power to high and set pin as input
  */
-void isr_scan_keyboard(void){
-    struct usb_hid_keyboard_report keyboard_report = {0, 0, {0, 0, 0, 0, 0, 0}};
-    static bool has_sent_report = false;
+static inline void set_pin_output_write_high(uint8_t pin) {
+    gpio_set_dir(pin, GPIO_OUT);
+    gpio_put(pin, HIGH);
+}
 
-    for (uint8_t r = 0; r < LAYOUT_ROW_LENGTH; r++) {
-        // set selected row as a output
-        gpio_set_dir(rows_pins[r], GPIO_OUT);
-        // set power to LOW
-        gpio_put(rows_pins[r], LOW);
+/**
+ * @brief Loop through the matrix and add a the pressed key to the keyboard report
+ */
+void scan_keyboard(struct usb_hid_keyboard_report *keyboard_report) {
+    uint8_t pressed_keys_count = 0;
+
+    for (uint8_t r = 0; pressed_keys_count < KRO && r < LAYOUT_ROW_LENGTH; r++) {
+        
+        set_pin_output_write_low(rows_pins[r]);
         busy_wait_us_32(1);
 
-        for (uint8_t c = 0; c < LAYOUT_COLUMN_LENGTH; c++) {
-            if (layout[r][c].keycode != KC_NONE) {
-                if (is_key_pressed(columns_pins[c])) {
-                    set_keyboard_report(&keyboard_report, &layout[r][c]);
-                } 
+        for (uint8_t c = 0; pressed_keys_count < KRO && c < LAYOUT_COLUMN_LENGTH; c++) {
+
+            if (is_key_pressed(columns_pins[c]) && layout[r][c] != KC_NONE) {
+                set_keyboard_report(keyboard_report, layout[r][c]);
+                pressed_keys_count++;
             }
         }
 
-        //reset power to HIGH
-        gpio_put(rows_pins[r], HIGH);
-        // reset row as an input
-        gpio_set_dir(rows_pins[r], GPIO_IN); 
+        set_pin_output_write_high(rows_pins[r]);
     }
-    
-    if (!is_keyboard_report_empty(&keyboard_report)) {
-        //to send modifier -> KEYBOARD_MODIFIER_LEFTSHIFT | KEYBOARD_MODIFIER_LEFTCTRL
-        usb_send_hid_keyboard_report(&keyboard_report);
-
-        struct usb_hid_keyboard_report empty_keyboard_report = {0, 0, {0, 0, 0, 0, 0, 0}};
-        usb_send_hid_keyboard_report(&empty_keyboard_report);
-        has_sent_report = true;
-    }
-    else {
-        has_sent_report = false;
-    }
-
-    //struct usb_hid_consumer_control_report consumer = {KC_MEDIA_VOLUME_DECREMENT};
-    //usb_send_hid_consumer_control_report(&consumer);
 
     return;
-
-    /*consumer control example
-    uint16_t vempty = 0;
-    tud_hid_report(REPORT_ID_CONSUMER_CONTROL, &vempty, 2);
-    uint16_t vdown = HID_USAGE_CONSUMER_VOLUME_DECREMENT;
-    tud_hid_report(REPORT_ID_CONSUMER_CONTROL, &vdown, 2);*/
 }
 
 /**
@@ -108,28 +82,50 @@ void isr_scan_keyboard(void){
  * @param keyboard_report
  * @param key
  */
-void set_keyboard_report(struct usb_hid_keyboard_report *keyboard_report, keyboard_key_t *key){
+static void set_keyboard_report(struct usb_hid_keyboard_report *keyboard_report, uint8_t keycode) {
 
-    if (key->keycode > KC_CTRL_LEFT && key->keycode < KC_GUI_RIGHT) {
-        keyboard_report->modifier |= get_modifier_from_keycode(key->keycode);
+    if (keycode > KC_CTRL_LEFT && keycode < KC_GUI_RIGHT) {
+        keyboard_report->modifier |= get_modifier_from_keycode(keycode);
     }
-    /*else if (key->consumer_control != 0){}*/
     
-    
-    if (keyboard_report->keycode[0] == 0) keyboard_report->keycode[0] = key->keycode;
-    else if (keyboard_report->keycode[1] == 0) keyboard_report->keycode[1] = key->keycode;
-    else if (keyboard_report->keycode[2] == 0) keyboard_report->keycode[2] = key->keycode;
-    else if (keyboard_report->keycode[3] == 0) keyboard_report->keycode[3] = key->keycode;
-    else if (keyboard_report->keycode[4] == 0) keyboard_report->keycode[4] = key->keycode;
-    else if (keyboard_report->keycode[5] == 0) keyboard_report->keycode[5] = key->keycode;
-
+    if (keyboard_report->keycode[0] == 0) keyboard_report->keycode[0] = keycode;
+    else if (keyboard_report->keycode[1] == 0) keyboard_report->keycode[1] = keycode;
+    else if (keyboard_report->keycode[2] == 0) keyboard_report->keycode[2] = keycode;
+    else if (keyboard_report->keycode[3] == 0) keyboard_report->keycode[3] = keycode;
+    else if (keyboard_report->keycode[4] == 0) keyboard_report->keycode[4] = keycode;
+    else if (keyboard_report->keycode[5] == 0) keyboard_report->keycode[5] = keycode;
     return;
 }
 
 /**
+ * @brief Compare two keyboard report
+ * @param dest
+ * @param src
+ */
+bool assert_keyboard_reports(struct usb_hid_keyboard_report *dest, struct usb_hid_keyboard_report *src) {
+    if (dest->modifier != src->modifier) return false;
+    if (dest->keycode[0] != src->keycode[0]) return false;
+    if (dest->keycode[1] != src->keycode[1]) return false;
+    if (dest->keycode[2] != src->keycode[2]) return false;
+    if (dest->keycode[3] != src->keycode[3]) return false;
+    if (dest->keycode[4] != src->keycode[4]) return false;
+    if (dest->keycode[5] != src->keycode[5]) return false;
+    return true;
+}
+
+/**
+ * @brief Return true if all fields of the keyboard report are set to 0, else false
+ * @param keyboard_report 
+ */
+bool is_keyboard_report_empty(struct usb_hid_keyboard_report *keyboard_report) {
+    struct usb_hid_keyboard_report empty = { 0, 0, { 0, 0, 0, 0, 0, 0 } };
+    return assert_keyboard_reports(&empty, keyboard_report);
+}
+
+/**
  * @brief Take a keycode and return his modifier if he has one 
- * @param keycode
-*/
-uint8_t get_modifier_from_keycode(uint8_t keycode){
+ * @param keycode must be between KC_CTRL_LEFT (0xE0) and KC_GUI_RIGHT (0xE7) 
+ */
+static uint8_t get_modifier_from_keycode(uint8_t keycode) {
     return (0x01 << (keycode & 0b00001111));
 }

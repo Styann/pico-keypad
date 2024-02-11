@@ -2,3 +2,4 @@
 /src/build/*
 # except .gitkeep
 !/src/build/.gitkeep
+.vscode

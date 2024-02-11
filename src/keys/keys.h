@@ -8,58 +8,33 @@
 #define LAYOUT_COLUMN_LENGTH 4
 #define LAYOUT_ROW_LENGTH 5
 
-typedef struct {
-    uint8_t keycode;
-    uint8_t modifier;
-    uint16_t consumer_control;
-} keyboard_key_t;
-
 void keys_init(void);
 
-bool is_key_pressed(uint8_t column_pin);
+static bool is_key_pressed(uint8_t column_pin);
+
+static inline void set_pin_output_write_low(uint8_t pin);
+
+static inline void set_pin_output_write_high(uint8_t pin);
+
+void scan_keyboard(struct usb_hid_keyboard_report *keyboard_report);
+
+static void set_keyboard_report(struct usb_hid_keyboard_report *keyboard_report, uint8_t keycode);
+
+bool assert_keyboard_reports(struct usb_hid_keyboard_report *dest, struct usb_hid_keyboard_report *src);
 
 bool is_keyboard_report_empty(struct usb_hid_keyboard_report *keyboard_report);
 
-void isr_scan_keyboard(void);
+static uint8_t get_modifier_from_keycode(uint8_t keycode);
 
-void set_keyboard_report(struct usb_hid_keyboard_report *keyboard_report, keyboard_key_t *key);
+static const uint8_t columns_pins[LAYOUT_COLUMN_LENGTH] = { 2, 3, 4, 5 };
+static const uint8_t rows_pins[LAYOUT_ROW_LENGTH] = { 11, 12, 13, 14, 15 };
 
-uint8_t get_modifier_from_keycode(uint8_t keycode);
-
-static const uint8_t columns_pins[LAYOUT_COLUMN_LENGTH] = {2, 3, 4, 5};
-static const uint8_t rows_pins[LAYOUT_ROW_LENGTH] = {11, 12, 13, 14, 15};
-
-static keyboard_key_t layout[LAYOUT_ROW_LENGTH][LAYOUT_COLUMN_LENGTH] = {
-    {
-        {KC_NUM_LOCK       , 0, 0},
-        {KC_KEYPAD_DIVIDE  , 0, 0},
-        {KC_KEYPAD_MULTIPLY, 0, 0},
-        {KC_KEYPAD_SUBTRACT, 0, 0}
-    },
-    {
-        {KV_KEYPAD_7       , 0, 0},
-        {KC_KEYPAD_8       , 0, 0},
-        {KC_KEYPAD_9       , 0, 0}, 
-        {KC_KEYPAD_ADD     , 0, 0}
-    },
-    {
-        {KC_KEYPAD_4       , 0, 0}, 
-        {KC_KEYPAD_5       , 0, 0}, 
-        {KC_KEYPAD_6       , 0, 0}, 
-        {KC_KEYPAD_ENTER   , 0, 0}
-    },
-    {
-        {KC_KEYPAD_1       , 0, 0}, 
-        {KC_KEYPAD_2       , 0, 0}, 
-        {KC_KEYPAD_3       , 0, 0}, 
-        {KC_KEYPAD_0       , 0, 0}
-    },
-    {
-        {KC_KEYPAD_DECIMAL , 0, 0},
-        {KC_NONE           , 0, 0},
-        {KC_NONE           , 0, 0},
-        {KC_NONE           , 0, 0}
-    }
+static uint8_t layout[LAYOUT_ROW_LENGTH][LAYOUT_COLUMN_LENGTH] = {
+    { KC_NUM_LOCK ,     KC_KEYPAD_DIVIDE, KC_KEYPAD_MULTIPLY, KC_KEYPAD_SUBTRACT },
+    { KC_KEYPAD_7,      KC_KEYPAD_8,      KC_KEYPAD_9,        KC_KEYPAD_ADD      },
+    { KC_KEYPAD_4,      KC_KEYPAD_5,      KC_KEYPAD_6,        KC_KEYPAD_ENTER    },
+    { KC_KEYPAD_1,      KC_KEYPAD_2,      KC_KEYPAD_3,        KC_KEYPAD_0        },
+    { KC_KEYPAD_PERIOD, KC_NONE,          KC_NONE,            KC_NONE            }
 };
 
 #endif
