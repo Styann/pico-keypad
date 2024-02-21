@@ -1,12 +1,13 @@
 #include "keys.h"
-#include "../usb/dev_lowlevel.h"
+#include "layout.h"
+#include "../pico_extra.h"
+#include "../usb/usb.h"
 
 #include "hardware/gpio.h"
 #include "hardware/timer.h"
 
-#define HIGH 1
-#define LOW 0
-#define KRO 6 // Key Rollover
+
+#define KRO 6 // Key RollOver, number of keys that can be pressed at once
 
 /**
  * @brief Set all rows pins as OUPUT and HIGH then all columns pins as GPIO INPUT PULL UP 
@@ -37,7 +38,8 @@ static bool is_key_pressed(uint8_t column_pin) {
 };
 
 /**
- * @brief Set pin as output and set power to 0
+ * @brief Set pin as OUTPUT and set power to LOW
+ * @param pin
  */
 static inline void set_pin_output_write_low(uint8_t pin) {
     gpio_set_dir(pin, GPIO_OUT);
@@ -45,7 +47,8 @@ static inline void set_pin_output_write_low(uint8_t pin) {
 }
 
 /**
- * @brief Set power to high and set pin as input
+ * @brief Set pin as OUTPUT and set power to HIGH
+ * @param pin
  */
 static inline void set_pin_output_write_high(uint8_t pin) {
     gpio_set_dir(pin, GPIO_OUT);
@@ -53,7 +56,8 @@ static inline void set_pin_output_write_high(uint8_t pin) {
 }
 
 /**
- * @brief Loop through the matrix and add a the pressed key to the keyboard report
+ * @brief Loop through the matrix and add the keys that are pressed to a keyboard report
+ * @param keyboard_report
  */
 void scan_keyboard(struct usb_hid_keyboard_report *keyboard_report) {
     uint8_t pressed_keys_count = 0;
@@ -78,9 +82,9 @@ void scan_keyboard(struct usb_hid_keyboard_report *keyboard_report) {
 }
 
 /**
- * @brief Add a keycode or a modifier key to the keyboard report
+ * @brief Add a keycode to the keyboard report, and possibly his modifier btw
  * @param keyboard_report
- * @param key
+ * @param keycode
  */
 static void set_keyboard_report(struct usb_hid_keyboard_report *keyboard_report, uint8_t keycode) {
 
@@ -98,7 +102,7 @@ static void set_keyboard_report(struct usb_hid_keyboard_report *keyboard_report,
 }
 
 /**
- * @brief Compare two keyboard report
+ * @brief Compare two keyboard report, return true if they are equal
  * @param dest
  * @param src
  */

@@ -11,13 +11,15 @@ pico_sdk_init()
 add_executable(pico-keypad
     ${PICO_KEYPAD_PATH}/src/pico-keypad.c
     ${PICO_KEYPAD_PATH}/src/keys/keys.c
-    ${PICO_KEYPAD_PATH}/src/usb/dev_lowlevel.c
+    ${PICO_KEYPAD_PATH}/src/usb/usb.c
+    ${PICO_KEYPAD_PATH}/src/leds/leds.c
 )
 
 target_sources(pico-keypad PUBLIC
     ${PICO_KEYPAD_PATH}/src/pico-keypad.c
     ${PICO_KEYPAD_PATH}/src/keys/keys.c
-    ${PICO_KEYPAD_PATH}/src/usb/dev_lowlevel.c
+    ${PICO_KEYPAD_PATH}/src/usb/usb.c
+    ${PICO_KEYPAD_PATH}/src/leds/leds.c
 )
 
 target_link_libraries(pico-keypad
@@ -26,6 +28,7 @@ target_link_libraries(pico-keypad
     hardware_pio
     hardware_resets
     hardware_irq
+    hardware_pwm
 )
 
 pico_add_extra_outputs(pico-keypad)

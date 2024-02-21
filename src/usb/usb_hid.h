@@ -1,6 +1,33 @@
-#ifndef _USB_HID_H
-#define _USB_HID_H
+#ifndef USB_HID_H
+#define USB_HID_H
 
+// usb hid descriptors types *****************
+#define USB_HID_DESCRIPTOR_TYPE_HID       0x21
+#define USB_HID_DESCRIPTOR_TYPE_REPORT    0x22
+#define USB_HID_DESCRIPTOR_TYPE_PHYSICAL  0x23
+// *******************************************
+
+// usb hid requests types ****************
+#define USB_HID_REQUEST_GET_IDLE      0x02
+#define USB_HID_REQUEST_SET_IDLE      0x0a
+#define USB_HID_REQUEST_SET_REPORT    0x09
+// ***************************************
+
+// usb report descriptor field
+#define USAGE_PAGE      0x05
+#define USAGE           0x09
+#define COLLECTION      0xA1
+#define END_COLLECTION  0xC0
+#define USAGE_MININUM   0x19
+#define USAGE_MAXIMUM   0x29
+#define LOGICAL_MINIMUM 0x15
+#define LOGICAL_MAXIMUM 0x25
+#define REPORT_SIZE     0x75
+#define REPORT_COUNT    0x95
+#define INPUT           0x81
+#define OUTPUT          0x91
+#define REPORT_ID       0x85
+// ***************************
 
 #define USB_HID_LOCAL_FRENCH 0x08
 #define USB_HID_USAGE_PAGE_KEYBOARD 0x07
@@ -24,7 +51,7 @@
 struct usb_hid_descriptor {
     uint8_t bLength;
     uint8_t bDescriptorType;
-    
+
     uint16_t bcdHID;
     uint8_t bCountryCode;
     uint8_t bNumDescriptors;
@@ -268,7 +295,6 @@ struct usb_hid_consumer_control_report {
 #define KC_SHIFT_RIGHT                0xE5
 #define KC_ALT_RIGHT                  0xE6
 #define KC_GUI_RIGHT                  0xE7
-#define KC_MEDIA_VOLUME_UP            0xED
 // RESERVED                           0xE8-0xFFFF
 
 // MODIFIERS
