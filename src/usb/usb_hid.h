@@ -69,6 +69,7 @@ struct usb_hid_keyboard_report {
     uint8_t modifier;
     uint8_t reserved;
     uint8_t keycode[6];
+    uint16_t consumer_control; 
 } __packed;
 
 struct usb_hid_consumer_control_report {
@@ -78,6 +79,9 @@ struct usb_hid_consumer_control_report {
 
 // USB HID KEYCODE (KC)
 #define KC_NONE                       0x00
+#define KC_ERROR_ROLL_OVER            0x01
+#define KC_POSTFAIL                   0x02
+#define KC_ERROR_UNDEFINED            0x03  
 #define KC_A                          0x04
 #define KC_B                          0x05
 #define KC_C                          0x06
@@ -239,7 +243,7 @@ struct usb_hid_consumer_control_report {
 #define KC_CLEAR_AGAIN                0xA2
 #define KC_CRSEL_PROPS                0xA3
 #define KC_EXSEL                      0xA4
-// RESERVED					          0xA5-0xDF
+// RESERVED					          0xA5 to 0xAF
 #define KC_KEYPAD_00                  0xB0
 #define KC_KEYPAD_000                 0xB1
 #define KC_THOUSAND_SEPARATOR         0xB2
@@ -286,7 +290,7 @@ struct usb_hid_consumer_control_report {
 #define KC_KEYPAD_OCTAL               0xDB
 #define KC_KEYPAD_DECIMAL             0xDC
 #define KC_KEYPAD_HEXADECIMAL         0xDD
-// RESERVED                           0xDE-0xDF 
+// RESERVED                           0xDE to 0xDF 
 #define KC_CTRL_LEFT                  0xE0
 #define KC_SHIFT_LEFT                 0xE1
 #define KC_ALT_LEFT                   0xE2
@@ -295,7 +299,7 @@ struct usb_hid_consumer_control_report {
 #define KC_SHIFT_RIGHT                0xE5
 #define KC_ALT_RIGHT                  0xE6
 #define KC_GUI_RIGHT                  0xE7
-// RESERVED                           0xE8-0xFFFF
+// RESERVED                           0xE8 to 0xFFFF
 
 // MODIFIERS
 #define UINT8_T_LOW_ENDIAN(byte) (byte & 0b00001111)      
@@ -315,9 +319,110 @@ struct usb_hid_consumer_control_report {
  *  LC  -> Linear Control
  *  RTC -> Re-Trigger Control 
  */
-#define KC_MEDIA_PLAY_PAUSE           0x00dd
-#define KC_MEDIA_VOLUME_INCREMENT     0x00e9
-#define KC_MEDIA_VOLUME_DECREMENT     0x00ea
-#define KC_MEDIA_VOLUME               0x0000 
+#define KC_MEDIA_PLAY_PAUSE           0x00DD
+#define KC_MEDIA_VOLUME_INCREMENT     0x00E9
+#define KC_MEDIA_VOLUME_DECREMENT     0x00EA
+#define KC_MEDIA_VOLUME               0x0000
+
+// USB HID LEDS
+#define LED_UNDEFINED                 0x00
+#define LED_NUM_LOCK                  0x01
+#define LED_CAPS_LOCK                 0x02
+#define LED_SCROLL_LOCK               0x03
+#define LED_COMPOSE                   0x04
+#define LED_KANA                      0x05
+#define LED_POWER                     0x06
+#define LED_SHIFT                     0x07
+#define LED_DO_NOT_DISTURB            0x08
+#define LED_MUTE                      0x09
+#define LED_TONE_ENABLE               0x0A
+#define LED_HIGH_CUT_FILTER           0x0B
+#define LED_LOW_CUT_FILTER            0x0C
+#define LED_EQUALIZER_ENABLE          0x0D
+#define LED_SOUND_FIELD               0x0E
+#define LED_SURROUND_ON               0x0F
+#define LED_REPEAT                    0x10
+#define LED_STEREO                    0x11
+#define LED_SAMPLING_RATE_DETECT      0x12
+#define LED_SPINNING                  0x13
+#define LED_CAV                       0x14
+#define LED_CLV                       0x15
+#define LED_RECORDING_FORMAT_DETECT   0x16
+#define LED_OFF_HOOK                  0x17
+#define LED_RING                      0x18
+#define LED_MESSAGE_WAITING           0x19
+#define LED_DATA_MODE                 0x1A
+#define LED_BATTERY_OPERATION         0x1B
+#define LED_BATTERY_OK                0x1C
+#define LED_BATTERY_LOW               0x1D
+#define LED_SPEAKER                   0x1E
+#define LED_HEADSET                   0x1F
+#define LED_HOLD                      0x20
+#define LED_MICROPHONE                0x21
+#define LED_COVERAGE                  0x22
+#define LED_NIGHT_MODE                0x23
+#define LED_SEND_CALLS                0x24
+#define LED_CALL_PICKUP               0x25
+#define LED_CONFERENCE                0x26
+#define LED_STAND_BY                  0x27
+#define LED_CAMERA_ON                 0x28
+#define LED_CAMERA_OFF                0x29
+#define LED_ON_LINE                   0x2A
+#define LED_OFF_LINE                  0x2B
+#define LED_BUSY                      0x2C
+#define LED_READY                     0x2D
+#define LED_PAPER_OUT                 0x2E
+#define LED_PAPER_JAM                 0x2F
+#define LED_REMOTE                    0x30
+#define LED_FORWARD                   0x31
+#define LED_REVERSE                   0x32
+#define LED_STOP                      0x33
+#define LED_REWIND                    0x34
+#define LED_FAST_FORWARD              0x35
+#define LED_PLAY                      0x36
+#define LED_PAUSE                     0x37
+#define LED_RECORD                    0x38
+#define LED_ERROR                     0x39
+#define LED_USAGE_SELECTED_INDICATOR  0x3A
+#define LED_USAGE_IN_USE_INDICATOR    0x3B
+#define LED_USAGE_MULTI_MODE_INDICATOR 0x3C
+#define LED_INDICATOR_ON              0x3D
+#define LED_INDICATOR_FLASH           0x3E
+#define LED_INDICATOR_SLOW_BLINK      0x3F
+#define LED_INDICATOR_FAST_BLINK      0x40
+#define LED_INDICATOR_OFF             0x41
+#define LED_FLASH_ON_TIME             0x42
+#define LED_SLOW_BLINK_ON_TIME        0x43
+#define LED_SLOW_BLINK_OFF_TIME       0x44
+#define LED_FAST_BLINK_ON_TIME        0x45
+#define LED_FAST_BLINK_OFF_TIME       0x46
+#define LED_USAGE_INDICATOR_COLOR     0x47
+#define LED_INDICATOR_RED             0x48
+#define LED_INDICATOR_GREEN           0x49
+#define LED_INDICATOR_AMBER           0x4A
+#define LED_GENERIC_INDICATOR         0x4B
+#define LED_SYSTEM_SUSPEND            0x4C
+#define LED_EXTERNAL_POWER_CONNECTED  0x4D
+#define LED_INDICATOR_BLUE            0x4E
+#define LED_INDICATOR_ORANGE          0x4F
+#define LED_GOOD_STATUS               0x50
+#define LED_WARNING_STATUS            0x51
+#define LED_RGB_LED                   0x52
+#define LED_RED_LED_CHANNEL           0x53
+#define LED_BLUE_LED_CHANNEL          0x54
+#define LED_GREEN_LED_CHANNEL         0x55
+#define LED_LED_INTENSITY             0x56
+#define LED_SYSTEM_MICROPHONE_MUTE    0x57
+// RESERVED                           0x5F to 0x58
+#define LED_PLAYER_INDICATOR          0x60
+#define LED_PLAYER_1                  0x61
+#define LED_PLAYER_2                  0x62
+#define LED_PLAYER_3                  0x63
+#define LED_PLAYER_4                  0x64
+#define LED_PLAYER_5                  0x65
+#define LED_PLAYER_6                  0x66
+#define LED_PLAYER_7                  0x67
+#define LED_PLAYER_8                  0x68
+// RESERVED                           0x69 to 0xFFF
 
 #endif

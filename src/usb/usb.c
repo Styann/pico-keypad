@@ -5,17 +5,13 @@
  */
 
 #include <stdio.h>
-
-// For led 
-#include "hardware/gpio.h"
-
-// Pico
-#include "pico/stdlib.h"
-
 // For memcpy
 #include <string.h>
 #include <stdlib.h>
 
+#include "pico/stdlib.h"
+// For led 
+#include "hardware/gpio.h"
 // Include descriptor struct definitions
 #include "usb_common.h"
 // USB register definitions from pico-sdk
@@ -39,6 +35,7 @@ static volatile bool configured = false;
 
 /**
  * @author Styann
+ * @return boolean
  */
 bool is_configured(void) {
     return configured;
@@ -49,6 +46,8 @@ static uint8_t ep0_buf[EP0_BUF_SIZE];
 
 // Struct defining the device configuration
 static struct usb_device_configuration dev_config = {
+        .suspended = false,
+        .configured = false,
         .device_descriptor = &device_descriptor,
         .interface_descriptor = &hid_interface_descriptor,
         .config_descriptor = &config_descriptor,
@@ -253,25 +252,24 @@ void usb_start_great_transfer(struct usb_endpoint_configuration *ep, uint8_t *bu
  * @author Styann
  * @brief Send keyboard report to host
  */
-void usb_send_hid_keyboard_report(struct usb_hid_keyboard_report *keyboard_report){
+void usb_send_keyboard_report(struct usb_hid_keyboard_report *keyboard_report){
     struct usb_endpoint_configuration *ep = usb_get_endpoint_configuration(EP_IN_HID);
 
+    /*uint8_t *data = (uint8_t*)malloc(size);
     uint8_t size = sizeof(uint8_t) + sizeof(struct usb_hid_keyboard_report);
-
-    uint8_t *data = (uint8_t*)malloc(size);
     uint8_t pkt_id = 0x01;
     memcpy(data, &pkt_id, sizeof(uint8_t));
     memcpy(data+1, keyboard_report, sizeof(struct usb_hid_keyboard_report));
     usb_start_transfer(ep, (uint8_t *)data, size);
-    free(data);
-    //usb_start_transfer(ep, (uint8_t *)keyboard_report, sizeof(struct usb_hid_keyboard_report));
+    free(data);*/
+    usb_start_transfer(ep, (uint8_t *)keyboard_report, sizeof(struct usb_hid_keyboard_report));
 }
 
 /**
  * @author Styann
  * @brief Send consumer control report to host
  */
-void usb_send_hid_consumer_control_report(struct usb_hid_consumer_control_report *consumer_control_report){
+void usb_send_consumer_control_report(struct usb_hid_consumer_control_report *consumer_control_report){
     struct usb_endpoint_configuration *ep = usb_get_endpoint_configuration(EP_IN_HID);
 
     /*uint8_t size = sizeof(uint8_t) + sizeof(uint16_t);
@@ -357,6 +355,7 @@ void usb_bus_reset(void) {
     should_set_address = false;
     usb_hw->dev_addr_ctrl = 0;
     configured = false;
+    dev_config.configured = false;
 }
 
 /**
@@ -557,6 +556,16 @@ static void usb_handle_buff_status(void) {
     }
 }
 
+void usb_handle_suspend(void) {
+    dev_config.suspended = true;
+    return;
+}
+
+void usb_handle_resume(void) {
+    dev_config.suspended = false;
+    return;
+}
+
 /**
  * @brief USB interrupt handler
  *
@@ -588,6 +597,19 @@ void isr_usbctrl(void) {
         usb_hw_clear->sie_status = USB_SIE_STATUS_BUS_RESET_BITS;
         usb_bus_reset();
     }
+
+    // Device is suspended
+    if (status & USB_INTS_DEV_SUSPEND_BITS) {
+        usb_handle_suspend();
+        usb_hw_clear->sie_status = USB_SIE_STATUS_SUSPENDED_BITS;
+    }
+
+    // Device is resumed
+    if (status & USB_INTS_DEV_RESUME_FROM_HOST_BITS) {
+        usb_handle_resume();
+        usb_hw_clear->sie_status = USB_SIE_STATUS_RESUME_BITS;
+    }
+
 
     if (status ^ handled) {
         panic("Unhandled IRQ 0x%x\n", (uint) (status ^ handled));

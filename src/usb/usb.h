@@ -16,12 +16,13 @@
 // later on
 void ep0_in_handler(uint8_t *buf, uint16_t len);
 void ep0_out_handler(uint8_t *buf, uint16_t len);
-void ep1_out_handler(uint8_t *buf, uint16_t len);
-void ep2_in_handler(uint8_t *buf, uint16_t len);
-
 void ep1_in_hid_handler(uint8_t *buf, uint16_t len);
 
 bool is_configured(void);
+
+void usb_handle_suspend(void);
+
+void usb_handle_resume(void);
 
 struct usb_endpoint_configuration *usb_get_endpoint_configuration(uint8_t addr);
 
@@ -39,9 +40,9 @@ void usb_start_transfer(struct usb_endpoint_configuration *ep, uint8_t *buf, uin
 
 void usb_start_great_transfer(struct usb_endpoint_configuration *ep, uint8_t *buf, uint16_t len);
 
-void usb_send_hid_keyboard_report(struct usb_hid_keyboard_report *keyboard_report);
+void usb_send_keyboard_report(struct usb_hid_keyboard_report *keyboard_report);
 
-void usb_send_hid_consumer_control_report(struct usb_hid_consumer_control_report *consumer_control_report);
+void usb_send_consumer_control_report(struct usb_hid_consumer_control_report *consumer_control_report);
 
 void usb_handle_device_descriptor(volatile struct usb_setup_packet *pkt);
 
@@ -103,7 +104,7 @@ static const struct usb_endpoint_descriptor ep1_in_hid = {
         .bEndpointAddress = EP1_IN_ADDR,
         .bmAttributes     = USB_TRANSFER_TYPE_INTERRUPT,
         .wMaxPacketSize   = EP1_BUF_SIZE,
-        .bInterval        = 10 //10 ms, was 5ms
+        .bInterval        = 10 // 10 ms, was 5ms
 };
 // ****************************************************************
 
@@ -112,17 +113,17 @@ static const struct usb_device_descriptor device_descriptor = {
         .bLength            = sizeof(struct usb_device_descriptor),
         .bDescriptorType    = USB_DESCRIPTOR_TYPE_DEVICE,
         .bcdUSB             = 0x0110, // USB 1.1 device
-        .bDeviceClass       = 0,      // Specified in interface descriptor
-        .bDeviceSubClass    = 0,      // No subclass
-        .bDeviceProtocol    = 0,      // No protocol
+        .bDeviceClass       = 0, // Specified in interface descriptor
+        .bDeviceSubClass    = 0, // No subclass
+        .bDeviceProtocol    = 0, // No protocol
         .bMaxPacketSize0    = EP0_BUF_SIZE, // Max packet size for ep0
         .idVendor           = 0x2137, // Your vendor id
         .idProduct          = 0xB426, // Your product ID
-        .bcdDevice          = 0x0100,      // No device revision number
-        .iManufacturer      = 1,      // Manufacturer string index
-        .iProduct           = 2,      // Product string index
-        .iSerialNumber      = 0,        // No serial number
-        .bNumConfigurations = 1    // One configuration
+        .bcdDevice          = 0x0100, // No device revision number
+        .iManufacturer      = 1, // Manufacturer string index
+        .iProduct           = 2, // Product string index
+        .iSerialNumber      = 0, // No serial number
+        .bNumConfigurations = 1  // One configuration
 };
 // ***********************************************************
 
@@ -133,7 +134,7 @@ static const struct usb_interface_descriptor hid_interface_descriptor = {
         .bDescriptorType    = USB_DESCRIPTOR_TYPE_INTERFACE,
         .bInterfaceNumber   = 0,
         .bAlternateSetting  = 0,
-        .bNumEndpoints      = 0x01,    // Interface has 1 endpoints
+        .bNumEndpoints      = 0x01, // Interface has 1 endpoints
         .bInterfaceClass    = INTERFACE_CLASS_TYPE_HID, // Vendor specific endpoint
         .bInterfaceSubClass = 0x01, // boot interface
         .bInterfaceProtocol = 0x01, // keyboard
@@ -166,70 +167,68 @@ static const struct usb_string_descriptor product_descriptor = {
 };
 // *************************************************************
 
+#define GENERIC_DESKTOP_PAGE 0x01
+#define KEYBOARD_KEYPAD_PAGE 0x07
+#define LED_PAGE             0x08
+#define CONSUMER_PAGE        0x0C
 
-/*static const report_desc[] = {
-        USAGE_PAGE, 0x01, // usage page: generi desktop control
-        USAGE, 0x06, // usage: keyboard/keypad
 
-        COLLECTION, 0x01, //start collection
-                USAGE_PAGE, 0x07, // keyboard/keypad
 
+static const uint8_t report_desc[] = {
+        USAGE_PAGE, GENERIC_DESKTOP_PAGE,
+        USAGE, ,
+}; 
+// https://usb.org/sites/default/files/hut1_4.pdf
+#define USB_HID_REPORT_DESCRIPTOR_LENGTH 63 + 18
+static const uint8_t hid_report_descriptor[USB_HID_REPORT_DESCRIPTOR_LENGTH] = {
+        USAGE_PAGE, 0x01,
+        USAGE, 0x06,
+                COLLECTION, 0x01,
+                //REPORT_ID, 0x01,
+                
+                USAGE_PAGE, 0x07,
                 USAGE_MININUM, KC_CTRL_LEFT,
                 USAGE_MAXIMUM, KC_GUI_RIGHT,
-                LOGICAL_MINIMUM, 0x00, // unpressed key
-                LOGICAL_MAXIMUM, 0x01, // pressed key
+                LOGICAL_MINIMUM, 0x00,
+                LOGICAL_MAXIMUM, 0x01,
+                REPORT_SIZE, 0x01,
+                REPORT_COUNT, 0x08,
+                INPUT, 0x02,
 
-                REPORT_SIZE, 0x01, // a modifer is 1 bit
-                REPORT_COUNT, 0x08, // height modifiers, therefore 1 byte
-                INPUT, 0x02, // one byte i guess
-
-                REPORT_SIZE, 0x08,
                 REPORT_COUNT, 0x01,
-                INPUT, 0x03,
-
-                
-};*/
-
-#define USB_HID_REPORT_DESCRIPTOR_LENGTH 65//+ 26
-static const uint8_t hid_report_descriptor[USB_HID_REPORT_DESCRIPTOR_LENGTH] = {
-          // usage keyboard
-        0x05, 0x01,
-        0x09, 0x06,
-                0xa1, 0x01,
-                0x85, 0x01, // report i
-                
-                0x05, 0x07, // usage page keyboard/keypad
-                0x19, 0xe0, // usage minimum
-                0x29, 0xe7, // usage maximum
-                0x15, 0x00, // logical minimum
-                0x25, 0x01, // logical maximum
-                0x75, 0x01, //* report size 1
-                0x95, 0x08, // Report Count 8
-                0x81, 0x02, // Input
-                0x95, 0x01, // Report Count 1
-                0x75, 0x08, // Report Size 8
-                0x81, 0x01, // Input
-                0x95, 0x05, // Report Count 5
-                0x75, 0x01, // Report Size 1
+                REPORT_SIZE, 0x08,
+                INPUT, 0x01,
+                REPORT_COUNT, 0x05,
+                REPORT_SIZE, 0x01,
                
-                0x05, 0x08,
-                0x19, 0x01,
-                0x29, 0x05,
-                0x91, 0x02,
-                0x95, 0x01,
-                0x75, 0x03, //report size
-                0x91, 0x01, 
-                0x95, 0x06,
-                0x75, 0x08,
-                0x15, 0x00,
-                0x25, 0x65,
+                USAGE_PAGE, 0x08,
+                USAGE_MININUM, 0x01,
+                USAGE_MAXIMUM, 0x05,
+                OUTPUT, 0x02,
+                REPORT_COUNT, 0x01,
+                REPORT_SIZE, 0x03,
+                OUTPUT, 0x01, 
+                REPORT_COUNT, 0x06,
+                REPORT_SIZE, 0x08,
+                LOGICAL_MINIMUM, 0x00,
+                LOGICAL_MAXIMUM, 0x65,
 
-                0x05, 0x07,
-                0x19, 0x00,
-                0x29, 0xff,
-                0x81, 0x00,
+                USAGE_PAGE, 0x07,
+                USAGE_MININUM, 0x00,
+                USAGE_MAXIMUM, 0xff,
+                INPUT, 0x00,
 
-        0xc0,
+                USAGE_PAGE, 0x0C,
+                //USAGE, 0xE9,
+                LOGICAL_MINIMUM, 0,
+                LOGICAL_MAXIMUM, 1,
+                USAGE_MININUM, 0x00,// 0x00,
+                USAGE_MAXIMUM, 0xFF,// 0xFF,
+                REPORT_SIZE, 16,
+                REPORT_COUNT, 0x01,
+                INPUT, 0x00,
+                
+        END_COLLECTION,
 
         // usage consumer control
         /*0x05, 0x0c,
@@ -245,6 +244,7 @@ static const uint8_t hid_report_descriptor[USB_HID_REPORT_DESCRIPTOR_LENGTH] = {
                 0x81, 0x00,
         0xc0*/
 };
+
 
 // hid descriptor *******************************************
 static const struct usb_hid_descriptor hid_descriptor = {
@@ -276,31 +276,33 @@ static const struct usb_configuration_descriptor config_descriptor = {
 
 // Struct in which we keep the endpoint configuration
 struct usb_endpoint_configuration {
-    const struct usb_endpoint_descriptor *descriptor;
-    usb_ep_handler handler;
+        const struct usb_endpoint_descriptor *descriptor;
+        usb_ep_handler handler;
 
-    // Pointers to endpoint + buffer control registers
-    // in the USB controller DPSRAM
-    volatile uint32_t *endpoint_control;
-    volatile uint32_t *buffer_control;
-    volatile uint8_t *data_buffer;
+        // Pointers to endpoint + buffer control registers
+        // in the USB controller DPSRAM
+        volatile uint32_t *endpoint_control;
+        volatile uint32_t *buffer_control;
+        volatile uint8_t *data_buffer;
 
-    // Toggle after each packet (unless replying to a SETUP)
-    uint8_t next_pid;
+        // Toggle after each packet (unless replying to a SETUP)
+        uint8_t next_pid;
 };
 
 // Struct in which we keep the device configuration
 struct usb_device_configuration {
-    const struct usb_device_descriptor *device_descriptor;
-    const struct usb_interface_descriptor *interface_descriptor;
-    const struct usb_configuration_descriptor *config_descriptor;
-    const struct usb_hid_descriptor *hid_descriptor;
-    const uint8_t *hid_report_descriptor;
-    //const unsigned char *lang_descriptor;
-    //const unsigned char **descriptor_strings;
-    const struct usb_string_descriptor *string_descriptors[NUM_STRING_DESCRIPTORS];
-    // USB num endpoints is 16
-    struct usb_endpoint_configuration endpoints[USB_NUM_ENDPOINTS];
+        volatile bool suspended;
+        volatile bool configured;
+        const struct usb_device_descriptor *device_descriptor;
+        const struct usb_interface_descriptor *interface_descriptor;
+        const struct usb_configuration_descriptor *config_descriptor;
+        const struct usb_hid_descriptor *hid_descriptor;
+        const uint8_t *hid_report_descriptor;
+        //const unsigned char *lang_descriptor;
+        //const unsigned char **descriptor_strings;
+        const struct usb_string_descriptor *string_descriptors[NUM_STRING_DESCRIPTORS];
+        // USB num endpoints is 16
+        struct usb_endpoint_configuration endpoints[USB_NUM_ENDPOINTS];
 };
 
 #endif  

@@ -1,11 +1,10 @@
+#include "hardware/gpio.h"
+#include "hardware/timer.h"
+
 #include "keys.h"
 #include "layout.h"
 #include "../pico_extra.h"
 #include "../usb/usb.h"
-
-#include "hardware/gpio.h"
-#include "hardware/timer.h"
-
 
 #define KRO 6 // Key RollOver, number of keys that can be pressed at once
 
@@ -71,6 +70,10 @@ void scan_keyboard(struct usb_hid_keyboard_report *keyboard_report) {
 
             if (is_key_pressed(columns_pins[c]) && layout[r][c] != KC_NONE) {
                 set_keyboard_report(keyboard_report, layout[r][c]);
+
+                if (layout[r][c] == KC_1) {
+                    keyboard_report->consumer_control = KC_MEDIA_VOLUME_INCREMENT;
+                }
                 pressed_keys_count++;
             }
         }

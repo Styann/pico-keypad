@@ -6,6 +6,12 @@
 #define LEDS_STRIP_PIN 21
 #define LEDS_STRIP_LENGTH 30
 
+/*struct rgb {
+    uint8_t r;
+    uint8_t g;
+    uint8_t b;
+};*/
+
 typedef uint32_t rgb_t;
 
 #define RGB_R(rgb) (rgb & 0xFF0000) >> 16 // high

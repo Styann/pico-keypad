@@ -33,6 +33,7 @@ cp /Pico/pico-keypad/src/build/pico-keypad.uf2 /media/user/RPI-RP2/
 
 ## todo
 * fix wasted transfer
-* consumer control
-* 65% layout
+* add consumer control in keyboard report
 * windows & macos compatibility
+* add rgb leds
+* add led (Caps-lock...)
