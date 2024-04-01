@@ -136,3 +136,8 @@ bool is_keyboard_report_empty(struct usb_hid_keyboard_report *keyboard_report) {
 static uint8_t get_modifier_from_keycode(uint8_t keycode) {
     return (0x01 << (keycode & 0b00001111));
 }
+
+void release(void) {
+    struct usb_hid_keyboard_report empty_keyboard_report = { 0, 0, { 0, 0, 0, 0, 0, 0 }, 0 };
+    usb_send_keyboard_report(&empty_keyboard_report);
+}

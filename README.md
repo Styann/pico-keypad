@@ -32,8 +32,10 @@ cp /Pico/pico-keypad/src/build/pico-keypad.uf2 /media/user/RPI-RP2/
 * TinyUSB (as an example)
 
 ## todo
+* fix unpressed keys sended
+* big transfer don't work without printf ???
 * fix wasted transfer
-* add consumer control in keyboard report
 * windows & macos compatibility
 * add rgb leds
 * add led (Caps-lock...)
+* add display

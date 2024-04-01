@@ -38,13 +38,13 @@ struct leds {
 
 void pwm_pin_init(struct pwm_pin *pwm_pin);
 
-void leds_init(struct leds *leds);
+void rgb_led_strip_init(struct leds *leds);
 
-void leds_put_color(struct leds *leds, rgb_t color);
+void rgb_led_strip_put_color(struct leds *leds, rgb_t color);
 
-void leds_set_brightness(struct leds *leds, uint8_t brightness);
+void rgb_led_strip_set_brightness(struct leds *leds, uint8_t brightness);
 
-void leds_off(struct leds *leds);
+void rgb_led_strip_off(struct leds *leds);
 
 uint8_t byte_to_analog(uint8_t byte);
 

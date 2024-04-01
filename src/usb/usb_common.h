@@ -57,9 +57,9 @@
 #define USB_REQUEST_MSC_GET_MAX_LUN 0xfe
 #define USB_REQUEST_MSC_RESET 0xff
 
-#define USB_FEAT_ENDPOINT_HALT            0x00
-#define USB_FEAT_DEVICE_REMOTE_WAKEUP   0x01
-#define USB_FEAT_TEST_MODE                0x02
+#define USB_FEAT_ENDPOINT_HALT        0x00
+#define USB_FEAT_DEVICE_REMOTE_WAKEUP 0x01
+#define USB_FEAT_TEST_MODE            0x02
 
 struct usb_setup_packet {
     uint8_t bmRequestType;

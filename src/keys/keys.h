@@ -22,4 +22,6 @@ bool is_keyboard_report_empty(struct usb_hid_keyboard_report *keyboard_report);
 
 static uint8_t get_modifier_from_keycode(uint8_t keycode);
 
+void release(void);
+
 #endif

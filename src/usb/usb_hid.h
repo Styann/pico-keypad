@@ -60,8 +60,15 @@ struct usb_hid_descriptor {
     uint16_t wReportLength;
 } __packed;
 
-#define KEYBOARD_REPORT_ID 0x01
-#define CONSUMER_CONTROL_REPORT_ID 0x02
+/*struct usb_hid_gamepad_report {
+    uint8_t x;
+    uint8_t y;
+    uint8_t z;
+    uint8_t rz;
+    uint8_t rx;
+    uint8_t ry;
+    uint32_t buttons;
+} ___packed;*/
 
 #define HID_KEYBOARD_REPORT_SIZE sizeof(struct usb_hid_keyboard_report)
 
@@ -319,10 +326,10 @@ struct usb_hid_consumer_control_report {
  *  LC  -> Linear Control
  *  RTC -> Re-Trigger Control 
  */
-#define KC_MEDIA_PLAY_PAUSE           0x00DD
+#define KC_MEDIA_MUTE                 0x00E2
 #define KC_MEDIA_VOLUME_INCREMENT     0x00E9
 #define KC_MEDIA_VOLUME_DECREMENT     0x00EA
-#define KC_MEDIA_VOLUME               0x0000
+#define KC_MEDIA_PLAY_PAUSE           0x00CD
 
 // USB HID LEDS
 #define LED_UNDEFINED                 0x00

@@ -1,4 +1,4 @@
-#include "leds.h"
+#include "rgb_led_strip.h"
 #include "hardware/pwm.h"
 
 void pwm_pin_init(struct pwm_pin *pwm_pin) {
@@ -15,14 +15,14 @@ void pwm_pin_init(struct pwm_pin *pwm_pin) {
     return;
 }
 
-void leds_init(struct leds *leds) {
+void rgb_led_strip_init(struct leds *leds) {
     pwm_pin_init(&leds->r);
     pwm_pin_init(&leds->g);
     pwm_pin_init(&leds->b);
     return;
 }
 
-void leds_put_color(struct leds *leds, rgb_t color) {
+void rgb_led_strip_put_color(struct leds *leds, rgb_t color) {
     uint8_t r = RGB_R(color);
     uint8_t g = RGB_G(color);
     uint8_t b = RGB_B(color);
@@ -34,12 +34,12 @@ void leds_put_color(struct leds *leds, rgb_t color) {
     return;
 }
 
-void leds_set_brightness(struct leds *leds, uint8_t brightness) {
+void rgb_led_strip_set_brightness(struct leds *leds, uint8_t brightness) {
     return;
 }
 
-void leds_off(struct leds *leds) {
-    leds_put_color(leds, LED_OFF);
+void rgb_led_strip_off(struct leds *leds) {
+    rgb_led_strip_put_color(leds, LED_OFF);
     return;
 }
 
