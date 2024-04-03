@@ -58,7 +58,7 @@ static inline void set_pin_output_write_high(uint8_t pin) {
  * @brief Loop through the matrix and add the keys that are pressed to a keyboard report
  * @param keyboard_report
  */
-void scan_keyboard(struct usb_hid_keyboard_report *keyboard_report) {
+void scan_keyboard(struct usb_keyboard_report *keyboard_report) {
     uint8_t pressed_keys_count = 0;
 
     for (uint8_t r = 0; pressed_keys_count < KRO && r < LAYOUT_ROW_LENGTH; r++) {
@@ -89,7 +89,7 @@ void scan_keyboard(struct usb_hid_keyboard_report *keyboard_report) {
  * @param keyboard_report
  * @param keycode
  */
-static void set_keyboard_report(struct usb_hid_keyboard_report *keyboard_report, uint8_t keycode) {
+static void set_keyboard_report(struct usb_keyboard_report *keyboard_report, uint8_t keycode) {
 
     if (keycode > KC_CTRL_LEFT && keycode < KC_GUI_RIGHT) {
         keyboard_report->modifier |= get_modifier_from_keycode(keycode);
@@ -109,7 +109,7 @@ static void set_keyboard_report(struct usb_hid_keyboard_report *keyboard_report,
  * @param dest
  * @param src
  */
-bool assert_keyboard_reports(struct usb_hid_keyboard_report *dest, struct usb_hid_keyboard_report *src) {
+bool assert_keyboard_reports(struct usb_keyboard_report *dest, struct usb_keyboard_report *src) {
     if (dest->modifier != src->modifier) return false;
     if (dest->keycode[0] != src->keycode[0]) return false;
     if (dest->keycode[1] != src->keycode[1]) return false;
@@ -124,8 +124,8 @@ bool assert_keyboard_reports(struct usb_hid_keyboard_report *dest, struct usb_hi
  * @brief Return true if all fields of the keyboard report are set to 0, else false
  * @param keyboard_report 
  */
-bool is_keyboard_report_empty(struct usb_hid_keyboard_report *keyboard_report) {
-    struct usb_hid_keyboard_report empty = { 0, 0, { 0, 0, 0, 0, 0, 0 } };
+bool is_keyboard_report_empty(struct usb_keyboard_report *keyboard_report) {
+    struct usb_keyboard_report empty = { 0, 0, { 0, 0, 0, 0, 0, 0 } };
     return assert_keyboard_reports(&empty, keyboard_report);
 }
 
@@ -138,6 +138,6 @@ static uint8_t get_modifier_from_keycode(uint8_t keycode) {
 }
 
 void release(void) {
-    struct usb_hid_keyboard_report empty_keyboard_report = { 0, 0, { 0, 0, 0, 0, 0, 0 }, 0 };
+    struct usb_keyboard_report empty_keyboard_report = { 0, 0, { 0, 0, 0, 0, 0, 0 }, 0 };
     usb_send_keyboard_report(&empty_keyboard_report);
 }

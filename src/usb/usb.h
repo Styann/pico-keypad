@@ -42,7 +42,7 @@ void usb_start_xfer(struct usb_endpoint_configuration *ep, uint8_t *buf, uint16_
 
 void usb_start_great_transfer(struct usb_endpoint_configuration *ep, uint8_t *buf, uint16_t len);
 
-void usb_send_keyboard_report(struct usb_hid_keyboard_report *keyboard_report);
+void usb_send_keyboard_report(struct usb_keyboard_report *keyboard_report);
 
 void usb_send_consumer_control_report(struct usb_hid_consumer_control_report *consumer_control_report);
 

@@ -70,9 +70,9 @@ struct usb_hid_descriptor {
     uint32_t buttons;
 } ___packed;*/
 
-#define HID_KEYBOARD_REPORT_SIZE sizeof(struct usb_hid_keyboard_report)
+#define HID_KEYBOARD_REPORT_SIZE sizeof(struct usb_keyboard_report)
 
-struct usb_hid_keyboard_report {
+struct usb_keyboard_report {
     uint8_t modifier;
     uint8_t reserved;
     uint8_t keycode[6];

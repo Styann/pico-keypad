@@ -34,4 +34,8 @@ enum GPIO {
     GPIO28 = 28,
 };
 
+static inline uint32_t millis(void) {
+    return to_ms_since_boot(get_absolute_time());
+}
+
 #endif
