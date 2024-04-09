@@ -13,7 +13,8 @@ add_executable(pico-keypad
     ${PICO_KEYPAD_PATH}/src/keys/keys.c
     ${PICO_KEYPAD_PATH}/src/usb/usb.c
     #${PICO_KEYPAD_PATH}/src/leds/leds.c
-    ${PICO_KEYPAD_PATH}/src/rotary_encoder/rotary_encoder.c
+    ${PICO_KEYPAD_PATH}/src/hw040/hw040.c
+    ${PICO_KEYPAD_PATH}/src/ws2812b/ws2812b.c
 )
 
 target_sources(pico-keypad PUBLIC
@@ -21,7 +22,8 @@ target_sources(pico-keypad PUBLIC
     ${PICO_KEYPAD_PATH}/src/keys/keys.c
     ${PICO_KEYPAD_PATH}/src/usb/usb.c
     #${PICO_KEYPAD_PATH}/src/leds/leds.c
-    ${PICO_KEYPAD_PATH}/src/rotary_encoder/rotary_encoder.c
+    ${PICO_KEYPAD_PATH}/src/hw040/hw040.c
+    ${PICO_KEYPAD_PATH}/src/ws2812b/ws2812b.c
 )
 
 target_link_libraries(pico-keypad
@@ -31,6 +33,7 @@ target_link_libraries(pico-keypad
     hardware_resets
     hardware_irq
     hardware_pwm
+    hardware_spi
 )
 
 pico_add_extra_outputs(pico-keypad)

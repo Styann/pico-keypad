@@ -24,4 +24,6 @@ static uint8_t get_modifier_from_keycode(uint8_t keycode);
 
 void release(void);
 
+void send_consumer_control(uint16_t consumer_control);
+
 #endif

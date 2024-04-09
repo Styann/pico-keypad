@@ -54,34 +54,32 @@ static inline void set_pin_output_write_high(uint8_t pin) {
     gpio_put(pin, HIGH);
 }
 
+static inline void set_pin_input_write_high(uint8_t pin) {
+    gpio_set_dir(pin, GPIO_IN);
+    gpio_put(pin, HIGH);
+}
+
 /**
- * @brief Loop through the matrix and add the keys that are pressed to a keyboard report
+ * @brief Loop through the matrix and add pressed keys to a keyboard report
  * @param keyboard_report
  */
 void scan_keyboard(struct usb_keyboard_report *keyboard_report) {
     uint8_t pressed_keys_count = 0;
 
     for (uint8_t r = 0; pressed_keys_count < KRO && r < LAYOUT_ROW_LENGTH; r++) {
-        
         set_pin_output_write_low(rows_pins[r]);
         busy_wait_us_32(1);
 
         for (uint8_t c = 0; pressed_keys_count < KRO && c < LAYOUT_COLUMN_LENGTH; c++) {
-
             if (is_key_pressed(columns_pins[c]) && layout[r][c] != KC_NONE) {
                 set_keyboard_report(keyboard_report, layout[r][c]);
-
-                if (layout[r][c] == KC_1) {
-                    keyboard_report->consumer_control = KC_MEDIA_VOLUME_INCREMENT;
-                }
                 pressed_keys_count++;
             }
         }
 
-        set_pin_output_write_high(rows_pins[r]);
+        //set_pin_output_write_high(rows_pins[r]);
+        set_pin_input_write_high(rows_pins[r]);
     }
-
-    return;
 }
 
 /**
@@ -138,6 +136,15 @@ static uint8_t get_modifier_from_keycode(uint8_t keycode) {
 }
 
 void release(void) {
-    struct usb_keyboard_report empty_keyboard_report = { 0, 0, { 0, 0, 0, 0, 0, 0 }, 0 };
-    usb_send_keyboard_report(&empty_keyboard_report);
+    struct usb_keyboard_report release = { 0, 0, { 0, 0, 0, 0, 0, 0 }, 0 };
+    usb_send_keyboard_report(&release);
+}
+
+void send_consumer_control(uint16_t consumer_control) {
+    struct usb_keyboard_report report = {
+        .consumer_control = consumer_control
+    };
+
+    usb_send_keyboard_report(&report);
+    release();
 }

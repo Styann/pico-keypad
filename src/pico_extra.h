@@ -4,6 +4,8 @@
 #define LOW 0
 #define HIGH 1
 
+#define GPIO_IRQ_CHANGE (GPIO_IRQ_EDGE_FALL | GPIO_IRQ_EDGE_RISE)
+
 enum GPIO {
     GPIO0 = 0,
     GPIO1,

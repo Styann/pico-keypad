@@ -1,4 +1,5 @@
 #include "pico/stdlib.h"
+#include "pico/multicore.h"
 #include "hardware/gpio.h"
 #include "hardware/timer.h"
 #include "hardware/pwm.h"
@@ -7,141 +8,101 @@
 #include "usb/usb.h"
 #include "keys/keys.h"
 //#include "rgb_led_strip/rgb_led_strip.h"
-#include "led_indicator/led_indicator.h"
-#include "rotary_encoder/rotary_encoder.h"
+#include "hw040/hw040.h"
+#include "ws2812b/ws2812b.h"
 
-#define LED_PIN GPIO22
-
-void hid_task(void);
 void keyboard_task(void);
-void leds_task(void);
 
-void gpio_volume_knob_rotate_callback(uint gpio, uint32_t events);
-void gpio_volume_knob_sw_callback(uint gpio, uint32_t events);
+void volume_knob_cw_callback(void) {
+    send_consumer_control(KC_MEDIA_VOLUME_INCREMENT);
+    release();
+}
 
-//bool keyboard_task_callback(struct repeating_timer *timer);
+void volume_knob_ccw_callback(void) {
+    send_consumer_control(KC_MEDIA_VOLUME_DECREMENT);
+    release();
+}
 
-struct rotary_encoder volume_knob = {
+struct hw040 volume_knob = {
     .pin_SW = GPIO28,
     .pin_DT = GPIO27,
     .pin_CLK = GPIO26,
-    .state = LOW,
     .state_CLK = LOW,
-    .last_state_CLK = HIGH,
-    .state_SW = HIGH,
+    .last_state_CLK = LOW,
+    .cw_callback = &volume_knob_cw_callback,
+    .ccw_callback = &volume_knob_ccw_callback
 };
 
-void gpio_volume_knob_rotate_callback(uint gpio, uint32_t events) {
-    volume_knob.state_CLK = gpio_get(volume_knob.pin_CLK);
+struct ws2812b led_strip = {
+    .num_leds = 30,
+    .spi_inst = spi0,
+    .spi_mosi_pin = GPIO19,
+    .buffer = NULL
+};
 
-    if (gpio_get(volume_knob.pin_DT) != volume_knob.state_CLK) {
-        volume_knob.state++;
-        gpio_put(25, 1);
-    }
-    else {
-        volume_knob.state--;
-        gpio_put(25, 0);
-    }
+void gpio_core0_irq_callback(uint gpio, uint32_t events) {
+    if ((gpio == volume_knob.pin_SW) && (events & GPIO_IRQ_EDGE_RISE)) {
+        //struct usb_keyboard_report report = { 0, 0, { 0, 0, 0, 0, 0, 0 }, KC_MEDIA_PLAY_PAUSE };
+        //usb_send_keyboard_report(&report);
+        static uint32_t timer = 0;
+        const uint32_t interval_ms = 10;
 
-    volume_knob.last_state_CLK = volume_knob.state_CLK;
+        if (millis() - timer > interval_ms) {
+            send_consumer_control(KC_MEDIA_PLAY_PAUSE);
+            timer = millis();
+        }
+    }
 }
 
-void gpio_volume_knob_sw_callback(uint gpio, uint32_t events) {
-    struct usb_keyboard_report report = { 0, 0, { 0, 0, 0, 0, 0, 0 }, KC_MEDIA_PLAY_PAUSE };
-    usb_send_keyboard_report(&report);
-    
-    static bool state = 0;
+void keyboard_task(void) {
+    static uint32_t timer = 0;
+    const uint32_t keys_debounce_ms = 10;
 
-    state = !state,
-    gpio_put(25, state);
+    if (millis() - timer > keys_debounce_ms) {
+        struct usb_keyboard_report keyboard_report = { 0, 0, { 0, 0, 0, 0, 0, 0 }, 0 };
+        scan_keyboard(&keyboard_report);
+        usb_send_keyboard_report(&keyboard_report);
+        timer = millis();
+    }
+}
+
+void main_core1(void) {
+
 }
 
 int main(void) {
+    stdio_init_all();
+
+    // multicore_launch_core1(main_core1);
 
     gpio_init(GPIO25);
     gpio_set_dir(GPIO25, GPIO_OUT);
 
-    rotary_encoder_init(
-        &volume_knob,
-        &gpio_volume_knob_rotate_callback,
-        &gpio_volume_knob_sw_callback
-    );
-
-    stdio_init_all();
     usb_device_init();
-    
+
     keys_init();
+    hw040_init(&volume_knob);
+
+    //ws2812b_test_init();
+    //ws2812b_test();
+    //ws2812b_init(&led_strip);
+    //grb_t color = { 0, 0xFF, 0 };
+    //ws2812b_set_all(&led_strip, &color);
+    //ws2812b_write(&led_strip);
+
+    // set irq
+    gpio_set_irq_callback(&gpio_core0_irq_callback);
+    irq_set_enabled(IO_IRQ_BANK0, true);
 
     while (!is_configured()) {
         tight_loop_contents();
     }
 
-    // every 10ms the keyboard matrix will be scanned
-    /*struct repeating_timer keyboard_timer;
-    add_repeating_timer_ms(
-        10, //10ms
-        keyboard_task_callback,
-        NULL,
-        &keyboard_timer
-    );*/
-    
     while (true) {
-        
-
-
-        // hid_task();
+        //keyboard_task();
+        hw040_task(&volume_knob);
         tight_loop_contents();
     }
-    
+
     return 0;
-}
-
-
-void hid_task(void) {
-    static uint32_t timer = 0;
-    const uint32_t interval_ms = 10;
-
-    if (millis() - timer > interval_ms) {
-        timer = to_ms_since_boot(get_absolute_time());
-        
-        //keyboard_task();
-        // leds_task();
-    }
-
-    return;
-}
-
-void keyboard_task(void) {
-    struct usb_keyboard_report keyboard_report = { 0, 0, { 0, 0, 0, 0, 0, 0 }, 0 };
-
-    scan_keyboard(&keyboard_report);
-
-    //usb_send_keyboard_report(&keyboard_report);
-}
-
-void leds_task(void) {
-    return;
-}
-
-
-
-
-/*bool keyboard_task_callback(struct repeating_timer *timer) {
-
-    struct usb_keyboard_report keyboard_report = { 0, 0, { 0, 0, 0, 0, 0, 0 }, 0 };
-    //struct usb_hid_consumer_control_report consumer_report = { CONSUMER_CONTROL_REPORT_ID, 0x0000 };
-
-    scan_keyboard(&keyboard_report);
-    usb_send_keyboard_report(&keyboard_report);
-
-    return true;
-}*/
-
-
-void thread_core1() {
-
-}
-
-void thread_core2() {
-    
 }

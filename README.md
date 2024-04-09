@@ -33,9 +33,8 @@ cp /Pico/pico-keypad/src/build/pico-keypad.uf2 /media/user/RPI-RP2/
 
 ## todo
 * fix unpressed keys sended
-* big transfer don't work without printf ???
+* fix consumer control spamming
+* transfer bigger than buffer size don't work without printf (bad func)
 * fix wasted transfer
 * windows & macos compatibility
-* add rgb leds
-* add led (Caps-lock...)
-* add display
+* add led (Caps-lock...) read USB RX

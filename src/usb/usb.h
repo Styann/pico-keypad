@@ -194,8 +194,8 @@ static const struct usb_string_descriptor product_descriptor = {
 static const uint8_t report_descriptor[USB_REPORT_DESCRIPTOR_LENGTH] = {
         USAGE_PAGE, GENERIC_DESKTOP_PAGE,
         USAGE, 0x06,
-        
-        COLLECTION, 0x01,        
+
+        COLLECTION, 0x01,
                 USAGE_PAGE, KEYBOARD_KEYPAD_PAGE,
                 USAGE_MININUM, KC_CTRL_LEFT,
                 USAGE_MAXIMUM, KC_GUI_RIGHT,
@@ -210,7 +210,7 @@ static const uint8_t report_descriptor[USB_REPORT_DESCRIPTOR_LENGTH] = {
                 INPUT, CONST_ARRAY_ABS,
                 REPORT_COUNT, 0x05,
                 REPORT_SIZE, 0x01,
-               
+
                 USAGE_PAGE, LED_PAGE,
                 USAGE_MININUM, 0x01,
                 USAGE_MAXIMUM, 0x05,
@@ -298,4 +298,4 @@ struct usb_device_configuration {
         struct usb_endpoint_configuration endpoints[USB_NUM_ENDPOINTS];
 };
 
-#endif  
+#endif
