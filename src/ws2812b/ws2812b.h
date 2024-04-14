@@ -3,15 +3,20 @@
 
 #include "pico/stdlib.h"
 #include "hardware/spi.h"
+#include "hardware/gpio.h"
+#include <stdlib.h>
 #include <string.h>
 
-#define GRB_BIT_LEN 24
+#define GRB_GREEN   0xFF0000
+#define GRB_RED     0x00FF00
+#define GRB_BLUE    0x0000FF
+#define GRB_CYAN    0xFF00FF
+#define GRB_YELLOW  0xFFFF00
+#define GRB_MAGENTA 0x00FFFF
+#define GRB_ORANGE  0x17FF00
+#define GRB_WHITE   0xFFFFFF
 
-typedef struct {
-    uint8_t g;
-    uint8_t r;
-    uint8_t b;
-} grb_t;
+typedef uint32_t grb_t;
 
 // T -> transfer time
 // L -> LOW, H -> HIGH
@@ -21,7 +26,10 @@ typedef struct {
 // T0L 0.85us
 // T1H 0.8us
 // T1L 0.45us
+#define T0 0b10000000
+#define T1 0b11111110
 #define RES 60 // us low voltage time, datasheets say Above 50us
+#define GRB_BIT_SIZE 24
 
 #define WS2812B_BAUD_RATE 2500000
 
@@ -31,21 +39,23 @@ struct ws2812b {
     spi_inst_t *spi_inst;
     uint8_t spi_mosi_pin;
 
+    bool buffer_alloc_status;
     uint8_t *buffer;
     uint16_t buffer_size;
-    // uint8_t brightness;
 };
 
-void ws2812b_init(struct ws2812b *ws2812b);
+void ws2812b_init(struct ws2812b *this);
 
-void ws2812b_set_all(struct ws2812b *ws2812b, grb_t *color);
+void ws2812b_set_all(struct ws2812b *this, grb_t color);
 
-bool ws2812b_write(struct ws2812b *ws2812b);
+void ws2812b_set_one(struct ws2812b *this, uint16_t led, grb_t color);
 
-uint32_t grb_to_uint32(grb_t *color);
+void ws2812b_set_off(struct ws2812b *this);
 
-void ws2812b_test_init(void);
+void ws2812b_set_brightness(struct ws2812b *this);
 
-void ws2812b_test(void);
+bool ws2812b_write(struct ws2812b *this);
+
+grb_t rgb_to_grb(uint8_t r, uint8_t g, uint8_t b);
 
 #endif

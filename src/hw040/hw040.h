@@ -15,8 +15,8 @@ struct hw040 {
     void (*ccw_callback)(void);
 };
 
-void hw040_init(struct hw040 *hw040);
+void hw040_init(struct hw040 *this);
 
-void hw040_task(struct hw040 *hw040);
+void hw040_task(struct hw040 *this);
 
 #endif

@@ -7,7 +7,6 @@
 
 #include "usb/usb.h"
 #include "keys/keys.h"
-//#include "rgb_led_strip/rgb_led_strip.h"
 #include "hw040/hw040.h"
 #include "ws2812b/ws2812b.h"
 
@@ -15,12 +14,10 @@ void keyboard_task(void);
 
 void volume_knob_cw_callback(void) {
     send_consumer_control(KC_MEDIA_VOLUME_INCREMENT);
-    release();
 }
 
 void volume_knob_ccw_callback(void) {
     send_consumer_control(KC_MEDIA_VOLUME_DECREMENT);
-    release();
 }
 
 struct hw040 volume_knob = {
@@ -37,7 +34,6 @@ struct ws2812b led_strip = {
     .num_leds = 30,
     .spi_inst = spi0,
     .spi_mosi_pin = GPIO19,
-    .buffer = NULL
 };
 
 void gpio_core0_irq_callback(uint gpio, uint32_t events) {
@@ -83,12 +79,21 @@ int main(void) {
     keys_init();
     hw040_init(&volume_knob);
 
-    //ws2812b_test_init();
-    //ws2812b_test();
-    //ws2812b_init(&led_strip);
-    //grb_t color = { 0, 0xFF, 0 };
-    //ws2812b_set_all(&led_strip, &color);
-    //ws2812b_write(&led_strip);
+    ws2812b_init(&led_strip);
+
+    while (true) {
+        ws2812b_set_all(&led_strip, GRB_ORANGE);
+        ws2812b_write(&led_strip);
+        sleep_ms(1000);
+
+        ws2812b_set_all(&led_strip, GRB_YELLOW);
+        ws2812b_write(&led_strip);
+        sleep_ms(1000);
+
+        ws2812b_set_all(&led_strip, GRB_MAGENTA);
+        ws2812b_write(&led_strip);
+        sleep_ms(1000);
+    }
 
     // set irq
     gpio_set_irq_callback(&gpio_core0_irq_callback);
@@ -100,7 +105,7 @@ int main(void) {
 
     while (true) {
         //keyboard_task();
-        hw040_task(&volume_knob);
+        //hw040_task(&volume_knob);
         tight_loop_contents();
     }
 
