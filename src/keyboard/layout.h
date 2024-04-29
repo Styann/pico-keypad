@@ -23,7 +23,6 @@ static const uint16_t layout[LAYOUT_ROW_LENGTH][LAYOUT_COLUMN_LENGTH] = {
     { KC_CTRL_LEFT,  KC_GUI_LEFT, KC_ALT_LEFT, KC_SPACE, KC_ALT_RIGHT, KC_NONE, KC_ARROW_LEFT, KC_ARROW_DOWN, KC_ARROW_RIGHT, KC_NONE,   KC_NONE,      KC_NONE,                KC_NONE,                 KC_NONE,       KC_NONE      }  // GPIO4
 };*/
 
-
 #define LAYOUT_COLUMN_LENGTH 3
 #define LAYOUT_ROW_LENGTH 3
 
@@ -31,9 +30,9 @@ static const uint8_t columns_pins[LAYOUT_COLUMN_LENGTH] = { GPIO3, GPIO4, GPIO5}
 static const uint8_t rows_pins[LAYOUT_ROW_LENGTH] = { GPIO0, GPIO1, GPIO2 };
 
 static const uint8_t layout[LAYOUT_COLUMN_LENGTH][LAYOUT_ROW_LENGTH] = {
-    { KC_KEYPAD_7, KC_KEYPAD_8, KC_KEYPAD_9 },
-    { KC_KEYPAD_4, KC_KEYPAD_5, KC_KEYPAD_6 },
-    { KC_KEYPAD_1, KC_KEYPAD_2, KC_KEYPAD_3 }
+    { KC_A, KC_B, KC_C },
+    { KC_D, KC_E, KC_F },
+    { KC_G, KC_H, KC_I }
 };
 
 #endif

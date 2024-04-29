@@ -7,11 +7,10 @@ void ws2812b_init(struct ws2812b *this) {
     // buffer allocation
     this->buffer = calloc(this->buffer_size, sizeof(uint8_t));
     this->buffer_alloc_status = (this->buffer == NULL) ? false : true;
+    ws2812b_set_off(this);
 
     spi_init(this->spi_inst, WS2812B_BAUD_RATE);
     gpio_set_function(this->spi_mosi_pin, GPIO_FUNC_SPI);
-
-    ws2812b_set_off(this);
 }
 
 void ws2812b_set_all(struct ws2812b *this, grb_t color) {

@@ -1,16 +1,12 @@
-#ifndef KEYS_H
-#define KEYS_H
+#ifndef KEYBOARD_H
+#define KEYBOARD_H
 
 #include "pico/stdlib.h"
 #include "../usb/usb_hid.h"
 
-void keys_init(void);
+void keyboard_init(void);
 
 static bool is_key_pressed(uint8_t column_pin);
-
-static inline void set_pin_output_write_low(uint8_t pin);
-
-static inline void set_pin_output_write_high(uint8_t pin);
 
 void scan_keyboard(struct usb_keyboard_report *keyboard_report);
 

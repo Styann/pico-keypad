@@ -6,12 +6,18 @@
 #include "pico_extra.h"
 
 #include "usb/usb.h"
-#include "keys/keys.h"
+#include "usb/usb_hid.h"
+
+#include "keyboard/keyboard.h"
 #include "hw040/hw040.h"
 #include "ws2812b/ws2812b.h"
 
-void keyboard_task(void);
+#define USE_HW40
+#define USE_WS2812B
+// #define USE_SSD1331
+#define DEBOUNCE_MS 10
 
+#ifdef USE_HW40
 void volume_knob_cw_callback(void) {
     send_consumer_control(KC_MEDIA_VOLUME_INCREMENT);
 }
@@ -30,54 +36,48 @@ struct hw040 volume_knob = {
     .ccw_callback = &volume_knob_ccw_callback
 };
 
-struct ws2812b led_strip = {
-    .num_leds = 30,
-    .spi_inst = spi0,
-    .spi_mosi_pin = GPIO19,
-};
-
 void gpio_core0_irq_callback(uint gpio, uint32_t events) {
     if ((gpio == volume_knob.pin_SW) && (events & GPIO_IRQ_EDGE_RISE)) {
-        //struct usb_keyboard_report report = { 0, 0, { 0, 0, 0, 0, 0, 0 }, KC_MEDIA_PLAY_PAUSE };
-        //usb_send_keyboard_report(&report);
         static uint32_t timer = 0;
-        const uint32_t interval_ms = 10;
 
-        if (millis() - timer > interval_ms) {
+        if (millis() - timer > DEBOUNCE_MS) {
             send_consumer_control(KC_MEDIA_PLAY_PAUSE);
             timer = millis();
         }
     }
 }
+#endif
 
 void keyboard_task(void) {
     static uint32_t timer = 0;
-    const uint32_t keys_debounce_ms = 10;
+    static bool can_release = false;
 
-    if (millis() - timer > keys_debounce_ms) {
+    if (millis() - timer > DEBOUNCE_MS) {
         struct usb_keyboard_report keyboard_report = { 0, 0, { 0, 0, 0, 0, 0, 0 }, 0 };
         scan_keyboard(&keyboard_report);
-        usb_send_keyboard_report(&keyboard_report);
+
+        if (!is_keyboard_report_empty(&keyboard_report)) {
+            usb_send_keyboard_report(&keyboard_report);
+            can_release = true;
+        }
+        else {
+            if (can_release) {
+                release();
+                can_release = false;
+            }
+        }
+
         timer = millis();
     }
 }
 
 void main_core1(void) {
-
-}
-
-int main(void) {
-    stdio_init_all();
-
-    // multicore_launch_core1(main_core1);
-
-    gpio_init(GPIO25);
-    gpio_set_dir(GPIO25, GPIO_OUT);
-
-    usb_device_init();
-
-    keys_init();
-    hw040_init(&volume_knob);
+    #ifdef USE_WS2812B
+    struct ws2812b led_strip = {
+        .num_leds = 30,
+        .spi_inst = spi0,
+        .spi_mosi_pin = GPIO19,
+    };
 
     ws2812b_init(&led_strip);
 
@@ -94,19 +94,37 @@ int main(void) {
         ws2812b_write(&led_strip);
         sleep_ms(1000);
     }
+    #endif
+}
 
-    // set irq
+int main(void) {
+    stdio_init_all();
+
+    multicore_launch_core1(main_core1);
+
+    gpio_init(GPIO25);
+    gpio_set_dir(GPIO25, GPIO_OUT);
+
+    usb_device_init();
+
+    keyboard_init();
+
+    #ifdef USE_HW40
+    hw040_init(&volume_knob);
     gpio_set_irq_callback(&gpio_core0_irq_callback);
     irq_set_enabled(IO_IRQ_BANK0, true);
+    #endif
 
     while (!is_configured()) {
         tight_loop_contents();
     }
 
     while (true) {
-        //keyboard_task();
-        //hw040_task(&volume_knob);
-        tight_loop_contents();
+        keyboard_task();
+
+        #ifdef USE_HW40
+        hw040_task(&volume_knob);
+        #endif
     }
 
     return 0;

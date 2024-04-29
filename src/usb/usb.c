@@ -232,18 +232,21 @@ void usb_start_transfer(struct usb_endpoint_configuration *ep, uint8_t *buf, uin
 
     *ep->buffer_control = val & ~USB_BUF_CTRL_AVAIL;
 
-    __asm volatile(
-        "b 1f\n"
-        "1: b 1f\n"
-        "1: b 1f\n"
-        "1: b 1f\n"
-        "1: b 1f\n"
-        "1: b 1f\n"
-        "1:\n"
-        :
-        :
-        : "memory"
-    );
+    // __asm volatile(
+    //     "b 1f\n"
+    //     "1: b 1f\n"
+    //     "1: b 1f\n"
+    //     "1: b 1f\n"
+    //     "1: b 1f\n"
+    //     "1: b 1f\n"
+    //     "1:\n"
+    //     :
+    //     :
+    //     : "memory"
+    // );
+
+    busy_wait_at_least_cycles(12);
+
 
     *ep->buffer_control = val;
 }
@@ -253,12 +256,12 @@ void usb_start_transfer(struct usb_endpoint_configuration *ep, uint8_t *buf, uin
  * @brief Sends a packet larger than the buffer size in several smaller packets
  */
 void usb_start_great_transfer(struct usb_endpoint_configuration *ep, uint8_t *buf, uint16_t len){
-    
+
 	/*uint8_t chunksize = ep->descriptor->wMaxPacketSize;
 	uint8_t remainder_size = len % chunksize;
 
 	for (uint8_t offset = 0; offset < (len - remainder_size); offset += chunksize) {
-        
+
         usb_start_xfer(ep, buf + offset, chunksize, false);
 
 	}
@@ -343,7 +346,7 @@ void usb_handle_device_descriptor(volatile struct usb_setup_packet *pkt) {
 }
 
 /**
- * @author Styann 
+ * @author Styann
  * @brief Send report descriptor to host
  */
 void usb_handle_report_descriptor(volatile struct usb_setup_packet *pkt){
@@ -373,7 +376,7 @@ void usb_handle_config_descriptor(volatile struct usb_setup_packet *pkt) {
 
         memcpy((void *) buf, dev_config.hid_descriptor, sizeof(struct usb_hid_descriptor));
         buf += sizeof(struct usb_hid_descriptor);
-        
+
         const struct usb_endpoint_configuration *ep = dev_config.endpoints;
 
         // Copy all the endpoint descriptors starting from EP1
@@ -619,9 +622,7 @@ void usb_handle_resume(void) {
 
 /**
  * @brief USB interrupt handler
- *
  */
-/// \tag::isr_setup_packet[]
 void isr_usbctrl(void) {
     // USB interrupt handler
     uint32_t status = usb_hw->ints;
@@ -633,7 +634,6 @@ void isr_usbctrl(void) {
         usb_hw_clear->sie_status = USB_SIE_STATUS_SETUP_REC_BITS;
         usb_handle_setup_packet();
     }
-/// \end::isr_setup_packet[]
 
     // Buffer status, one or more buffers have completed
     if (status & USB_INTS_BUFF_STATUS_BITS) {
@@ -686,12 +686,13 @@ void ep0_in_handler(uint8_t *buf, uint16_t len) {
 }
 
 void ep0_out_handler(uint8_t *buf, uint16_t len) {
-    ;
+
 }
 
-/**
- * @author Styann
-*/
-void ep1_in_hid_handler(uint8_t *buf, uint16_t len){
-    usb_start_transfer(usb_get_endpoint_configuration(EP1_IN_ADDR), NULL, 64);
+void ep1_in_hid_handler(uint8_t *buf, uint16_t len) {
+
+}
+
+void ep2_out_handler(uint8_t *buf, uint16_t len) {
+    gpio_put(25, 1);
 }
