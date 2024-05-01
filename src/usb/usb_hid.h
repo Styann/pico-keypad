@@ -18,7 +18,7 @@
 #define USAGE           0x09
 #define COLLECTION      0xA1
 #define END_COLLECTION  0xC0
-#define USAGE_MININUM   0x19
+#define USAGE_MINIMUM   0x19
 #define USAGE_MAXIMUM   0x29
 #define LOGICAL_MINIMUM 0x15
 #define LOGICAL_MAXIMUM 0x25
@@ -27,6 +27,26 @@
 #define INPUT           0x81
 #define OUTPUT          0x91
 #define REPORT_ID       0x85
+
+//usb report descriptor value
+#define GENERIC_DESKTOP_PAGE   0x01
+#define KEYBOARD_KEYPAD_PAGE   0x07
+#define LED_PAGE               0x08
+#define CONSUMER_PAGE          0x0C
+#define BUTTON_PAGE            0x09
+
+#define USAGE_KEYBOARD         0x06
+#define USAGE_CONSUMER_CONTROL 0x01
+#define USAGE_GAMEPAD          0x05
+#define USAGE_X                0x30
+#define USAGE_Y                0x31
+
+#define COLLECTION_APPLICATION 0x01
+#define COLLECTION_PHYSICAL    0x00
+
+#define DATA_ARRAY_ABS         0x00
+#define CONST_ARRAY_ABS        0x01
+#define DATA_VAR_ABS           0x02
 // ***************************
 
 #define USB_HID_LOCAL_FRENCH 0x08
@@ -70,17 +90,22 @@ struct usb_hid_descriptor {
     uint32_t buttons;
 } ___packed;*/
 
-#define HID_KEYBOARD_REPORT_SIZE sizeof(struct usb_keyboard_report)
+struct usb_gamepad_report {
+    uint8_t id;
+    uint8_t x;
+    uint8_t y;
+    uint8_t buttons;
+} __packed;
 
 struct usb_keyboard_report {
+    uint8_t id;
     uint8_t modifier;
     uint8_t reserved;
     uint8_t keycode[6];
-    uint16_t consumer_control; 
 } __packed;
 
-struct usb_hid_consumer_control_report {
-    uint8_t reportId;
+struct usb_consumer_control_report {
+    uint8_t id;
     uint16_t consumer_control;
 } __packed;
 
@@ -309,7 +334,7 @@ struct usb_hid_consumer_control_report {
 // RESERVED                           0xE8 to 0xFFFF
 
 // MODIFIERS
-#define UINT8_T_LOW_ENDIAN(byte) (byte & 0b00001111)      
+#define UINT8_T_LOW_ENDIAN(byte) (byte & 0b00001111)
 #define KC_MOD_CTRL_LEFT              1 << UINT8_T_LOW_ENDIAN(KC_CTRL_LEFT)
 #define KC_MOD_SHIFT_LEFT             1 << UINT8_T_LOW_ENDIAN(KC_SHIFT_LEFT)
 #define KC_MOD_ALT_LEFT               1 << UINT8_T_LOW_ENDIAN(KC_ALT_LEFT)
@@ -431,5 +456,21 @@ struct usb_hid_consumer_control_report {
 #define LED_PLAYER_7                  0x67
 #define LED_PLAYER_8                  0x68
 // RESERVED                           0x69 to 0xFFF
+
+#define GAMEPAD_BUTTON_A  1 << 0
+#define GAMEPAD_BUTTON_B  1 << 1
+#define GAMEPAD_BUTTON_C  1 << 2
+#define GAMEPAD_BUTTON_X  1 << 3
+#define GAMEPAD_BUTTON_Y  1 << 4
+#define GAMEPAD_BUTTON_Z  1 << 5
+
+#define GAMEPAD_BUTTON_LT  1 << 6
+#define GAMEPAD_BUTTON_RT  1 << 7
+#define GAMEPAD_BUTTON_LB  1 << 8
+#define GAMEPAD_BUTTON_RB  1 << 9
+
+#define GAMEPAD_BUTTON_SELECT 1 << 10
+#define GAMEPAD_BUTTON_START 1 << 11
+
 
 #endif

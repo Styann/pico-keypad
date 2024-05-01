@@ -24,27 +24,23 @@ void usb_handle_suspend(void);
 
 void usb_handle_resume(void);
 
-struct usb_endpoint_configuration *usb_get_endpoint_configuration(uint8_t addr);
+struct usb_endpoint *usb_get_endpoint_configuration(uint8_t addr);
 
 static inline uint32_t usb_buffer_offset(volatile uint8_t *buf);
 
-void usb_setup_endpoint(const struct usb_endpoint_configuration *ep);
+void usb_setup_endpoint(const struct usb_endpoint *ep);
 
 void usb_setup_endpoints(void);
 
 void usb_device_init(void);
 
-static inline bool ep_is_tx(struct usb_endpoint_configuration *ep);
+static inline bool ep_is_tx(struct usb_endpoint *ep);
 
-void usb_start_transfer(struct usb_endpoint_configuration *ep, uint8_t *buf, uint16_t len);
+void usb_start_transfer(struct usb_endpoint *ep, uint8_t *buf, uint16_t len);
 
-void usb_start_xfer(struct usb_endpoint_configuration *ep, uint8_t *buf, uint16_t len, bool is_last);
+void usb_start_xfer(struct usb_endpoint *ep, uint8_t *buf, uint16_t len, bool is_last);
 
-void usb_start_great_transfer(struct usb_endpoint_configuration *ep, uint8_t *buf, uint16_t len);
-
-void usb_send_keyboard_report(struct usb_keyboard_report *keyboard_report);
-
-void usb_send_consumer_control_report(struct usb_hid_consumer_control_report *consumer_control_report);
+void usb_start_great_transfer(struct usb_endpoint *ep, uint8_t *buf, uint16_t len);
 
 void usb_handle_device_descriptor(volatile struct usb_setup_packet *pkt);
 
@@ -64,7 +60,7 @@ void usb_set_device_configuration(volatile struct usb_setup_packet *pkt);
 
 void usb_handle_setup_packet(void);
 
-static void usb_handle_ep_buff_done(struct usb_endpoint_configuration *ep);
+static void usb_handle_ep_buff_done(struct usb_endpoint *ep);
 
 static void usb_handle_buff_done(uint ep_num, bool in);
 
@@ -180,63 +176,86 @@ static const struct usb_string_descriptor product_descriptor = {
 };
 // *************************************************************
 
-#define GENERIC_DESKTOP_PAGE 0x01
-#define KEYBOARD_KEYPAD_PAGE 0x07
-#define LED_PAGE             0x08
-#define CONSUMER_PAGE        0x0C
-
-#define DATA_ARRAY_ABS       0x00
-#define CONST_ARRAY_ABS      0x01
-#define DATA_VAR_ABS         0x02
-
 // https://usb.org/sites/default/files/hut1_4.pdf
-#define USB_REPORT_DESCRIPTOR_LENGTH 79
+#define USB_REPORT_DESCRIPTOR_LENGTH 86 + 42
 static const uint8_t report_descriptor[USB_REPORT_DESCRIPTOR_LENGTH] = {
         USAGE_PAGE, GENERIC_DESKTOP_PAGE,
-        USAGE, 0x06,
 
-        COLLECTION, 0x01,
+        USAGE, USAGE_KEYBOARD, // length 63
+        COLLECTION, COLLECTION_APPLICATION,
+                REPORT_ID, 0x01,
                 USAGE_PAGE, KEYBOARD_KEYPAD_PAGE,
-                USAGE_MININUM, KC_CTRL_LEFT,
+                // modifier field
+                USAGE_MINIMUM, KC_CTRL_LEFT,
                 USAGE_MAXIMUM, KC_GUI_RIGHT,
                 LOGICAL_MINIMUM, 0x00,
                 LOGICAL_MAXIMUM, 0x01,
                 REPORT_SIZE, 0x01,
                 REPORT_COUNT, 0x08,
                 INPUT, DATA_VAR_ABS,
-
+                // reserved field
                 REPORT_COUNT, 0x01,
                 REPORT_SIZE, 0x08,
                 INPUT, CONST_ARRAY_ABS,
                 REPORT_COUNT, 0x05,
                 REPORT_SIZE, 0x01,
-
-                USAGE_PAGE, LED_PAGE,
-                USAGE_MININUM, 0x01,
-                USAGE_MAXIMUM, 0x05,
-                OUTPUT, DATA_VAR_ABS,
-                REPORT_COUNT, 0x01,
-                REPORT_SIZE, 0x03,
-                OUTPUT, CONST_ARRAY_ABS,
-
+                // keycodes
                 REPORT_COUNT, 0x06,
                 REPORT_SIZE, 0x08,
                 LOGICAL_MINIMUM, 0x00,
                 LOGICAL_MAXIMUM, 0x65,
                 USAGE_PAGE, KEYBOARD_KEYPAD_PAGE,
-                USAGE_MININUM, 0x00,
+                USAGE_MINIMUM, 0x00,
                 USAGE_MAXIMUM, 0xFF,
                 INPUT, DATA_ARRAY_ABS,
-
-                USAGE_PAGE, CONSUMER_PAGE,
-                LOGICAL_MINIMUM, 0,
-                LOGICAL_MAXIMUM, 0xFF,
-                USAGE_MININUM, 0x00,
-                USAGE_MAXIMUM, 0xFF,
-                REPORT_SIZE, 16,
+                // led
+                USAGE_PAGE, LED_PAGE,
+                USAGE_MINIMUM, 0x01,
+                USAGE_MAXIMUM, 0x05,
+                OUTPUT, DATA_VAR_ABS,
                 REPORT_COUNT, 0x01,
+                REPORT_SIZE, 0x03,
+                OUTPUT, CONST_ARRAY_ABS,
+        END_COLLECTION,
+
+        USAGE, USAGE_CONSUMER_CONTROL, // length 21
+        COLLECTION, COLLECTION_APPLICATION,
+                REPORT_ID, 0x02,
+                USAGE_PAGE, CONSUMER_PAGE,
+                USAGE_MINIMUM, 0x00,
+                USAGE_MAXIMUM, 0xFF,
+                LOGICAL_MINIMUM, 0x00,
+                LOGICAL_MAXIMUM, 0xFF,
+                REPORT_SIZE, 16,
                 INPUT, DATA_ARRAY_ABS,
         END_COLLECTION,
+
+        USAGE, USAGE_GAMEPAD,
+        COLLECTION, COLLECTION_APPLICATION,
+                COLLECTION, COLLECTION_PHYSICAL,
+                        REPORT_ID, 0x03,
+                        USAGE_PAGE, GENERIC_DESKTOP_PAGE,
+
+                        // Dpad
+                        USAGE, USAGE_X,
+                        USAGE, USAGE_Y,
+                        LOGICAL_MINIMUM, -127,
+                        LOGICAL_MAXIMUM, 127,
+                        REPORT_SIZE, 0x08,
+                        REPORT_COUNT, 0x02,
+                        INPUT, DATA_VAR_ABS,
+
+                        // buttons
+                        USAGE_PAGE, BUTTON_PAGE,
+                        USAGE_MINIMUM, 0x01,
+                        USAGE_MAXIMUM, 0x08,
+                        LOGICAL_MINIMUM, 0x00,
+                        LOGICAL_MAXIMUM, 0x01,
+                        REPORT_SIZE, 0x01,
+                        REPORT_COUNT, 0x08,
+                        INPUT, DATA_VAR_ABS,
+                END_COLLECTION,
+        END_COLLECTION
 };
 
 // hid descriptor *******************************************
@@ -268,7 +287,7 @@ static const struct usb_configuration_descriptor config_descriptor = {
 // **********************************************************************
 
 // Struct in which we keep the endpoint configuration
-struct usb_endpoint_configuration {
+struct usb_endpoint {
         const struct usb_endpoint_descriptor *descriptor;
         usb_ep_handler handler;
 
@@ -295,7 +314,7 @@ struct usb_device_configuration {
         //const unsigned char **descriptor_strings;
         const struct usb_string_descriptor *string_descriptors[NUM_STRING_DESCRIPTORS];
         // USB num endpoints is 16
-        struct usb_endpoint_configuration endpoints[USB_NUM_ENDPOINTS];
+        struct usb_endpoint endpoints[USB_NUM_ENDPOINTS];
 };
 
 #endif

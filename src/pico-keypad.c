@@ -8,7 +8,7 @@
 #include "usb/usb.h"
 #include "usb/usb_hid.h"
 
-#include "keyboard/keyboard.h"
+#include "keyboard_matrix/keyboard_matrix.h"
 #include "hw040/hw040.h"
 #include "ws2812b/ws2812b.h"
 
@@ -19,11 +19,11 @@
 
 #ifdef USE_HW40
 void volume_knob_cw_callback(void) {
-    send_consumer_control(KC_MEDIA_VOLUME_INCREMENT);
+    usb_send_consumer_control(KC_MEDIA_VOLUME_INCREMENT);
 }
 
 void volume_knob_ccw_callback(void) {
-    send_consumer_control(KC_MEDIA_VOLUME_DECREMENT);
+    usb_send_consumer_control(KC_MEDIA_VOLUME_DECREMENT);
 }
 
 struct hw040 volume_knob = {
@@ -41,30 +41,40 @@ void gpio_core0_irq_callback(uint gpio, uint32_t events) {
         static uint32_t timer = 0;
 
         if (millis() - timer > DEBOUNCE_MS) {
-            send_consumer_control(KC_MEDIA_PLAY_PAUSE);
+            usb_send_consumer_control(KC_MEDIA_PLAY_PAUSE);
             timer = millis();
         }
     }
 }
 #endif
 
+#ifdef USE_GAMEPAD
+struct usb_gamepad_report report = { 0x03, 127, 127, 0b11111111 };
+usb_send_gamepad_report(&report);
+#endif
+
 void keyboard_task(void) {
     static uint32_t timer = 0;
     static bool can_release = false;
+    static struct usb_keyboard_report previous_report = {};
 
     if (millis() - timer > DEBOUNCE_MS) {
-        struct usb_keyboard_report keyboard_report = { 0, 0, { 0, 0, 0, 0, 0, 0 }, 0 };
-        scan_keyboard(&keyboard_report);
+        struct usb_keyboard_report keyboard_report = { 0x01, 0, 0, { 0, 0, 0, 0, 0, 0 } };
+        keyboard_matrix_scan(&keyboard_report);
 
-        if (!is_keyboard_report_empty(&keyboard_report)) {
-            usb_send_keyboard_report(&keyboard_report);
-            can_release = true;
-        }
-        else {
-            if (can_release) {
-                release();
-                can_release = false;
+        if (!has_keyboard_report_changed(&keyboard_report, &previous_report)) {
+            if (!is_keyboard_report_empty(&keyboard_report)) {
+                usb_send_keyboard_report(&keyboard_report);
+                can_release = true;
             }
+            else {
+                if (can_release) {
+                    release_keyboard();
+                    can_release = false;
+                }
+            }
+
+            previous_report = keyboard_report;
         }
 
         timer = millis();
@@ -107,7 +117,7 @@ int main(void) {
 
     usb_device_init();
 
-    keyboard_init();
+    keyboard_matrix_init();
 
     #ifdef USE_HW40
     hw040_init(&volume_knob);

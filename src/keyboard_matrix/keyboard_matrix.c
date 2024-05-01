@@ -1,7 +1,7 @@
 #include "hardware/gpio.h"
 #include "hardware/timer.h"
 
-#include "keyboard.h"
+#include "keyboard_matrix.h"
 #include "layout.h"
 #include "../pico_extra.h"
 #include "../usb/usb.h"
@@ -11,7 +11,7 @@
 /**
  * @brief Set all rows pins as OUPUT and HIGH then all columns pins as GPIO INPUT PULL UP 
  */
-void keyboard_init(void) {
+void keyboard_matrix_init(void) {
     for (uint8_t r = 0; r < LAYOUT_ROW_LENGTH; r++){
         gpio_init(rows_pins[r]);
         gpio_set_dir(rows_pins[r], GPIO_OUT);
@@ -35,9 +35,9 @@ static bool is_key_pressed(uint8_t column_pin) {
 
 /**
  * @brief Loop through the matrix and add pressed keys to a keyboard report
- * @param keyboard_report
+ * @param report
  */
-void scan_keyboard(struct usb_keyboard_report *keyboard_report) {
+void keyboard_matrix_scan(struct usb_keyboard_report *report) {
     uint8_t pressed_keys_count = 0;
 
     for (uint8_t r = 0; pressed_keys_count < KRO && r < LAYOUT_ROW_LENGTH; r++) {
@@ -46,7 +46,7 @@ void scan_keyboard(struct usb_keyboard_report *keyboard_report) {
 
         for (uint8_t c = 0; pressed_keys_count < KRO && c < LAYOUT_COLUMN_LENGTH; c++) {
             if (is_key_pressed(columns_pins[c]) && layout[r][c] != KC_NONE) {
-                set_keyboard_report(keyboard_report, layout[r][c]);
+                set_keyboard_report(report, layout[r][c]);
                 pressed_keys_count++;
             }
         }
@@ -57,20 +57,20 @@ void scan_keyboard(struct usb_keyboard_report *keyboard_report) {
 
 /**
  * @brief Add a keycode to the keyboard report, and possibly his modifier btw
- * @param keyboard_report
+ * @param report
  * @param keycode
  */
-static void set_keyboard_report(struct usb_keyboard_report *keyboard_report, uint8_t keycode) {
+static void set_keyboard_report(struct usb_keyboard_report *report, uint8_t keycode) {
     if (keycode > KC_CTRL_LEFT && keycode < KC_GUI_RIGHT) {
-        keyboard_report->modifier |= get_modifier_from_keycode(keycode);
+        report->modifier |= get_modifier_from_keycode(keycode);
     }
 
-    if (keyboard_report->keycode[0] == 0) keyboard_report->keycode[0] = keycode;
-    else if (keyboard_report->keycode[1] == 0) keyboard_report->keycode[1] = keycode;
-    else if (keyboard_report->keycode[2] == 0) keyboard_report->keycode[2] = keycode;
-    else if (keyboard_report->keycode[3] == 0) keyboard_report->keycode[3] = keycode;
-    else if (keyboard_report->keycode[4] == 0) keyboard_report->keycode[4] = keycode;
-    else if (keyboard_report->keycode[5] == 0) keyboard_report->keycode[5] = keycode;
+    if (report->keycode[0] == 0) report->keycode[0] = keycode;
+    else if (report->keycode[1] == 0) report->keycode[1] = keycode;
+    else if (report->keycode[2] == 0) report->keycode[2] = keycode;
+    else if (report->keycode[3] == 0) report->keycode[3] = keycode;
+    else if (report->keycode[4] == 0) report->keycode[4] = keycode;
+    else if (report->keycode[5] == 0) report->keycode[5] = keycode;
 }
 
 /**
@@ -78,7 +78,7 @@ static void set_keyboard_report(struct usb_keyboard_report *keyboard_report, uin
  * @param dest
  * @param src
  */
-bool assert_keyboard_reports(struct usb_keyboard_report *dest, struct usb_keyboard_report *src) {
+bool has_keyboard_report_changed(struct usb_keyboard_report *dest, struct usb_keyboard_report *src) {
     if (dest->modifier != src->modifier) return false;
     if (dest->keycode[0] != src->keycode[0]) return false;
     if (dest->keycode[1] != src->keycode[1]) return false;
@@ -93,9 +93,15 @@ bool assert_keyboard_reports(struct usb_keyboard_report *dest, struct usb_keyboa
  * @brief Return true if all fields of the keyboard report are set to 0, else false
  * @param keyboard_report 
  */
-bool is_keyboard_report_empty(struct usb_keyboard_report *keyboard_report) {
-    struct usb_keyboard_report empty = { 0, 0, { 0, 0, 0, 0, 0, 0 } };
-    return assert_keyboard_reports(&empty, keyboard_report);
+bool is_keyboard_report_empty(struct usb_keyboard_report *report) {
+    if (report->modifier != 0x00) return false;
+    if (report->keycode[0] != 0x00) return false;
+    if (report->keycode[1] != 0x00) return false;
+    if (report->keycode[2] != 0x00) return false;
+    if (report->keycode[3] != 0x00) return false;
+    if (report->keycode[4] != 0x00) return false;
+    if (report->keycode[5] != 0x00) return false;
+    return true;
 }
 
 /**
@@ -107,20 +113,45 @@ static uint8_t get_modifier_from_keycode(uint8_t keycode) {
 }
 
 /**
+ * @brief Send keyboard report to host
+ */
+void usb_send_keyboard_report(struct usb_keyboard_report *report){
+    struct usb_endpoint *endpoint = usb_get_endpoint_configuration(EP_IN_HID);
+    usb_start_transfer(endpoint, (uint8_t*)report, sizeof(struct usb_keyboard_report));
+}
+
+/**
  * @brief send report with all fields at 0
  */
-void release(void) {
-    struct usb_keyboard_report release = { 0, 0, { 0, 0, 0, 0, 0, 0 }, 0 };
+void release_keyboard(void) {
+    struct usb_keyboard_report release = { 0x01, 0, 0, { 0, 0, 0, 0, 0, 0 } };
     usb_send_keyboard_report(&release);
+}
+
+/**
+ * @brief Send consumer control report to host
+ */
+void usb_send_consumer_control_report(struct usb_consumer_control_report *report) {
+    struct usb_endpoint *endpoint = usb_get_endpoint_configuration(EP_IN_HID);
+    usb_start_transfer(endpoint, (uint8_t*)report, sizeof(struct usb_consumer_control_report));
 }
 
 /**
  * @brief send consumer control, then release
  * @param consumer_control 
  */
-void send_consumer_control(uint16_t consumer_control) {
-    struct usb_keyboard_report report = { .consumer_control = consumer_control };
+void usb_send_consumer_control(uint16_t consumer_control) {
+    struct usb_consumer_control_report report = { 0x02, consumer_control };
 
-    usb_send_keyboard_report(&report);
-    release();
+    // send
+    usb_send_consumer_control_report(&report);
+
+    // release
+    report.consumer_control = 0x0000;
+    usb_send_consumer_control_report(&report);
+}
+
+void usb_send_gamepad_report(struct usb_gamepad_report *report) {
+    struct usb_endpoint *endpoint = usb_get_endpoint_configuration(EP_IN_HID);
+    usb_start_transfer(endpoint, (uint8_t*)report, sizeof(struct usb_gamepad_report));
 }

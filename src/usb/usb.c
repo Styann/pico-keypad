@@ -86,10 +86,10 @@ static struct usb_device_configuration dev_config = {
  * if an endpoint of that address is not found.
  *
  * @param addr
- * @return struct usb_endpoint_configuration*
+ * @return struct usb_endpoint*
  */
-struct usb_endpoint_configuration *usb_get_endpoint_configuration(uint8_t addr) {
-    struct usb_endpoint_configuration *endpoints = dev_config.endpoints;
+struct usb_endpoint *usb_get_endpoint_configuration(uint8_t addr) {
+    struct usb_endpoint *endpoints = dev_config.endpoints;
     for (int i = 0; i < USB_NUM_ENDPOINTS; i++) {
         if (endpoints[i].descriptor && (endpoints[i].descriptor->bEndpointAddress == addr)) {
             return &endpoints[i];
@@ -113,7 +113,7 @@ static inline uint32_t usb_buffer_offset(volatile uint8_t *buf) {
  *
  * @param ep
  */
-void usb_setup_endpoint(const struct usb_endpoint_configuration *ep) {
+void usb_setup_endpoint(const struct usb_endpoint *ep) {
     // EP0 doesn't have one so return if that is the case
     if (!ep->endpoint_control) {
         return;
@@ -133,7 +133,7 @@ void usb_setup_endpoint(const struct usb_endpoint_configuration *ep) {
  *
  */
 void usb_setup_endpoints(void) {
-    const struct usb_endpoint_configuration *endpoints = dev_config.endpoints;
+    const struct usb_endpoint *endpoints = dev_config.endpoints;
     for (int i = 0; i < USB_NUM_ENDPOINTS; i++) {
         if (endpoints[i].descriptor && endpoints[i].handler) {
             usb_setup_endpoint(&endpoints[i]);
@@ -190,7 +190,7 @@ void usb_device_init(void) {
  * @return true
  * @return false
  */
-static inline bool ep_is_tx(struct usb_endpoint_configuration *ep) {
+static inline bool ep_is_tx(struct usb_endpoint *ep) {
     return ep->descriptor->bEndpointAddress & USB_DIR_IN;
 }
 
@@ -201,7 +201,7 @@ static inline bool ep_is_tx(struct usb_endpoint_configuration *ep) {
  * @param buf, the data buffer to send. Only applicable if the endpoint is TX
  * @param len, the length of the data in buf (this example limits max len to one packet - 64 bytes)
  */
-void usb_start_transfer(struct usb_endpoint_configuration *ep, uint8_t *buf, uint16_t len) {
+void usb_start_transfer(struct usb_endpoint *ep, uint8_t *buf, uint16_t len) {
     // We are asserting that the length is <= 64 bytes for simplicity of the example.
     // For multi packet transfers see the tinyusb port.
     assert(len <= 64);
@@ -232,19 +232,6 @@ void usb_start_transfer(struct usb_endpoint_configuration *ep, uint8_t *buf, uin
 
     *ep->buffer_control = val & ~USB_BUF_CTRL_AVAIL;
 
-    // __asm volatile(
-    //     "b 1f\n"
-    //     "1: b 1f\n"
-    //     "1: b 1f\n"
-    //     "1: b 1f\n"
-    //     "1: b 1f\n"
-    //     "1: b 1f\n"
-    //     "1:\n"
-    //     :
-    //     :
-    //     : "memory"
-    // );
-
     busy_wait_at_least_cycles(12);
 
 
@@ -255,7 +242,7 @@ void usb_start_transfer(struct usb_endpoint_configuration *ep, uint8_t *buf, uin
  * @author Styann
  * @brief Sends a packet larger than the buffer size in several smaller packets
  */
-void usb_start_great_transfer(struct usb_endpoint_configuration *ep, uint8_t *buf, uint16_t len){
+void usb_start_great_transfer(struct usb_endpoint *ep, uint8_t *buf, uint16_t len){
 
 	/*uint8_t chunksize = ep->descriptor->wMaxPacketSize;
 	uint8_t remainder_size = len % chunksize;
@@ -313,33 +300,13 @@ void usb_start_great_transfer(struct usb_endpoint_configuration *ep, uint8_t *bu
 }
 
 /**
- * @author Styann
- * @brief Send keyboard report to host
- */
-void usb_send_keyboard_report(struct usb_keyboard_report *keyboard_report){
-    struct usb_endpoint_configuration *ep = usb_get_endpoint_configuration(EP_IN_HID);
-    usb_start_transfer(ep, (uint8_t*)keyboard_report, sizeof(struct usb_keyboard_report));
-    return;
-}
-
-/**
- * @author Styann
- * @brief Send consumer control report to host
- */
-void usb_send_consumer_control_report(struct usb_hid_consumer_control_report *consumer_control_report){
-    struct usb_endpoint_configuration *ep = usb_get_endpoint_configuration(EP_IN_HID);
-    usb_start_transfer(ep, (uint8_t*)consumer_control_report, sizeof(struct usb_hid_consumer_control_report));
-    return;
-}
-
-/**
  * @brief Send device descriptor to host
  *
  */
 void usb_handle_device_descriptor(volatile struct usb_setup_packet *pkt) {
     const struct usb_device_descriptor *data = dev_config.device_descriptor;
     // EP0 in
-    struct usb_endpoint_configuration *ep = usb_get_endpoint_configuration(EP0_IN_ADDR);
+    struct usb_endpoint *ep = usb_get_endpoint_configuration(EP0_IN_ADDR);
     // Always respond with pid 1
     ep->next_pid = 1;
     usb_start_transfer(ep, (uint8_t*)data, MIN(sizeof(struct usb_device_descriptor), pkt->wLength));
@@ -350,10 +317,11 @@ void usb_handle_device_descriptor(volatile struct usb_setup_packet *pkt) {
  * @brief Send report descriptor to host
  */
 void usb_handle_report_descriptor(volatile struct usb_setup_packet *pkt){
-    struct usb_endpoint_configuration *ep = usb_get_endpoint_configuration(EP0_IN_ADDR);
+    struct usb_endpoint *ep = usb_get_endpoint_configuration(EP0_IN_ADDR);
+    // usb_start_transfer(ep, (uint8_t*)report_descriptor, 64);
+    // usb_start_transfer(ep, (uint8_t*)(report_descriptor + 64), 22);
     usb_start_transfer(ep, (uint8_t*)report_descriptor, 64);
-    usb_start_transfer(ep, (uint8_t*)(report_descriptor + 64), 15);
-    //usb_start_great_transfer(ep, (uint8_t*)report_descriptor, USB_REPORT_DESCRIPTOR_LENGTH);
+    usb_start_transfer(ep, (uint8_t*)(report_descriptor + 64), 64);
 }
 
 /**
@@ -377,7 +345,7 @@ void usb_handle_config_descriptor(volatile struct usb_setup_packet *pkt) {
         memcpy((void *) buf, dev_config.hid_descriptor, sizeof(struct usb_hid_descriptor));
         buf += sizeof(struct usb_hid_descriptor);
 
-        const struct usb_endpoint_configuration *ep = dev_config.endpoints;
+        const struct usb_endpoint *ep = dev_config.endpoints;
 
         // Copy all the endpoint descriptors starting from EP1
         for (uint i = 2; i < USB_NUM_ENDPOINTS; i++) {
@@ -416,7 +384,7 @@ void usb_bus_reset(void) {
 void usb_handle_string_descriptor(volatile struct usb_setup_packet *pkt) {
     uint8_t descriptorIndex = pkt->wValue;
 
-    struct usb_endpoint_configuration *ep = usb_get_endpoint_configuration(EP0_IN_ADDR);
+    struct usb_endpoint *ep = usb_get_endpoint_configuration(EP0_IN_ADDR);
     const struct usb_string_descriptor *string_descriptor = dev_config.string_descriptors[descriptorIndex];
 
     if (descriptorIndex == 0) {
@@ -424,7 +392,7 @@ void usb_handle_string_descriptor(volatile struct usb_setup_packet *pkt) {
     }
     else {
         uint8_t *buf = calloc(string_descriptor->bLength, 1);
-        
+
         *buf = string_descriptor->bLength;
         *(buf + 1) = string_descriptor->bDescriptorType;
 
@@ -529,11 +497,11 @@ void usb_handle_setup_packet(void) {
         }
         else if(req == USB_HID_REQUEST_SET_REPORT) {
 
-            //struct usb_endpoint_configuration *ep = usb_get_endpoint_configuration(EP0_OUT_ADDR);
+            //struct usb_endpoint *ep = usb_get_endpoint_configuration(EP0_OUT_ADDR);
             //uint8_t length = pkt->wLength;
 
    
-            //struct usb_endpoint_configuration *ep = usb_get_endpoint_configuration(EP0_OUT);
+            //struct usb_endpoint *ep = usb_get_endpoint_configuration(EP0_OUT);
     
             //static bool state = 0;
             //state = !state;
@@ -558,7 +526,7 @@ void usb_handle_setup_packet(void) {
  *
  * @param ep, the endpoint to notify.
  */
-static void usb_handle_ep_buff_done(struct usb_endpoint_configuration *ep) {
+static void usb_handle_ep_buff_done(struct usb_endpoint *ep) {
     uint32_t buffer_control = *ep->buffer_control;
     // Get the transfer length for this endpoint
     uint16_t len = buffer_control & USB_BUF_CTRL_LEN_MASK;
@@ -578,7 +546,7 @@ static void usb_handle_buff_done(uint ep_num, bool in) {
     uint8_t ep_addr = ep_num | (in ? USB_DIR_IN : 0);
 
     for (uint i = 0; i < USB_NUM_ENDPOINTS; i++) {
-        struct usb_endpoint_configuration *ep = &dev_config.endpoints[i];
+        struct usb_endpoint *ep = &dev_config.endpoints[i];
         if (ep->descriptor && ep->handler) {
             if (ep->descriptor->bEndpointAddress == ep_addr) {
                 usb_handle_ep_buff_done(ep);
@@ -680,7 +648,7 @@ void ep0_in_handler(uint8_t *buf, uint16_t len) {
         should_set_address = false;
     } else {
         // Receive a zero length status packet from the host on EP0 OUT
-        struct usb_endpoint_configuration *ep = usb_get_endpoint_configuration(EP0_OUT_ADDR);
+        struct usb_endpoint *ep = usb_get_endpoint_configuration(EP0_OUT_ADDR);
         usb_start_transfer(ep, NULL, 0);
     }
 }

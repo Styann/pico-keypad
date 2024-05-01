@@ -26,7 +26,7 @@ static const uint16_t layout[LAYOUT_ROW_LENGTH][LAYOUT_COLUMN_LENGTH] = {
 #define LAYOUT_COLUMN_LENGTH 3
 #define LAYOUT_ROW_LENGTH 3
 
-static const uint8_t columns_pins[LAYOUT_COLUMN_LENGTH] = { GPIO3, GPIO4, GPIO5};
+static const uint8_t columns_pins[LAYOUT_COLUMN_LENGTH] = { GPIO3, GPIO4, GPIO5 };
 static const uint8_t rows_pins[LAYOUT_ROW_LENGTH] = { GPIO0, GPIO1, GPIO2 };
 
 static const uint8_t layout[LAYOUT_COLUMN_LENGTH][LAYOUT_ROW_LENGTH] = {
