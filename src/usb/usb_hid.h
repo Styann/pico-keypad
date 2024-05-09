@@ -13,20 +13,23 @@
 #define USB_HID_REQUEST_SET_REPORT    0x09
 // ***************************************
 
-// usb report descriptor field
-#define USAGE_PAGE      0x05
-#define USAGE           0x09
-#define COLLECTION      0xA1
-#define END_COLLECTION  0xC0
-#define USAGE_MINIMUM   0x19
-#define USAGE_MAXIMUM   0x29
-#define LOGICAL_MINIMUM 0x15
-#define LOGICAL_MAXIMUM 0x25
-#define REPORT_SIZE     0x75
-#define REPORT_COUNT    0x95
-#define INPUT           0x81
-#define OUTPUT          0x91
-#define REPORT_ID       0x85
+// usb report descriptor field ****
+#define USAGE_PAGE          0x05
+#define USAGE               0x09
+#define COLLECTION          0xA1
+#define END_COLLECTION      0xC0
+#define USAGE_MINIMUM       0x19
+#define USAGE_MAXIMUM       0x29
+#define LOGICAL_MINIMUM     0x15
+#define LOGICAL_MAXIMUM     0x25
+#define PHYSICAL_MINIMUM    0x35
+#define PHYSICAL_MAXIMUM    0x45
+#define REPORT_SIZE         0x75
+#define REPORT_COUNT        0x95
+#define INPUT               0x81
+#define OUTPUT              0x91
+#define REPORT_ID           0x85
+#define UNIT                0x65
 
 //usb report descriptor value
 #define GENERIC_DESKTOP_PAGE   0x01
@@ -37,17 +40,24 @@
 
 #define USAGE_KEYBOARD         0x06
 #define USAGE_CONSUMER_CONTROL 0x01
+#define USAGE_JOYSTICK         0x04
 #define USAGE_GAMEPAD          0x05
 #define USAGE_X                0x30
 #define USAGE_Y                0x31
+#define USAGE_HAT_SWITCH       0x39
 
-#define COLLECTION_APPLICATION 0x01
 #define COLLECTION_PHYSICAL    0x00
+#define COLLECTION_APPLICATION 0x01
+#define COLLECTION_LOGICAL     0x02
 
 #define DATA_ARRAY_ABS         0x00
 #define CONST_ARRAY_ABS        0x01
 #define DATA_VAR_ABS           0x02
-// ***************************
+#define DATA_VAR_ABS_NULL      0x42
+
+// engine rotation, angular position
+#define UNIT_ENG_ROT_ANG_POS   0x14
+// ********************************
 
 #define USB_HID_LOCAL_FRENCH 0x08
 #define USB_HID_USAGE_PAGE_KEYBOARD 0x07
@@ -59,10 +69,6 @@
 #define EP_IN_HID 0x81 // (USB_DIR_IN | 1)
 
 #define INTERFACE_CLASS_TYPE_HID 0x03
-
-#define USB_HID_DESCRIPTOR_TYPE_HID 0x21
-#define USB_HID_DESCRIPTOR_TYPE_REPORT 0x22
-#define USB_HID_DESCRIPTOR_TYPE_PHYSICAL 0x23
 
 #define USB_INTERFACE_PROTOCOL_NONE 0x00
 #define USB_INTERFACE_PROTOCOL_KEYBOARD 0x01
@@ -80,18 +86,8 @@ struct usb_hid_descriptor {
     uint16_t wReportLength;
 } __packed;
 
-/*struct usb_hid_gamepad_report {
-    uint8_t x;
-    uint8_t y;
-    uint8_t z;
-    uint8_t rz;
-    uint8_t rx;
-    uint8_t ry;
-    uint32_t buttons;
-} ___packed;*/
-
 struct usb_gamepad_report {
-    uint8_t id;
+    // uint8_t id;
     uint8_t x;
     uint8_t y;
     uint8_t buttons;
@@ -471,6 +467,5 @@ struct usb_consumer_control_report {
 
 #define GAMEPAD_BUTTON_SELECT 1 << 10
 #define GAMEPAD_BUTTON_START 1 << 11
-
 
 #endif

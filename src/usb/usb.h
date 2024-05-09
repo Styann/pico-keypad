@@ -146,7 +146,7 @@ static const struct usb_interface_descriptor hid_interface_descriptor = {
         .bNumEndpoints      = 0x01, // Interface has 1 endpoints
         .bInterfaceClass    = INTERFACE_CLASS_TYPE_HID, // Vendor specific endpoint
         .bInterfaceSubClass = 0x01, // boot interface
-        .bInterfaceProtocol = 0x01, // keyboard
+        .bInterfaceProtocol = USB_INTERFACE_PROTOCOL_KEYBOARD,
         .iInterface         = 0
 };
 // **********************************************************************
@@ -177,7 +177,7 @@ static const struct usb_string_descriptor product_descriptor = {
 // *************************************************************
 
 // https://usb.org/sites/default/files/hut1_4.pdf
-#define USB_REPORT_DESCRIPTOR_LENGTH 86 + 42
+#define USB_REPORT_DESCRIPTOR_LENGTH 86
 static const uint8_t report_descriptor[USB_REPORT_DESCRIPTOR_LENGTH] = {
         USAGE_PAGE, GENERIC_DESKTOP_PAGE,
 
@@ -228,31 +228,34 @@ static const uint8_t report_descriptor[USB_REPORT_DESCRIPTOR_LENGTH] = {
                 LOGICAL_MAXIMUM, 0xFF,
                 REPORT_SIZE, 16,
                 INPUT, DATA_ARRAY_ABS,
-        END_COLLECTION,
+        END_COLLECTION
+};
 
-        USAGE, USAGE_GAMEPAD,
+#define USB_FIGHTSTICK_REPORT_DESCRIPTOR_LENGTH 40
+static const uint8_t fightstick_report_descriptor[USB_FIGHTSTICK_REPORT_DESCRIPTOR_LENGTH] = {
+        USAGE_PAGE, GENERIC_DESKTOP_PAGE,
+
+        USAGE, USAGE_JOYSTICK,
         COLLECTION, COLLECTION_APPLICATION,
-                COLLECTION, COLLECTION_PHYSICAL,
-                        REPORT_ID, 0x03,
-                        USAGE_PAGE, GENERIC_DESKTOP_PAGE,
-
-                        // Dpad
-                        USAGE, USAGE_X,
-                        USAGE, USAGE_Y,
-                        LOGICAL_MINIMUM, -127,
-                        LOGICAL_MAXIMUM, 127,
+                COLLECTION, COLLECTION_LOGICAL,
+                        // axis x and y, 1 byte for each
                         REPORT_SIZE, 0x08,
                         REPORT_COUNT, 0x02,
+                        LOGICAL_MINIMUM, 0b10000001,
+                        LOGICAL_MAXIMUM, 0b01111111,
+                        // PHYSICAL_MINIMUM, 0x00,
+                        // PHYSICAL_MAXIMUM, 0xFF,
+                        USAGE, USAGE_X,
+                        USAGE, USAGE_Y,
                         INPUT, DATA_VAR_ABS,
 
-                        // buttons
+                        REPORT_SIZE, 0x01,
+                        REPORT_COUNT, 0x08,
+                        LOGICAL_MAXIMUM, 0x01,
+                        PHYSICAL_MAXIMUM, 0x01,
                         USAGE_PAGE, BUTTON_PAGE,
                         USAGE_MINIMUM, 0x01,
                         USAGE_MAXIMUM, 0x08,
-                        LOGICAL_MINIMUM, 0x00,
-                        LOGICAL_MAXIMUM, 0x01,
-                        REPORT_SIZE, 0x01,
-                        REPORT_COUNT, 0x08,
                         INPUT, DATA_VAR_ABS,
                 END_COLLECTION,
         END_COLLECTION
@@ -262,11 +265,11 @@ static const uint8_t report_descriptor[USB_REPORT_DESCRIPTOR_LENGTH] = {
 static const struct usb_hid_descriptor hid_descriptor = {
         .bLength         = sizeof(struct usb_hid_descriptor),
         .bDescriptorType = USB_HID_DESCRIPTOR_TYPE_HID,
-        .bcdHID          = 0x0111, //usb hid version
+        .bcdHID          = 0x0111, // usb hid version
         .bCountryCode    = USB_HID_LOCAL_FRENCH,
         .bNumDescriptors = 0x01,
         .bReportType     = USB_HID_DESCRIPTOR_TYPE_REPORT,
-        .wReportLength   = USB_REPORT_DESCRIPTOR_LENGTH
+        .wReportLength   = USB_FIGHTSTICK_REPORT_DESCRIPTOR_LENGTH // USB_REPORT_DESCRIPTOR_LENGTH
 };
 // **********************************************************
 

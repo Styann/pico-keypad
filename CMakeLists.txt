@@ -15,6 +15,8 @@ add_executable(pico-keypad
     ${PICO_KEYPAD_PATH}/src/hw040/hw040.c
     ${PICO_KEYPAD_PATH}/src/ws2812b/ws2812b.c
     ${PICO_KEYPAD_PATH}/src/ssd1331/ssd1331.c
+    ${PICO_KEYPAD_PATH}/src/fightstick/button/button.c
+    ${PICO_KEYPAD_PATH}/src/fightstick/joystick/joystick.c
 )
 
 target_sources(pico-keypad PUBLIC
@@ -24,6 +26,8 @@ target_sources(pico-keypad PUBLIC
     ${PICO_KEYPAD_PATH}/src/hw040/hw040.c
     ${PICO_KEYPAD_PATH}/src/ws2812b/ws2812b.c
     ${PICO_KEYPAD_PATH}/src/ssd1331/ssd1331.c
+    ${PICO_KEYPAD_PATH}/src/fightstick/button/button.c
+    ${PICO_KEYPAD_PATH}/src/fightstick/joystick/joystick.c
 )
 
 target_link_libraries(pico-keypad

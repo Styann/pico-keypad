@@ -2,7 +2,6 @@
 #include "hardware/timer.h"
 
 #include "keyboard_matrix.h"
-#include "layout.h"
 #include "../pico_extra.h"
 #include "../usb/usb.h"
 
@@ -11,17 +10,17 @@
 /**
  * @brief Set all rows pins as OUPUT and HIGH then all columns pins as GPIO INPUT PULL UP 
  */
-void keyboard_matrix_init(void) {
-    for (uint8_t r = 0; r < LAYOUT_ROW_LENGTH; r++){
-        gpio_init(rows_pins[r]);
-        gpio_set_dir(rows_pins[r], GPIO_OUT);
-        gpio_put(rows_pins[r], HIGH);
+void keyboard_matrix_init(keyboard_matrix_t *this) {
+    for (uint16_t r = 0; r < this->row_size; r++){
+        gpio_init(this->rows_pins[r]);
+        gpio_set_dir(this->rows_pins[r], GPIO_OUT);
+        gpio_put(this->rows_pins[r], HIGH);
     }
 
-    for (uint8_t c = 0; c < LAYOUT_COLUMN_LENGTH; c++){
-        gpio_init(columns_pins[c]);
-        gpio_set_dir(columns_pins[c], GPIO_IN);
-        gpio_pull_up(columns_pins[c]);
+    for (uint16_t c = 0; c < this->column_size; c++){
+        gpio_init(this->columns_pins[c]);
+        gpio_set_dir(this->columns_pins[c], GPIO_IN);
+        gpio_pull_up(this->columns_pins[c]);
     }
 }
 
@@ -35,23 +34,26 @@ static bool is_key_pressed(uint8_t column_pin) {
 
 /**
  * @brief Loop through the matrix and add pressed keys to a keyboard report
+ * @param matrix
  * @param report
  */
-void keyboard_matrix_scan(struct usb_keyboard_report *report) {
+void keyboard_matrix_scan(keyboard_matrix_t *this, struct usb_keyboard_report *report) {
     uint8_t pressed_keys_count = 0;
 
-    for (uint8_t r = 0; pressed_keys_count < KRO && r < LAYOUT_ROW_LENGTH; r++) {
-        gpio_put(rows_pins[r], LOW);
+    for (uint8_t r = 0; pressed_keys_count < KRO && r < this->row_size; r++) {
+        gpio_put(this->rows_pins[r], LOW);
         busy_wait_us_32(1);
 
-        for (uint8_t c = 0; pressed_keys_count < KRO && c < LAYOUT_COLUMN_LENGTH; c++) {
-            if (is_key_pressed(columns_pins[c]) && layout[r][c] != KC_NONE) {
-                set_keyboard_report(report, layout[r][c]);
+        for (uint8_t c = 0; pressed_keys_count < KRO && c < this->column_size; c++) {
+            uint8_t keycode = this->layout[r * this->column_size + c];
+
+            if (is_key_pressed(this->columns_pins[c]) && keycode != KC_NONE) {
+                add_keycode(report, keycode);
                 pressed_keys_count++;
             }
         }
 
-        gpio_put(rows_pins[r], HIGH);
+        gpio_put(this->rows_pins[r], HIGH);
     }
 }
 
@@ -60,7 +62,7 @@ void keyboard_matrix_scan(struct usb_keyboard_report *report) {
  * @param report
  * @param keycode
  */
-static void set_keyboard_report(struct usb_keyboard_report *report, uint8_t keycode) {
+static void add_keycode(struct usb_keyboard_report *report, uint8_t keycode) {
     if (keycode > KC_CTRL_LEFT && keycode < KC_GUI_RIGHT) {
         report->modifier |= get_modifier_from_keycode(keycode);
     }
@@ -154,4 +156,8 @@ void usb_send_consumer_control(uint16_t consumer_control) {
 void usb_send_gamepad_report(struct usb_gamepad_report *report) {
     struct usb_endpoint *endpoint = usb_get_endpoint_configuration(EP_IN_HID);
     usb_start_transfer(endpoint, (uint8_t*)report, sizeof(struct usb_gamepad_report));
+}
+
+bool is_gamepad_report_empty(struct usb_gamepad_report *report) {
+    return (report->x | report->y | report->buttons);
 }

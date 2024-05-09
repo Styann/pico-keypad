@@ -16,7 +16,6 @@ struct ssd1331 {
 	uint8_t pin_RES; // low -> chip init excuted
 	uint8_t pin_DC; // DataCommand / high -> data = data/ low -> data = command
 	uint8_t pin_CS; // Chip Select
-
 	spi_inst_t *spi_inst;
 };
 

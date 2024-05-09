@@ -319,9 +319,9 @@ void usb_handle_device_descriptor(volatile struct usb_setup_packet *pkt) {
 void usb_handle_report_descriptor(volatile struct usb_setup_packet *pkt){
     struct usb_endpoint *ep = usb_get_endpoint_configuration(EP0_IN_ADDR);
     // usb_start_transfer(ep, (uint8_t*)report_descriptor, 64);
-    // usb_start_transfer(ep, (uint8_t*)(report_descriptor + 64), 22);
-    usb_start_transfer(ep, (uint8_t*)report_descriptor, 64);
-    usb_start_transfer(ep, (uint8_t*)(report_descriptor + 64), 64);
+    // usb_start_transfer(ep, (uint8_t*)(report_descriptor + 64), 64);
+    // usb_start_transfer(ep, (uint8_t*)(report_descriptor + 64 + 64), 4);
+    usb_start_transfer(ep, (uint8_t*)fightstick_report_descriptor, USB_FIGHTSTICK_REPORT_DESCRIPTOR_LENGTH);
 }
 
 /**
