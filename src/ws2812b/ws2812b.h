@@ -37,7 +37,7 @@ struct ws2812b {
     uint16_t num_leds;
 
     spi_inst_t *spi_inst;
-    uint8_t spi_mosi_pin;
+    uint8_t pin_mosi;
 
     bool buffer_alloc_status;
     uint8_t *buffer;

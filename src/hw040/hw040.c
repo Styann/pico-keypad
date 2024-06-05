@@ -17,7 +17,7 @@ void hw040_init(struct hw040 *this) {
 }
 
 /**
- * @param {struct hw040} *hw040
+ * @param {struct hw040} *this
  */
 void hw040_task(struct hw040 *this) {
     this->state_CLK = gpio_get(this->pin_CLK);

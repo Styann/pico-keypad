@@ -20,8 +20,6 @@ void keyboard_matrix_scan(keyboard_matrix_t *this, struct usb_keyboard_report *r
 
 static void add_keycode(struct usb_keyboard_report *report, uint8_t keycode);
 
-bool has_keyboard_report_changed(struct usb_keyboard_report *dest, struct usb_keyboard_report *src);
-
 bool is_keyboard_report_empty(struct usb_keyboard_report *report);
 
 static uint8_t get_modifier_from_keycode(uint8_t keycode);

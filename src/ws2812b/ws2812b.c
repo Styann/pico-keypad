@@ -10,10 +10,13 @@ void ws2812b_init(struct ws2812b *this) {
     ws2812b_set_off(this);
 
     spi_init(this->spi_inst, WS2812B_BAUD_RATE);
-    gpio_set_function(this->spi_mosi_pin, GPIO_FUNC_SPI);
+    // TODO: gpio_init(this->pin_mosi) ?
+    gpio_set_function(this->pin_mosi, GPIO_FUNC_SPI);
 }
 
 void ws2812b_set_all(struct ws2812b *this, grb_t color) {
+    if (!this->buffer_alloc_status) return;
+
     uint8_t color_bits_buf[GRB_BIT_SIZE];
 
     for (uint8_t i = 0, ri = GRB_BIT_SIZE - 1; i < GRB_BIT_SIZE; i++, ri--) {
@@ -28,6 +31,8 @@ void ws2812b_set_all(struct ws2812b *this, grb_t color) {
 }
 
 void ws2812b_set_one(struct ws2812b *this, uint16_t led, grb_t color) {
+    if (!this->buffer_alloc_status) return;
+
     uint8_t ri = GRB_BIT_SIZE;
 
     uint16_t led_index = (led * GRB_BIT_SIZE);
@@ -38,6 +43,7 @@ void ws2812b_set_one(struct ws2812b *this, uint16_t led, grb_t color) {
 }
 
 void ws2812b_set_off(struct ws2812b *this) {
+    if (!this->buffer_alloc_status) return;
     memset(this->buffer, T0, this->buffer_size);
 }
 
@@ -47,6 +53,8 @@ void ws2812b_set_brightness(struct ws2812b *this) {
 }
 
 bool ws2812b_write(struct ws2812b *this) {
+    if (!this->buffer_alloc_status) return false;
+
     bool result = false;
     spi_inst_t *spi_inst = this->spi_inst;
 

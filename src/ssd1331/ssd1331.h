@@ -6,13 +6,14 @@
 #include "../pico_extra.h"
 
 // DISPLAY CHARACTERISTICS
-#define SSD1331_WIDTH  96
+#define SSD1331_WIDTH 96
 #define SSD1331_HEIGHT 64
-#define SSD1331_BAUD_RATE 6600000
+#define SSD1331_RESOLUTION 6144
+#define SSD1331_BAUD_RATE 8000000
 
 struct ssd1331 {
 	uint8_t pin_SCL; // CLK
-	uint8_t pin_SDA; // TX
+	uint8_t pin_SDA; // Serial Data, MOSI
 	uint8_t pin_RES; // low -> chip init excuted
 	uint8_t pin_DC; // DataCommand / high -> data = data/ low -> data = command
 	uint8_t pin_CS; // Chip Select
@@ -20,6 +21,20 @@ struct ssd1331 {
 };
 
 void ssd1331_init(struct ssd1331 *this);
+
+void ssd1331_reset(struct ssd1331 *this);
+
+static void ssd1331_command_mode(struct ssd1331 *this);
+
+static void ssd1331_data_mode(struct ssd1331 *this);
+
+void ssd1331_write_command(struct ssd1331 *this, uint8_t command);
+
+void ssd1331_write_commands(struct ssd1331 *this, uint8_t *commands, size_t size);
+
+void ssd1331_write_data(struct ssd1331 *this, uint16_t *data, size_t size);
+
+#define RGB16_RED 0xF800
 
 // COMMANDS
 #define SET_COLUMN_ADDRESS     			  	0x15
@@ -42,8 +57,8 @@ void ssd1331_init(struct ssd1331 *this);
 #define DIM_MODE_SETTING 				  	0xAB
 #define SET_MASTER_CONFIGURATION 		  	0xAD
 #define SET_DISPLAY_DIM_MODE_DISPLAY_ON   	0xAC
-#define SET_DISPLAY_ON 					  	0xAE
-#define SET_DISPLAY_OFF 				  	0xAF
+#define SET_DISPLAY_OFF					  	0xAE
+#define SET_DISPLAY_ON  				  	0xAF
 #define POWER_SAVE_MODE 				  	0xB0
 #define PHASE_1_AND_2_PERIOD_ADJUSTMENT   	0xB1
 #define SET_DISPLAY_CLOCK_DIVIDE_RATIO 		0xB3
@@ -61,6 +76,9 @@ void ssd1331_init(struct ssd1331 *this);
 #define FILL_TOGGLE 						0x26
 #define CONTINUOUS_X_AND_Y_SCROLLING_SETUP	0x27
 #define DEACTIVATE_SCROLLING 				0x2E
-#define ACTIVATE_SCROLLING 					0X2F
+#define ACTIVATE_SCROLLING 					0x2F
+
+#define COLOR_ORDER_RGB						0x72
+#define COLOR_ORDER_BGR						0x76
 
 #endif

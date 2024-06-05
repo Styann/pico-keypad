@@ -213,7 +213,7 @@ void usb_start_transfer(struct usb_endpoint *ep, uint8_t *buf, uint16_t len) {
 
     if (ep_is_tx(ep)) {
         // Need to copy the data from the user buffer to the usb memory
-        memcpy((void *) ep->data_buffer, (void *) buf, len);
+        memcpy((void*)ep->data_buffer, (void*)buf, len);
         // Mark as full
         val |= USB_BUF_CTRL_FULL;
     }
@@ -233,7 +233,6 @@ void usb_start_transfer(struct usb_endpoint *ep, uint8_t *buf, uint16_t len) {
     *ep->buffer_control = val & ~USB_BUF_CTRL_AVAIL;
 
     busy_wait_at_least_cycles(12);
-
 
     *ep->buffer_control = val;
 }
@@ -301,7 +300,6 @@ void usb_start_great_transfer(struct usb_endpoint *ep, uint8_t *buf, uint16_t le
 
 /**
  * @brief Send device descriptor to host
- *
  */
 void usb_handle_device_descriptor(volatile struct usb_setup_packet *pkt) {
     const struct usb_device_descriptor *data = dev_config.device_descriptor;
@@ -318,15 +316,13 @@ void usb_handle_device_descriptor(volatile struct usb_setup_packet *pkt) {
  */
 void usb_handle_report_descriptor(volatile struct usb_setup_packet *pkt){
     struct usb_endpoint *ep = usb_get_endpoint_configuration(EP0_IN_ADDR);
-    // usb_start_transfer(ep, (uint8_t*)report_descriptor, 64);
-    // usb_start_transfer(ep, (uint8_t*)(report_descriptor + 64), 64);
-    // usb_start_transfer(ep, (uint8_t*)(report_descriptor + 64 + 64), 4);
-    usb_start_transfer(ep, (uint8_t*)fightstick_report_descriptor, USB_FIGHTSTICK_REPORT_DESCRIPTOR_LENGTH);
+    usb_start_transfer(ep, (uint8_t*)report_descriptor, 64);
+    usb_start_transfer(ep, (uint8_t*)(report_descriptor + 64), 28);
+    // usb_start_transfer(ep, (uint8_t*)fightstick_report_descriptor, USB_FIGHTSTICK_REPORT_DESCRIPTOR_LENGTH);
 }
 
 /**
  * @brief Send the configuration descriptor (and potentially the configuration and endpoint descriptors) to the host.
- *
  * @param pkt, the setup packet received from the host.
  */
 void usb_handle_config_descriptor(volatile struct usb_setup_packet *pkt) {
@@ -365,7 +361,6 @@ void usb_handle_config_descriptor(volatile struct usb_setup_packet *pkt) {
 
 /**
  * @brief Handle a BUS RESET from the host by setting the device address back to 0.
- *
  */
 void usb_bus_reset(void) {
     // Set address back to 0
@@ -378,7 +373,6 @@ void usb_bus_reset(void) {
 
 /**
  * @brief Send the requested string descriptor to the host.
- *
  * @param pkt, the setup packet from the host.
  */
 void usb_handle_string_descriptor(volatile struct usb_setup_packet *pkt) {
@@ -419,7 +413,6 @@ void usb_acknowledge_out_request(void) {
  * @brief Handles a SET_ADDR request from the host. The actual setting of the device address in
  * hardware is done in ep0_in_handler. This is because we have to acknowledge the request first
  * as a device with address zero.
- *
  * @param pkt, the setup packet from the host.
  */
 void usb_set_device_address(volatile struct usb_setup_packet *pkt) {
@@ -435,7 +428,6 @@ void usb_set_device_address(volatile struct usb_setup_packet *pkt) {
 /**
  * @brief Handles a SET_CONFIGRUATION request from the host. Assumes one configuration so simply
  * sends a zero length status packet back to the host.
- *
  * @param pkt, the setup packet from the host.
  */
 void usb_set_device_configuration(volatile struct usb_setup_packet *pkt) {
@@ -446,7 +438,6 @@ void usb_set_device_configuration(volatile struct usb_setup_packet *pkt) {
 
 /**
  * @brief Respond to a setup packet from the host.
- *
  */
 void usb_handle_setup_packet(void) {
     volatile struct usb_setup_packet *pkt = (volatile struct usb_setup_packet *) &usb_dpram->setup_packet;
@@ -496,15 +487,14 @@ void usb_handle_setup_packet(void) {
             usb_acknowledge_out_request();
         }
         else if(req == USB_HID_REQUEST_SET_REPORT) {
+            struct usb_endpoint *ep = usb_get_endpoint_configuration(EP0_OUT_ADDR);
+            uint32_t buffer_control = *ep->buffer_control;
+            // Get the transfer length for this endpoint
+            uint16_t len = buffer_control & USB_BUF_CTRL_LEN_MASK;
 
-            //struct usb_endpoint *ep = usb_get_endpoint_configuration(EP0_OUT_ADDR);
-            //uint8_t length = pkt->wLength;
+            // Call that endpoints buffer done handler
+            set_report_callback((uint8_t*)ep->data_buffer, len);
 
-   
-            //struct usb_endpoint *ep = usb_get_endpoint_configuration(EP0_OUT);
-    
-            //static bool state = 0;
-            //state = !state;
             usb_acknowledge_out_request();
         }
     } 
@@ -532,7 +522,7 @@ static void usb_handle_ep_buff_done(struct usb_endpoint *ep) {
     uint16_t len = buffer_control & USB_BUF_CTRL_LEN_MASK;
 
     // Call that endpoints buffer done handler
-    ep->handler((uint8_t *) ep->data_buffer, len);
+    ep->handler((uint8_t*)ep->data_buffer, len);
 }
 
 /**
@@ -637,7 +627,6 @@ void isr_usbctrl(void) {
 /**
  * @brief EP0 in transfer complete. Either finish the SET_ADDRESS process, or receive a zero
  * length status packet from the host.
- *
  * @param buf the data that was sent
  * @param len the length that was sent
  */
@@ -661,6 +650,6 @@ void ep1_in_hid_handler(uint8_t *buf, uint16_t len) {
 
 }
 
-void ep2_out_handler(uint8_t *buf, uint16_t len) {
-    gpio_put(25, 1);
+void set_report_callback(uint8_t *buf, uint16_t len) {
+
 }

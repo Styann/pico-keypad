@@ -11,13 +11,13 @@
  * @brief Set all rows pins as OUPUT and HIGH then all columns pins as GPIO INPUT PULL UP 
  */
 void keyboard_matrix_init(keyboard_matrix_t *this) {
-    for (uint16_t r = 0; r < this->row_size; r++){
+    for (uint16_t r = 0; r < this->row_size; r++) {
         gpio_init(this->rows_pins[r]);
         gpio_set_dir(this->rows_pins[r], GPIO_OUT);
         gpio_put(this->rows_pins[r], HIGH);
     }
 
-    for (uint16_t c = 0; c < this->column_size; c++){
+    for (uint16_t c = 0; c < this->column_size; c++) {
         gpio_init(this->columns_pins[c]);
         gpio_set_dir(this->columns_pins[c], GPIO_IN);
         gpio_pull_up(this->columns_pins[c]);
@@ -58,56 +58,39 @@ void keyboard_matrix_scan(keyboard_matrix_t *this, struct usb_keyboard_report *r
 }
 
 /**
- * @brief Add a keycode to the keyboard report, and possibly his modifier btw
+ * @brief add a keycode to the keyboard report, and possibly his modifier
  * @param report
  * @param keycode
  */
 static void add_keycode(struct usb_keyboard_report *report, uint8_t keycode) {
-    if (keycode > KC_CTRL_LEFT && keycode < KC_GUI_RIGHT) {
-        report->modifier |= get_modifier_from_keycode(keycode);
+    if (KC_CTRL_LEFT <= keycode && keycode <= KC_GUI_RIGHT) {
+        report->modifiers |= get_modifier_from_keycode(keycode);
     }
 
-    if (report->keycode[0] == 0) report->keycode[0] = keycode;
-    else if (report->keycode[1] == 0) report->keycode[1] = keycode;
-    else if (report->keycode[2] == 0) report->keycode[2] = keycode;
-    else if (report->keycode[3] == 0) report->keycode[3] = keycode;
-    else if (report->keycode[4] == 0) report->keycode[4] = keycode;
-    else if (report->keycode[5] == 0) report->keycode[5] = keycode;
+    for (uint8_t i = 0; i < KRO; i++) {
+        if (report->keycodes[i] == KC_NONE) {
+            report->keycodes[i] = keycode;
+            break;
+        }
+    }
 }
 
 /**
- * @brief Compare two keyboard report, return true if they are equal
- * @param dest
- * @param src
- */
-bool has_keyboard_report_changed(struct usb_keyboard_report *dest, struct usb_keyboard_report *src) {
-    if (dest->modifier != src->modifier) return false;
-    if (dest->keycode[0] != src->keycode[0]) return false;
-    if (dest->keycode[1] != src->keycode[1]) return false;
-    if (dest->keycode[2] != src->keycode[2]) return false;
-    if (dest->keycode[3] != src->keycode[3]) return false;
-    if (dest->keycode[4] != src->keycode[4]) return false;
-    if (dest->keycode[5] != src->keycode[5]) return false;
-    return true;
-}
-
-/**
- * @brief Return true if all fields of the keyboard report are set to 0, else false
+ * @brief return true if modifiers and keycodes are set to 0, else false
  * @param keyboard_report 
  */
 bool is_keyboard_report_empty(struct usb_keyboard_report *report) {
-    if (report->modifier != 0x00) return false;
-    if (report->keycode[0] != 0x00) return false;
-    if (report->keycode[1] != 0x00) return false;
-    if (report->keycode[2] != 0x00) return false;
-    if (report->keycode[3] != 0x00) return false;
-    if (report->keycode[4] != 0x00) return false;
-    if (report->keycode[5] != 0x00) return false;
+    if (report->modifiers == KC_MOD_NONE) return false;
+
+    for (uint8_t i = 0; i < KRO; i++) {
+        if (report->keycodes[i] != KC_NONE) return false;
+    }
+
     return true;
 }
 
 /**
- * @brief Take a keycode and return his modifier if he has one 
+ * @brief take a keycode and return his modifier if he has one
  * @param keycode must be between KC_CTRL_LEFT (0xE0) and KC_GUI_RIGHT (0xE7)
  */
 static uint8_t get_modifier_from_keycode(uint8_t keycode) {
@@ -115,7 +98,7 @@ static uint8_t get_modifier_from_keycode(uint8_t keycode) {
 }
 
 /**
- * @brief Send keyboard report to host
+ * @brief send keyboard report to host
  */
 void usb_send_keyboard_report(struct usb_keyboard_report *report){
     struct usb_endpoint *endpoint = usb_get_endpoint_configuration(EP_IN_HID);
@@ -131,7 +114,7 @@ void release_keyboard(void) {
 }
 
 /**
- * @brief Send consumer control report to host
+ * @brief send consumer control report to host
  */
 void usb_send_consumer_control_report(struct usb_consumer_control_report *report) {
     struct usb_endpoint *endpoint = usb_get_endpoint_configuration(EP_IN_HID);

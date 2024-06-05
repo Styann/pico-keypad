@@ -54,6 +54,7 @@
 #define CONST_ARRAY_ABS        0x01
 #define DATA_VAR_ABS           0x02
 #define DATA_VAR_ABS_NULL      0x42
+#define CONST_VAR_ABS          0x03
 
 // engine rotation, angular position
 #define UNIT_ENG_ROT_ANG_POS   0x14
@@ -95,9 +96,9 @@ struct usb_gamepad_report {
 
 struct usb_keyboard_report {
     uint8_t id;
-    uint8_t modifier;
+    uint8_t modifiers;
     uint8_t reserved;
-    uint8_t keycode[6];
+    uint8_t keycodes[6];
 } __packed;
 
 struct usb_consumer_control_report {
@@ -330,15 +331,16 @@ struct usb_consumer_control_report {
 // RESERVED                           0xE8 to 0xFFFF
 
 // MODIFIERS
-#define UINT8_T_LOW_ENDIAN(byte) (byte & 0b00001111)
-#define KC_MOD_CTRL_LEFT              1 << UINT8_T_LOW_ENDIAN(KC_CTRL_LEFT)
-#define KC_MOD_SHIFT_LEFT             1 << UINT8_T_LOW_ENDIAN(KC_SHIFT_LEFT)
-#define KC_MOD_ALT_LEFT               1 << UINT8_T_LOW_ENDIAN(KC_ALT_LEFT)
-#define KC_MOD_GUI_LEFT               1 << UINT8_T_LOW_ENDIAN(KC_GUI_LEFT)
-#define KC_MOD_CTRL_RIGHT             1 << UINT8_T_LOW_ENDIAN(KC_CTRL_RIGHT)
-#define KC_MOD_SHIFT_RIGHT            1 << UINT8_T_LOW_ENDIAN(KC_SHIFT_RIGHT)
-#define KC_MOD_ALT_RIGHT              1 << UINT8_T_LOW_ENDIAN(KC_ALT_RIGHT)
-#define KC_MOD_GUI_RIGHT              1 << UINT8_T_LOW_ENDIAN(KC_GUI_RIGHT)
+#define BYTE_LE(byte) (byte & 0b00001111)
+#define KC_MOD_NONE                   0b00000000
+#define KC_MOD_CTRL_LEFT              1 << BYTE_LE(KC_CTRL_LEFT)
+#define KC_MOD_SHIFT_LEFT             1 << BYTE_LE(KC_SHIFT_LEFT)
+#define KC_MOD_ALT_LEFT               1 << BYTE_LE(KC_ALT_LEFT)
+#define KC_MOD_GUI_LEFT               1 << BYTE_LE(KC_GUI_LEFT)
+#define KC_MOD_CTRL_RIGHT             1 << BYTE_LE(KC_CTRL_RIGHT)
+#define KC_MOD_SHIFT_RIGHT            1 << BYTE_LE(KC_SHIFT_RIGHT)
+#define KC_MOD_ALT_RIGHT              1 << BYTE_LE(KC_ALT_RIGHT)
+#define KC_MOD_GUI_RIGHT              1 << BYTE_LE(KC_GUI_RIGHT)
 
 // USB HID CONSUMER CONTROL
 /**
@@ -453,17 +455,17 @@ struct usb_consumer_control_report {
 #define LED_PLAYER_8                  0x68
 // RESERVED                           0x69 to 0xFFF
 
-#define GAMEPAD_BUTTON_A  1 << 0
-#define GAMEPAD_BUTTON_B  1 << 1
-#define GAMEPAD_BUTTON_C  1 << 2
-#define GAMEPAD_BUTTON_X  1 << 3
-#define GAMEPAD_BUTTON_Y  1 << 4
-#define GAMEPAD_BUTTON_Z  1 << 5
+#define GAMEPAD_BUTTON_A 1 << 0
+#define GAMEPAD_BUTTON_B 1 << 1
+#define GAMEPAD_BUTTON_C 1 << 2
+#define GAMEPAD_BUTTON_X 1 << 3
+#define GAMEPAD_BUTTON_Y 1 << 4
+#define GAMEPAD_BUTTON_Z 1 << 5
 
-#define GAMEPAD_BUTTON_LT  1 << 6
-#define GAMEPAD_BUTTON_RT  1 << 7
-#define GAMEPAD_BUTTON_LB  1 << 8
-#define GAMEPAD_BUTTON_RB  1 << 9
+#define GAMEPAD_BUTTON_LT 1 << 6
+#define GAMEPAD_BUTTON_RT 1 << 7
+#define GAMEPAD_BUTTON_LB 1 << 8
+#define GAMEPAD_BUTTON_RB 1 << 9
 
 #define GAMEPAD_BUTTON_SELECT 1 << 10
 #define GAMEPAD_BUTTON_START 1 << 11

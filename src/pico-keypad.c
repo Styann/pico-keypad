@@ -13,96 +13,144 @@
 #include "ws2812b/ws2812b.h"
 #include "fightstick/joystick/joystick.h"
 #include "fightstick/button/button.h"
+#include "ssd1331/ssd1331.h"
+#include "cow.h"
 
 #include <string.h>
 
+#define USE_KEYBOARD
 #define USE_HW40
-#define USE_FIGHTSTICK
+// #define USE_FIGHTSTICK
 // #define USE_WS2812B
-// #define USE_SSD1331
+#define USE_SSD1331
+
 #define DEBOUNCE_MS 10
 
 #ifdef USE_HW40
-void volume_knob_cw_callback(void) {
-    usb_send_consumer_control(KC_MEDIA_VOLUME_INCREMENT);
-}
+    void volume_knob_cw_callback(void) {
+        usb_send_consumer_control(KC_MEDIA_VOLUME_INCREMENT);
+    }
 
-void volume_knob_ccw_callback(void) {
-    usb_send_consumer_control(KC_MEDIA_VOLUME_DECREMENT);
-}
+    void volume_knob_ccw_callback(void) {
+        usb_send_consumer_control(KC_MEDIA_VOLUME_DECREMENT);
+    }
 
-struct hw040 volume_knob = {
-    .pin_SW = GPIO28,
-    .pin_DT = GPIO27,
-    .pin_CLK = GPIO26,
-    .state_CLK = LOW,
-    .last_state_CLK = LOW,
-    .cw_callback = &volume_knob_cw_callback,
-    .ccw_callback = &volume_knob_ccw_callback
-};
+    struct hw040 volume_knob = {
+        .pin_SW = GPIO28,
+        .pin_DT = GPIO27,
+        .pin_CLK = GPIO26,
+        .state_CLK = LOW,
+        .last_state_CLK = LOW,
+        .cw_callback = &volume_knob_cw_callback,
+        .ccw_callback = &volume_knob_ccw_callback
+    };
 
-void gpio_core0_irq_callback(uint gpio, uint32_t events) {
-    if ((gpio == volume_knob.pin_SW) && (events & GPIO_IRQ_EDGE_RISE)) {
+    void gpio_core0_irq_callback(uint gpio, uint32_t events) {
+        if ((gpio == volume_knob.pin_SW) && (events & GPIO_IRQ_EDGE_RISE)) {
+            static uint32_t timer = 0;
+
+            if (millis() - timer > DEBOUNCE_MS) {
+                usb_send_consumer_control(KC_MEDIA_PLAY_PAUSE);
+                timer = millis();
+            }
+        }
+    }
+#endif
+
+#ifdef USE_KEYBOARD
+    #define LAYOUT_COLUMN_SIZE 4
+    #define LAYOUT_ROW_SIZE 4
+
+    static const uint8_t columns_pins[LAYOUT_COLUMN_SIZE] = { GPIO0, GPIO1, GPIO2, GPIO3 };
+    static const uint8_t rows_pins[LAYOUT_ROW_SIZE] = { GPIO4, GPIO5, GPIO6, GPIO7 };
+
+    // static const uint8_t layout[LAYOUT_ROW_SIZE][LAYOUT_COLUMN_SIZE] = {
+    //     { KC_NUM_LOCK, KC_KEYPAD_DIVIDE, KC_KEYPAD_MULTIPLY, KC_KEYPAD_SUBTRACT },
+    //     { KC_KEYPAD_7, KC_KEYPAD_8,      KC_KEYPAD_9,        KC_KEYPAD_ADD      },
+    //     { KC_KEYPAD_4, KC_KEYPAD_5,      KC_KEYPAD_6,        KC_KEYPAD_ENTER    },
+    //     { KC_KEYPAD_1, KC_KEYPAD_2,      KC_KEYPAD_3,        KC_KEYPAD_PERIOD   },
+    // };
+
+    static const uint8_t layout[LAYOUT_ROW_SIZE][LAYOUT_COLUMN_SIZE] = {
+        { KC_ALT_LEFT, KC_ARROW_LEFT, KC_ARROW_RIGHT, KC_KEYPAD_SUBTRACT },
+        { KC_KEYPAD_7,  KC_KEYPAD_8,    KC_KEYPAD_9,        KC_KEYPAD_ADD      },
+        { KC_KEYPAD_4,  KC_KEYPAD_5,    KC_KEYPAD_6,        KC_KEYPAD_ENTER    },
+        { KC_KEYPAD_1,  KC_KEYPAD_2,    KC_KEYPAD_3,        KC_KEYPAD_PERIOD   },
+    };
+
+    keyboard_matrix_t keyboard_matrix = {
+        .layout = &layout[0][0],
+        .rows_pins = rows_pins,
+        .columns_pins = columns_pins,
+        .row_size = LAYOUT_ROW_SIZE,
+        .column_size = LAYOUT_COLUMN_SIZE
+    };
+
+    // typedef struct macro {
+    //     uint8_t modifiers;
+    //     uint8_t keycode1;
+    //     uint8_t keycode2;
+    // } macro_t;
+
+    // void macro(macro_t *macro, struct usb_keyboard_report *report) {
+    //     if ((report->modifiers & macro->modifiers) == macro->modifiers) {
+    //         for (uint8_t i = 0; i < KRO; i++) {
+    //             if (report->keycodes[i] == macro->keycode1) {
+    //                 report->modifiers
+    //                 // set 
+    //             }
+    //         }
+    //     }
+    // }
+
+    void keyboard_task(void) {
         static uint32_t timer = 0;
+        static bool can_release = false;
+        static struct usb_keyboard_report previous_report = {};
 
         if (millis() - timer > DEBOUNCE_MS) {
-            usb_send_consumer_control(KC_MEDIA_PLAY_PAUSE);
+            struct usb_keyboard_report keyboard_report = { 0x01, 0, 0, { 0, 0, 0, 0, 0, 0 } };
+            keyboard_matrix_scan(&keyboard_matrix, &keyboard_report);
+
+
+            // macro handling
+            // if (keyboard_report.modifiers & KC_MOD_ALT_LEFT) {
+            //     keyboard_report.modifiers ^= KC_MOD_ALT_LEFT;
+
+            //     for (uint8_t i = 0; i < 6; i++) {
+            //         if (keyboard_report.keycodes[i] == KC_ARROW_LEFT) {
+            //             // clear modifiers and keycode
+
+
+            //             keyboard_report.keycodes[i] = KC_HOME;
+            //             break;
+            //         }
+            //         else if (keyboard_report.keycodes[i] == KC_ARROW_RIGHT) {
+            //             keyboard_report.keycodes[i] = KC_END;
+            //             break;
+            //         }
+            //     }
+            // }
+
+            // if there is a change between actual and previous report
+            if (memcmp(&keyboard_report, &previous_report, sizeof(struct usb_keyboard_report)) != 0) {
+                if (!is_keyboard_report_empty(&keyboard_report)) {
+                    usb_send_keyboard_report(&keyboard_report);
+                    can_release = true;
+                }
+                else {
+                    if (can_release) {
+                        release_keyboard();
+                        can_release = false;
+                    }
+                }
+
+                previous_report = keyboard_report;
+            }
+
             timer = millis();
         }
     }
-}
-#endif
-
-// KEYBOARD MATRIX CONFIGURATION
-#define LAYOUT_COLUMN_SIZE 3
-#define LAYOUT_ROW_SIZE 3
-
-static const uint8_t columns_pins[LAYOUT_COLUMN_SIZE] = { GPIO3, GPIO4, GPIO5 };
-static const uint8_t rows_pins[LAYOUT_ROW_SIZE] = { GPIO0, GPIO1, GPIO2 };
-
-static const uint8_t layout[LAYOUT_COLUMN_SIZE][LAYOUT_ROW_SIZE] = {
-    { KC_A, KC_B, KC_C },
-    { KC_D, KC_E, KC_F },
-    { KC_G, KC_H, KC_I }
-};
-
-#ifdef USE_KEYBOARD
-keyboard_matrix_t keyboard_matrix = {
-    .layout = &layout[0][0],
-    .rows_pins = rows_pins,
-    .columns_pins = columns_pins,
-    .row_size = LAYOUT_ROW_SIZE,
-    .column_size = LAYOUT_COLUMN_SIZE
-};
-
-void keyboard_task(void) {
-    static uint32_t timer = 0;
-    static bool can_release = false;
-    static struct usb_keyboard_report previous_report = {};
-
-    if (millis() - timer > DEBOUNCE_MS) {
-        struct usb_keyboard_report keyboard_report = { 0x01, 0, 0, { 0, 0, 0, 0, 0, 0 } };
-        keyboard_matrix_scan(&keyboard_matrix, &keyboard_report);
-
-        // if there is a change between actual and previous report
-        if (memcmp(&keyboard_report, &previous_report, sizeof(struct usb_keyboard_report)) != 0) {
-            if (!is_keyboard_report_empty(&keyboard_report)) {
-                usb_send_keyboard_report(&keyboard_report);
-                can_release = true;
-            }
-            else {
-                if (can_release) {
-                    release_keyboard();
-                    can_release = false;
-                }
-            }
-
-            previous_report = keyboard_report;
-        }
-
-        timer = millis();
-    }
-}
 #endif
 
 #ifdef USE_FIGHTSTICK
@@ -164,64 +212,95 @@ void keyboard_task(void) {
 
 void main_core1(void) {
     #ifdef USE_WS2812B
-    struct ws2812b led_strip = {
-        .num_leds = 30,
-        .spi_inst = spi0,
-        .spi_mosi_pin = GPIO19,
-    };
+        struct ws2812b led_strip = {
+            .num_leds = 30,
+            .spi_inst = spi0,
+            .spi_mosi_pin = GPIO19,
+        };
 
-    ws2812b_init(&led_strip);
+        ws2812b_init(&led_strip);
 
-    while (true) {
-        ws2812b_set_all(&led_strip, GRB_ORANGE);
-        ws2812b_write(&led_strip);
-        sleep_ms(1000);
+        while (true) {
+            ws2812b_set_all(&led_strip, GRB_ORANGE);
+            ws2812b_write(&led_strip);
+            sleep_ms(1000);
 
-        ws2812b_set_all(&led_strip, GRB_YELLOW);
-        ws2812b_write(&led_strip);
-        sleep_ms(1000);
+            ws2812b_set_all(&led_strip, GRB_YELLOW);
+            ws2812b_write(&led_strip);
+            sleep_ms(1000);
 
-        ws2812b_set_all(&led_strip, GRB_MAGENTA);
-        ws2812b_write(&led_strip);
-        sleep_ms(1000);
-    }
+            ws2812b_set_all(&led_strip, GRB_MAGENTA);
+            ws2812b_write(&led_strip);
+            sleep_ms(1000);
+        }
     #endif
 
-    while (true) {
+    #ifdef USE_SSD1331
+        struct ssd1331 display = {
+            .pin_DC = GPIO20,
+            .pin_SDA = GPIO19,
+            .pin_SCL = GPIO18,
+            .pin_CS = GPIO17,
+            .pin_RES = GPIO16,
+            .spi_inst = spi0
+        };
 
-    }
+        // built_in_led_init();
+        ssd1331_init(&display);
+
+
+        while(true) {
+            for (uint8_t i = 0; i < 39; i++) {
+                ssd1331_write_data(&display, (uint16_t*)cow[i], SSD1331_RESOLUTION);
+                sleep_ms(80);
+            }
+            // asm volatile("nop");
+        }
+    #endif
+}
+
+void set_report_callback(uint8_t *buf, uint16_t len) {
+    // if (len == 0) {
+    //     static bool state = HIGH;
+    //     built_in_led_put(state);
+    //     state = !state;
+    // }
+
+    // if (buf[0] == 0x01 && len == 2) {
+    //     uint8_t caps_lock = buf[1] & LED_CAPS_LOCK;
+    //     gpio_put(25, caps_lock);
+    // }
 }
 
 int main(void) {
     stdio_init_all();
 
-    // multicore_launch_core1(main_core1);
-
-    gpio_init(GPIO25);
-    gpio_set_dir(GPIO25, GPIO_OUT);
+    multicore_launch_core1(main_core1);
 
     usb_device_init();
 
+    built_in_led_init();
+
     #ifdef USE_KEYBOARD
-    keyboard_matrix_init(&keyboard_matrix);
+        keyboard_matrix_init(&keyboard_matrix);
     #endif
 
     #ifdef USE_HW40
-    hw040_init(&volume_knob);
-    gpio_set_irq_callback(&gpio_core0_irq_callback);
-    irq_set_enabled(IO_IRQ_BANK0, true);
+        hw040_init(&volume_knob);
+        gpio_set_irq_callback(&gpio_core0_irq_callback);
+        irq_set_enabled(IO_IRQ_BANK0, true);
     #endif
 
     #ifdef USE_FIGHTSTICK
-    joystick_init(&stick);
-    button_init(a);
-    button_init(b);
-    button_init(x);
-    button_init(y);
-    button_init(lb);
-    button_init(lt);
-    button_init(rb);
-    button_init(rt);
+        joystick_init(&stick);
+        button_init(a);
+        button_init(b);
+        button_init(x);
+        button_init(y);
+        button_init(lb);
+        button_init(lt);
+        button_init(rb);
+        button_init(rt);
     #endif
 
     while (!is_configured()) {
@@ -230,15 +309,15 @@ int main(void) {
 
     while (true) {
         #ifdef USE_KEYBOARD
-        keyboard_task();
+            keyboard_task();
         #endif
 
         #ifdef USE_HW40
-        hw040_task(&volume_knob);
+            hw040_task(&volume_knob);
         #endif
 
         #ifdef USE_FIGHTSTICK
-        fightstick_task();
+            fightstick_task();
         #endif
     }
 

@@ -4,10 +4,10 @@
 #include "pico/stdlib.h"
 #include "hardware/gpio.h"
 
-#define JOYSTICK_UP     0b1000
-#define JOYSTICK_RIGHT  0b0100
-#define JOYSTICK_DOWN   0b0010
-#define JOYSTICK_LEFT   0b0001
+#define JOYSTICK_UP_MASK    0b1000
+#define JOYSTICK_RIGHT_MASK 0b0100
+#define JOYSTICK_DOWN_MASK  0b0010
+#define JOYSTICK_LEFT_MASK  0b0001
 
 struct joystick {
     const uint8_t up_pin;

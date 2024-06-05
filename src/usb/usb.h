@@ -18,6 +18,8 @@ void ep0_in_handler(uint8_t *buf, uint16_t len);
 void ep0_out_handler(uint8_t *buf, uint16_t len);
 void ep1_in_hid_handler(uint8_t *buf, uint16_t len);
 
+void set_report_callback(uint8_t *buf, uint16_t len) __attribute__((weak));
+
 bool is_configured(void);
 
 void usb_handle_suspend(void);
@@ -73,11 +75,9 @@ typedef void (*usb_ep_handler)(uint8_t *buf, uint16_t len);
 #define EP0_IN_ADDR  (USB_DIR_IN  | 0) // 0x80
 #define EP0_OUT_ADDR (USB_DIR_OUT | 0) // 0x00
 #define EP1_IN_ADDR  (USB_DIR_IN  | 1) // 0x81
-#define EP2_OUT_ADDR 0x21
 
 #define EP0_BUF_SIZE 64
 #define EP1_BUF_SIZE 64
-#define EP2_BUF_SIZE 64
 
 // endpoints descriptors ******************************************
 static const struct usb_endpoint_descriptor ep0_out = {
@@ -105,15 +105,6 @@ static const struct usb_endpoint_descriptor ep1_in_hid = {
         .bmAttributes     = USB_TRANSFER_TYPE_INTERRUPT,
         .wMaxPacketSize   = EP1_BUF_SIZE,
         .bInterval        = 5 // 10 ms, was 5ms
-};
-
-static const struct usb_endpoint_descriptor ep2_out_hid = {
-        .bLength          = sizeof(struct usb_endpoint_descriptor),
-        .bDescriptorType  = USB_DESCRIPTOR_TYPE_ENDPOINT,
-        .bEndpointAddress = EP2_OUT_ADDR,
-        .bmAttributes     = USB_TRANSFER_TYPE_INTERRUPT,
-        .wMaxPacketSize   = EP2_BUF_SIZE,
-        .bInterval        = 0
 };
 // ****************************************************************
 
@@ -177,7 +168,7 @@ static const struct usb_string_descriptor product_descriptor = {
 // *************************************************************
 
 // https://usb.org/sites/default/files/hut1_4.pdf
-#define USB_REPORT_DESCRIPTOR_LENGTH 86
+#define USB_REPORT_DESCRIPTOR_LENGTH 92
 static const uint8_t report_descriptor[USB_REPORT_DESCRIPTOR_LENGTH] = {
         USAGE_PAGE, GENERIC_DESKTOP_PAGE,
 
@@ -212,10 +203,13 @@ static const uint8_t report_descriptor[USB_REPORT_DESCRIPTOR_LENGTH] = {
                 USAGE_PAGE, LED_PAGE,
                 USAGE_MINIMUM, 0x01,
                 USAGE_MAXIMUM, 0x05,
+                LOGICAL_MINIMUM, 0x00,
+                LOGICAL_MAXIMUM, 0x01,
+                REPORT_SIZE, 0x01,
+                REPORT_COUNT, 0x05,
                 OUTPUT, DATA_VAR_ABS,
-                REPORT_COUNT, 0x01,
-                REPORT_SIZE, 0x03,
-                OUTPUT, CONST_ARRAY_ABS,
+                REPORT_COUNT, 0x03,
+                OUTPUT, CONST_VAR_ABS,
         END_COLLECTION,
 
         USAGE, USAGE_CONSUMER_CONTROL, // length 21
@@ -231,8 +225,8 @@ static const uint8_t report_descriptor[USB_REPORT_DESCRIPTOR_LENGTH] = {
         END_COLLECTION
 };
 
-#define USB_FIGHTSTICK_REPORT_DESCRIPTOR_LENGTH 40
-static const uint8_t fightstick_report_descriptor[USB_FIGHTSTICK_REPORT_DESCRIPTOR_LENGTH] = {
+// #define USB_REPORT_DESCRIPTOR_LENGTH 40
+static const uint8_t fightstick_report_descriptor[40] = {
         USAGE_PAGE, GENERIC_DESKTOP_PAGE,
 
         USAGE, USAGE_JOYSTICK,
@@ -269,7 +263,7 @@ static const struct usb_hid_descriptor hid_descriptor = {
         .bCountryCode    = USB_HID_LOCAL_FRENCH,
         .bNumDescriptors = 0x01,
         .bReportType     = USB_HID_DESCRIPTOR_TYPE_REPORT,
-        .wReportLength   = USB_FIGHTSTICK_REPORT_DESCRIPTOR_LENGTH // USB_REPORT_DESCRIPTOR_LENGTH
+        .wReportLength   = USB_REPORT_DESCRIPTOR_LENGTH
 };
 // **********************************************************
 
