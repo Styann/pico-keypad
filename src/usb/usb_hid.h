@@ -331,16 +331,15 @@ struct usb_consumer_control_report {
 // RESERVED                           0xE8 to 0xFFFF
 
 // MODIFIERS
-#define BYTE_LE(byte) (byte & 0b00001111)
-#define KC_MOD_NONE                   0b00000000
-#define KC_MOD_CTRL_LEFT              1 << BYTE_LE(KC_CTRL_LEFT)
-#define KC_MOD_SHIFT_LEFT             1 << BYTE_LE(KC_SHIFT_LEFT)
-#define KC_MOD_ALT_LEFT               1 << BYTE_LE(KC_ALT_LEFT)
-#define KC_MOD_GUI_LEFT               1 << BYTE_LE(KC_GUI_LEFT)
-#define KC_MOD_CTRL_RIGHT             1 << BYTE_LE(KC_CTRL_RIGHT)
-#define KC_MOD_SHIFT_RIGHT            1 << BYTE_LE(KC_SHIFT_RIGHT)
-#define KC_MOD_ALT_RIGHT              1 << BYTE_LE(KC_ALT_RIGHT)
-#define KC_MOD_GUI_RIGHT              1 << BYTE_LE(KC_GUI_RIGHT)
+#define KC_MOD_NONE        0b00000000
+#define KC_MOD_CTRL_LEFT   0b00000001
+#define KC_MOD_SHIFT_LEFT  0b00000010
+#define KC_MOD_ALT_LEFT    0b00000100
+#define KC_MOD_GUI_LEFT    0b00001000
+#define KC_MOD_CTRL_RIGHT  0b00010000
+#define KC_MOD_SHIFT_RIGHT 0b00100000
+#define KC_MOD_ALT_RIGHT   0b01000000
+#define KC_MOD_GUI_RIGHT   0b10000000
 
 // USB HID CONSUMER CONTROL
 /**

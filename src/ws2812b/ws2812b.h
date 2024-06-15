@@ -1,22 +1,29 @@
+/**
+ * @author Styann
+ * @link https://cdn-shop.adafruit.com/datasheets/WS2812.pdf
+ */
+
 #ifndef WS2812B_H
 #define WS2812B_H
 
 #include "pico/stdlib.h"
 #include "hardware/spi.h"
-#include "hardware/gpio.h"
-#include <stdlib.h>
-#include <string.h>
 
-#define GRB_GREEN   0xFF0000
-#define GRB_RED     0x00FF00
-#define GRB_BLUE    0x0000FF
-#define GRB_CYAN    0xFF00FF
-#define GRB_YELLOW  0xFFFF00
-#define GRB_MAGENTA 0x00FFFF
-#define GRB_ORANGE  0x17FF00
-#define GRB_WHITE   0xFFFFFF
+#define GRB_GREEN   0x00FF0000u
+#define GRB_RED     0x0000FF00u
+#define GRB_BLUE    0x000000FFu
+#define GRB_CYAN    0x00FF00FFu
+#define GRB_YELLOW  0x00FFFF00u
+#define GRB_MAGENTA 0x0000FFFFu
+#define GRB_ORANGE  0x0017FF00u
+#define GRB_WHITE   0x00FFFFFFu
+#define GRB_OFF     0x00000000u
 
-typedef uint32_t grb_t;
+#define GRB_G_MASK 0x00FF0000u
+#define GRB_R_MASK 0x0000FF00u
+#define GRB_B_MASK 0x000000FFu
+
+typedef uint32_t grb32_t;
 
 // T -> transfer time
 // L -> LOW, H -> HIGH
@@ -34,28 +41,28 @@ typedef uint32_t grb_t;
 #define WS2812B_BAUD_RATE 2500000
 
 struct ws2812b {
-    uint16_t num_leds;
-
     spi_inst_t *spi_inst;
     uint8_t pin_mosi;
 
-    bool buffer_alloc_status;
-    uint8_t *buffer;
-    uint16_t buffer_size;
+    uint32_t *leds_buffer;
+    uint16_t num_leds;
+    uint8_t *spi_buffer;
 };
 
 void ws2812b_init(struct ws2812b *this);
 
-void ws2812b_set_all(struct ws2812b *this, grb_t color);
+void ws2812b_set_all(struct ws2812b *this, grb32_t color);
 
-void ws2812b_set_one(struct ws2812b *this, uint16_t led, grb_t color);
+void ws2812b_set_one(struct ws2812b *this, uint16_t led, grb32_t color);
 
 void ws2812b_set_off(struct ws2812b *this);
 
-void ws2812b_set_brightness(struct ws2812b *this);
+void ws2812b_set_brightness(struct ws2812b *this, float factor);
 
 bool ws2812b_write(struct ws2812b *this);
 
-grb_t rgb_to_grb(uint8_t r, uint8_t g, uint8_t b);
+grb32_t rgb_to_grb(uint8_t r, uint8_t g, uint8_t b);
+
+static void ws2812b_update_spi_buffer(struct ws2812b *this);
 
 #endif

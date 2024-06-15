@@ -1,6 +1,12 @@
-#include "hw040.h"
+/**
+ * @author Styann
+ */
 
-void hw040_init(struct hw040 *this) {
+#include "hw040.h"
+#include "../pico_extra.h"
+#include "hardware/gpio.h"
+
+void hw040_init(struct hw040 *this, bool enable_switch) {
     // init CLK pin
     gpio_init(this->pin_CLK);
     gpio_set_dir(this->pin_CLK, GPIO_IN);
@@ -9,15 +15,18 @@ void hw040_init(struct hw040 *this) {
     gpio_init(this->pin_DT);
     gpio_set_dir(this->pin_DT, GPIO_IN);
 
+    // TODO: review this
     // init SW pin (button)
-    gpio_init(this->pin_SW);
-    gpio_set_dir(this->pin_SW, GPIO_IN);
-    gpio_pull_up(this->pin_SW);
-    gpio_set_irq_enabled(this->pin_SW, GPIO_IRQ_EDGE_RISE, true);
+    if (enable_switch) {
+        gpio_init(this->pin_SW);
+        gpio_set_dir(this->pin_SW, GPIO_IN);
+        gpio_pull_up(this->pin_SW);
+        gpio_set_irq_enabled(this->pin_SW, GPIO_IRQ_EDGE_FALL, true);
+    }
 }
 
 /**
- * @param {struct hw040} *this
+ * @brief read direction, then execute cw or ccw callback
  */
 void hw040_task(struct hw040 *this) {
     this->state_CLK = gpio_get(this->pin_CLK);

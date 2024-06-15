@@ -1,3 +1,9 @@
+/**
+ * @author Styann
+ * @brief small ssd1331 oled display driver, it can just write raw image for now
+ * @link https://cdn-shop.adafruit.com/datasheets/SSD1331_1.2.pdf
+ */
+
 #ifndef SSD1331_H
 #define SSD1331_H
 

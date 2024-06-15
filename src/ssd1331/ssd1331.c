@@ -1,3 +1,8 @@
+/**
+ * @author Styann
+ * @link https://cdn-shop.adafruit.com/datasheets/SSD1331_1.2.pdf
+ */
+
 #include "ssd1331.h"
 
 void ssd1331_init(struct ssd1331 *this) {
@@ -72,12 +77,11 @@ static void ssd1331_data_mode(struct ssd1331 *this) {
 }
 
 /**
- * @param {uint8_t} command
+ * @param command
  */
 void ssd1331_write_command(struct ssd1331 *this, uint8_t command) {
     ssd1331_command_mode(this);
-
-    spi_set_format(this->spi_inst, 8, SPI_CPOL_0,  SPI_CPHA_0, SPI_MSB_FIRST);
+    spi_set_format_8(this->spi_inst);
 
     if (!spi_is_busy(this->spi_inst) && spi_is_writable(this->spi_inst)) {
         spi_chip_select(this->pin_CS);
@@ -87,8 +91,8 @@ void ssd1331_write_command(struct ssd1331 *this, uint8_t command) {
 }
 
 /**
- * @param {uint8_t} *commands
- * @param {size_t} *size
+ * @param commands
+ * @param size
  */
 void ssd1331_write_commands(struct ssd1331 *this, uint8_t *commands, size_t size) {
     ssd1331_command_mode(this);
@@ -102,8 +106,8 @@ void ssd1331_write_commands(struct ssd1331 *this, uint8_t *commands, size_t size
 }
 
 /**
- * @param {uint16_t} *data
- * @param {size_t} size
+ * @param data
+ * @param size
  */
 void ssd1331_write_data(struct ssd1331 *this, uint16_t *data, size_t size) {
     ssd1331_data_mode(this);

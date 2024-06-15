@@ -1,3 +1,7 @@
+/**
+ * @author Styann
+ */
+
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
 
@@ -18,11 +22,15 @@ static bool is_key_pressed(uint8_t column_pin);
 
 void keyboard_matrix_scan(keyboard_matrix_t *this, struct usb_keyboard_report *report);
 
-static void add_keycode(struct usb_keyboard_report *report, uint8_t keycode);
+static uint8_t get_modifier_from_keycode(uint8_t keycode);
+
+static bool try_add_modifier(struct usb_keyboard_report *report, uint8_t keycode);
+
+static void push_keycode(struct usb_keyboard_report *report, uint8_t keycode);
 
 bool is_keyboard_report_empty(struct usb_keyboard_report *report);
 
-static uint8_t get_modifier_from_keycode(uint8_t keycode);
+bool keyboard_report_cmp(struct usb_keyboard_report *x, struct usb_keyboard_report *y);
 
 void usb_send_keyboard_report(struct usb_keyboard_report *report);
 

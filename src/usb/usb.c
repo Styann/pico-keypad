@@ -457,7 +457,7 @@ void usb_handle_setup_packet(void) {
         else {
             usb_acknowledge_out_request();
         }
-    } 
+    }
     else if (req_direction == USB_DIR_IN) {
         if (req == USB_REQUEST_GET_DESCRIPTOR) {
             uint16_t descriptor_type = pkt->wValue >> 8;
@@ -487,17 +487,15 @@ void usb_handle_setup_packet(void) {
             usb_acknowledge_out_request();
         }
         else if(req == USB_HID_REQUEST_SET_REPORT) {
+            // TODO: fix this
             struct usb_endpoint *ep = usb_get_endpoint_configuration(EP0_OUT_ADDR);
-            uint32_t buffer_control = *ep->buffer_control;
-            // Get the transfer length for this endpoint
-            uint16_t len = buffer_control & USB_BUF_CTRL_LEN_MASK;
+            uint8_t const *buf = (uint8_t const*)ep->data_buffer;
 
-            // Call that endpoints buffer done handler
-            set_report_callback((uint8_t*)ep->data_buffer, len);
+            set_report_callback(buf, pkt->wLength);
 
             usb_acknowledge_out_request();
         }
-    } 
+    }
     else if(req_direction == EP_IN_HID) {
         if(req == USB_REQUEST_GET_DESCRIPTOR) {
             uint16_t descriptor_type = pkt->wValue >> 8;
@@ -513,7 +511,6 @@ void usb_handle_setup_packet(void) {
 
 /**
  * @brief Notify an endpoint that a transfer has completed.
- *
  * @param ep, the endpoint to notify.
  */
 static void usb_handle_ep_buff_done(struct usb_endpoint *ep) {
@@ -528,7 +525,6 @@ static void usb_handle_ep_buff_done(struct usb_endpoint *ep) {
 /**
  * @brief Find the endpoint configuration for a specified endpoint number and
  * direction and notify it that a transfer has completed.
- *
  * @param ep_num
  * @param in
  */
@@ -650,6 +646,6 @@ void ep1_in_hid_handler(uint8_t *buf, uint16_t len) {
 
 }
 
-void set_report_callback(uint8_t *buf, uint16_t len) {
+void set_report_callback(uint8_t const *buf, uint16_t len) {
 
 }

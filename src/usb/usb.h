@@ -18,7 +18,7 @@ void ep0_in_handler(uint8_t *buf, uint16_t len);
 void ep0_out_handler(uint8_t *buf, uint16_t len);
 void ep1_in_hid_handler(uint8_t *buf, uint16_t len);
 
-void set_report_callback(uint8_t *buf, uint16_t len) __attribute__((weak));
+void set_report_callback(uint8_t const *buf, uint16_t len) __attribute__((weak));
 
 bool is_configured(void);
 

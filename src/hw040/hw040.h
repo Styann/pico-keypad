@@ -1,9 +1,11 @@
+/**
+ * @author Styann
+ */
+
 #ifndef HW040_H
 #define HW040_H
 
 #include "pico/stdlib.h"
-#include "../pico_extra.h"
-#include "hardware/gpio.h"
 
 struct hw040 {
     uint8_t pin_SW; // switch button pin
@@ -15,7 +17,7 @@ struct hw040 {
     void (*ccw_callback)(void);
 };
 
-void hw040_init(struct hw040 *this);
+void hw040_init(struct hw040 *this, bool enable_switch);
 
 void hw040_task(struct hw040 *this);
 
