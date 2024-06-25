@@ -196,7 +196,6 @@ static inline bool ep_is_tx(struct usb_endpoint *ep) {
 
 /**
  * @brief Starts a transfer on a given endpoint.
- *
  * @param ep, the endpoint configuration.
  * @param buf, the data buffer to send. Only applicable if the endpoint is TX
  * @param len, the length of the data in buf (this example limits max len to one packet - 64 bytes)
@@ -205,8 +204,6 @@ void usb_start_transfer(struct usb_endpoint *ep, uint8_t *buf, uint16_t len) {
     // We are asserting that the length is <= 64 bytes for simplicity of the example.
     // For multi packet transfers see the tinyusb port.
     assert(len <= 64);
-
-    printf("Start transfer of len %d on ep addr 0x%x\n", len, ep->descriptor->bEndpointAddress);
 
     // Prepare buffer control register value
     uint32_t val = len | USB_BUF_CTRL_AVAIL;
@@ -238,64 +235,27 @@ void usb_start_transfer(struct usb_endpoint *ep, uint8_t *buf, uint16_t len) {
 }
 
 /**
- * @author Styann
- * @brief Sends a packet larger than the buffer size in several smaller packets
+ * @brief allows to transfer packet bigger than the endpoint buffer size
+ * @param ep
+ * @param buf
+ * @param len
  */
-void usb_start_great_transfer(struct usb_endpoint *ep, uint8_t *buf, uint16_t len){
-
-	/*uint8_t chunksize = ep->descriptor->wMaxPacketSize;
-	uint8_t remainder_size = len % chunksize;
-
-	for (uint8_t offset = 0; offset < (len - remainder_size); offset += chunksize) {
-
-        usb_start_xfer(ep, buf + offset, chunksize, false);
-
-	}
-
-	if (remainder_size > 0) {
-        usb_start_xfer(ep, buf + (len - remainder_size), remainder_size, true);
-        //usb_acknowledge_out_request();
-	}*/
-    assert(ep_is_tx(ep));
-
-    uint16_t wMaxPacketSize = ep->descriptor->wMaxPacketSize;
-    uint16_t transferred_len = 0;
+void usb_start_great_transfer(struct usb_endpoint *ep, uint8_t *buf, uint16_t len) {
     uint16_t remaining_len = len;
-    uint16_t offset = 0;
+    size_t ep_buf_size = ep->descriptor->wMaxPacketSize;
 
-    while (transferred_len < len) {
-        uint16_t pkt_len = MIN(remaining_len, wMaxPacketSize);
-        // Prepare buffer control register value
-        uint32_t val = pkt_len | USB_BUF_CTRL_AVAIL;
+    while (remaining_len > 0) {
+        size_t pkt_size = (remaining_len > ep_buf_size) ? ep_buf_size : remaining_len;
 
-        // Need to copy the data from the user buffer to the usb memory
-        memcpy((void*)ep->data_buffer, (void*)(buf + transferred_len), pkt_len);
-        // Mark as full
-        val |= USB_BUF_CTRL_FULL;
+        usb_start_transfer(ep, buf, pkt_size);
 
-        // Set pid and flip for next transfer
-        if (ep->next_pid == 0) {
-            val |= USB_BUF_CTRL_DATA0_PID;
-            ep->next_pid = 1;
-        }
-        else {
-            val |= USB_BUF_CTRL_DATA1_PID;
-            ep->next_pid = 0;
+        while (*ep->buffer_control & USB_BUF_CTRL_FULL) {
+            tight_loop_contents();
         }
 
-        if (remaining_len <= wMaxPacketSize) {
-            val |= USB_BUF_CTRL_LAST;
-        }
-
-        *ep->buffer_control = val & ~USB_BUF_CTRL_AVAIL;
-
-        busy_wait_at_least_cycles(12);
-
-        *ep->buffer_control = val;
-
-        transferred_len += pkt_len;
-        remaining_len -= pkt_len;
-    } 
+        buf += pkt_size;
+        remaining_len -= pkt_size;
+    }
 }
 
 /**
@@ -316,8 +276,7 @@ void usb_handle_device_descriptor(volatile struct usb_setup_packet *pkt) {
  */
 void usb_handle_report_descriptor(volatile struct usb_setup_packet *pkt){
     struct usb_endpoint *ep = usb_get_endpoint_configuration(EP0_IN_ADDR);
-    usb_start_transfer(ep, (uint8_t*)report_descriptor, 64);
-    usb_start_transfer(ep, (uint8_t*)(report_descriptor + 64), 28);
+    usb_start_great_transfer(ep, (uint8_t*)report_descriptor, 92);
     // usb_start_transfer(ep, (uint8_t*)fightstick_report_descriptor, USB_FIGHTSTICK_REPORT_DESCRIPTOR_LENGTH);
 }
 

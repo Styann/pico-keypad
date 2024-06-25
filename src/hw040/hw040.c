@@ -6,7 +6,7 @@
 #include "../pico_extra.h"
 #include "hardware/gpio.h"
 
-void hw040_init(struct hw040 *this, bool enable_switch) {
+void hw040_init(const struct hw040 *this, bool enable_switch) {
     // init CLK pin
     gpio_init(this->pin_CLK);
     gpio_set_dir(this->pin_CLK, GPIO_IN);

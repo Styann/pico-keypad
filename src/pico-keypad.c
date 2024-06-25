@@ -12,18 +12,18 @@
 #include "usb/usb.h"
 #include "usb/usb_hid.h"
 
-#include "keyboard_matrix/keyboard_matrix.h"
+#include "keyboard/keyboard.h"
 #include "hw040/hw040.h"
 #include "ws2812b/ws2812b.h"
-#include "fightstick/joystick/joystick.h"
-#include "fightstick/button/button.h"
+#include "joystick/joystick.h"
+#include "button/button.h"
 #include "ssd1331/ssd1331.h"
 #include "macro/macro.h"
 
 #include <stdio.h>
 
 #define USE_KEYBOARD
-// #define USE_HW40
+#define USE_HW40
 // #define USE_FIGHTSTICK
 #define USE_WS2812B
 
@@ -41,6 +41,14 @@
         usb_send_consumer_control(KC_MEDIA_VOLUME_DECREMENT);
     }
 
+    void volume_knob_button_handler(void) {
+        static uint32_t timer = 0;
+
+        if (debounce(&timer, DEBOUNCE_MS)) {
+            usb_send_consumer_control(KC_MEDIA_PLAY_PAUSE);
+        }
+    }
+
     struct hw040 volume_knob = {
         .pin_SW = GPIO28,
         .pin_DT = GPIO27,
@@ -53,12 +61,7 @@
 
     void gpio_core0_irq_callback(uint gpio, uint32_t events) {
         if ((gpio == volume_knob.pin_SW) && (events & GPIO_IRQ_EDGE_FALL)) {
-            static uint32_t timer = 0;
-
-            if (millis() - timer > DEBOUNCE_MS) {
-                usb_send_consumer_control(KC_MEDIA_PLAY_PAUSE);
-                timer = millis();
-            }
+            volume_knob_button_handler();
         }
     }
 #endif
@@ -94,10 +97,11 @@
 
     void keyboard_task(void) {
         static uint32_t timer = 0;
-        static bool can_release = false;
-        static struct usb_keyboard_report previous_report = {};
 
-        if (millis() - timer > DEBOUNCE_MS) {
+        if (debounce(&timer, DEBOUNCE_MS)) {
+            static bool can_release = false;
+            static struct usb_keyboard_report previous_report = {};
+
             struct usb_keyboard_report keyboard_report = { 0x01, 0, 0, { 0, 0, 0, 0, 0, 0 } };
             keyboard_matrix_scan(&keyboard_matrix, &keyboard_report);
 
@@ -120,17 +124,13 @@
                     usb_send_keyboard_report(&keyboard_report);
                     can_release = true;
                 }
-                else {
-                    if (can_release) {
-                        release_keyboard();
-                        can_release = false;
-                    }
+                else if (can_release) {
+                    release_keyboard();
+                    can_release = false;
                 }
 
                 previous_report = keyboard_report;
             }
-
-            timer = millis();
         }
     }
 #endif
@@ -158,7 +158,7 @@
 
         static struct usb_gamepad_report previous_report = {};
 
-        if (millis() - timer > DEBOUNCE_MS) {
+        if (debounce(&timer, DEBOUNCE_MS)) {
             struct usb_gamepad_report gamepad_report = {};
 
             gamepad_report.x = joystick_read_x_axis(&stick);
@@ -186,8 +186,6 @@
 
                 previous_report = gamepad_report;
             }
-
-            timer = millis();
         }
     }
 #endif
@@ -263,9 +261,9 @@ void set_report_callback(uint8_t const *buf, uint16_t len) {
 int main(void) {
     stdio_init_all();
 
-    multicore_launch_core1(main_core1);
-
     usb_device_init();
+
+    multicore_launch_core1(main_core1);
 
     #ifdef USE_KEYBOARD
         keyboard_matrix_init(&keyboard_matrix);
@@ -294,6 +292,9 @@ int main(void) {
     }
 
     while (true) {
+        // printf("TEST TEST\n");
+        // sleep_ms(1000);
+
         #ifdef USE_KEYBOARD
             keyboard_task();
         #endif

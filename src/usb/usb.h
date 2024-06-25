@@ -40,8 +40,6 @@ static inline bool ep_is_tx(struct usb_endpoint *ep);
 
 void usb_start_transfer(struct usb_endpoint *ep, uint8_t *buf, uint16_t len);
 
-void usb_start_xfer(struct usb_endpoint *ep, uint8_t *buf, uint16_t len, bool is_last);
-
 void usb_start_great_transfer(struct usb_endpoint *ep, uint8_t *buf, uint16_t len);
 
 void usb_handle_device_descriptor(volatile struct usb_setup_packet *pkt);
@@ -79,7 +77,7 @@ typedef void (*usb_ep_handler)(uint8_t *buf, uint16_t len);
 #define EP0_BUF_SIZE 64
 #define EP1_BUF_SIZE 64
 
-// endpoints descriptors ******************************************
+// endpoints descriptors
 static const struct usb_endpoint_descriptor ep0_out = {
         .bLength          = sizeof(struct usb_endpoint_descriptor),
         .bDescriptorType  = USB_DESCRIPTOR_TYPE_ENDPOINT,
@@ -106,9 +104,8 @@ static const struct usb_endpoint_descriptor ep1_in_hid = {
         .wMaxPacketSize   = EP1_BUF_SIZE,
         .bInterval        = 5 // 10 ms, was 5ms
 };
-// ****************************************************************
 
-// device descriptor ******************************************
+// device descriptor
 static const struct usb_device_descriptor device_descriptor = {
         .bLength            = sizeof(struct usb_device_descriptor),
         .bDescriptorType    = USB_DESCRIPTOR_TYPE_DEVICE,
@@ -125,10 +122,8 @@ static const struct usb_device_descriptor device_descriptor = {
         .iSerialNumber      = 0, // No serial number
         .bNumConfigurations = 1  // One configuration
 };
-// ***********************************************************
 
-
-// hid interface descriptor *********************************************
+// hid interface descriptor
 static const struct usb_interface_descriptor hid_interface_descriptor = {
         .bLength            = sizeof(struct usb_interface_descriptor),
         .bDescriptorType    = USB_DESCRIPTOR_TYPE_INTERFACE,
@@ -140,9 +135,8 @@ static const struct usb_interface_descriptor hid_interface_descriptor = {
         .bInterfaceProtocol = USB_INTERFACE_PROTOCOL_KEYBOARD,
         .iInterface         = 0
 };
-// **********************************************************************
 
-// string descriptors ******************************************
+// string descriptors
 #define NUM_STRING_DESCRIPTORS 3
 #define VENDOR "Seegson Corporation"
 #define PRODUCT "KB-426"
@@ -165,7 +159,6 @@ static const struct usb_string_descriptor product_descriptor = {
     .bDescriptorType = USB_DESCRIPTOR_TYPE_STRING,
     .bString         = PRODUCT
 };
-// *************************************************************
 
 // https://usb.org/sites/default/files/hut1_4.pdf
 #define USB_REPORT_DESCRIPTOR_LENGTH 92
@@ -255,7 +248,7 @@ static const uint8_t fightstick_report_descriptor[40] = {
         END_COLLECTION
 };
 
-// hid descriptor *******************************************
+// hid descriptor
 static const struct usb_hid_descriptor hid_descriptor = {
         .bLength         = sizeof(struct usb_hid_descriptor),
         .bDescriptorType = USB_HID_DESCRIPTOR_TYPE_HID,
@@ -265,9 +258,8 @@ static const struct usb_hid_descriptor hid_descriptor = {
         .bReportType     = USB_HID_DESCRIPTOR_TYPE_REPORT,
         .wReportLength   = USB_REPORT_DESCRIPTOR_LENGTH
 };
-// **********************************************************
 
-// configuration descriptor *********************************************
+// configuration descriptor
 static const struct usb_configuration_descriptor config_descriptor = {
         .bLength             = sizeof(struct usb_configuration_descriptor),
         .bDescriptorType     = USB_DESCRIPTOR_TYPE_CONFIG,
@@ -281,7 +273,6 @@ static const struct usb_configuration_descriptor config_descriptor = {
         .bmAttributes        = 0xa0, // self powered, remote wakeup
         .bMaxPower           = 0x32         // 100ma
 };
-// **********************************************************************
 
 // Struct in which we keep the endpoint configuration
 struct usb_endpoint {

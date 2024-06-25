@@ -1,10 +1,11 @@
 # pico-keypad
 
-This project is a keypad/keyboard firmware for Raspberry Pi Pico using the pico SDK (C/C++).
-I'm making this project without TinyUSB (it was on the first version) to understand USB protocol in depth. 
+This project is a keyboard (and arcade stick) firmware for Raspberry Pi Pico using the pico SDK (C/C++).
+
 
 This project contain :
-* a ws2812b (rgb led strip) driver using spi protocol
+* a simple ssd1331 oled display spi driver, just to display raw image
+* a ws2812b (rgb led strip) spi driver
 * a hw40 (rotary encoder) driver
 
 ## 📦 build
@@ -29,12 +30,8 @@ cp /Pico/pico-keypad/src/build/pico-keypad.uf2 /media/user/RPI-RP2/
 * A Raspberry Pi Pico
 * pico C/C++ SDK
 * pi pico usb examples C/C++
-* electronics stuff
-* usb.org
-* WireShark usb(very very useful)
+* WireShark usbmon (very very useful)
 * TinyUSB (as an example)
 
 ## todo
-* transfer bigger than buffer size don't work without printf (bad func)
-* windows & macos compatibility
 * add led (Caps-lock...) read USB RX

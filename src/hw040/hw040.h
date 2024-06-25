@@ -17,7 +17,7 @@ struct hw040 {
     void (*ccw_callback)(void);
 };
 
-void hw040_init(struct hw040 *this, bool enable_switch);
+void hw040_init(const struct hw040 *this, bool enable_switch);
 
 void hw040_task(struct hw040 *this);
 

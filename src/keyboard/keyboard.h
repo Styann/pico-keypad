@@ -32,14 +32,6 @@ bool is_keyboard_report_empty(struct usb_keyboard_report *report);
 
 bool keyboard_report_cmp(struct usb_keyboard_report *x, struct usb_keyboard_report *y);
 
-void usb_send_keyboard_report(struct usb_keyboard_report *report);
-
-void usb_send_consumer_control(uint16_t consumer_control);
-
-void release_keyboard(void);
-
-void usb_send_gamepad_report(struct usb_gamepad_report *report);
-
 bool is_gamepad_report_empty(struct usb_gamepad_report *report);
 
 #endif

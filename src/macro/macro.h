@@ -15,4 +15,6 @@ typedef struct {
 
 bool macro_parse_keyboard(struct usb_keyboard_report *report, const macro_t *macro);
 
+int16_t macros_parse_keyboard(struct usb_keyboard_report *report, const macro_t *macros, size_t size);
+
 #endif

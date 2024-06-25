@@ -1,6 +1,8 @@
 #ifndef USB_HID_H
 #define USB_HID_H
 
+#include "pico/stdlib.h"
+
 // usb hid descriptors types *****************
 #define USB_HID_DESCRIPTOR_TYPE_HID       0x21
 #define USB_HID_DESCRIPTOR_TYPE_REPORT    0x22
@@ -106,11 +108,21 @@ struct usb_consumer_control_report {
     uint16_t consumer_control;
 } __packed;
 
+void usb_send_keyboard_report(struct usb_keyboard_report *report);
+
+void release_keyboard(void);
+
+void usb_send_consumer_control_report(struct usb_consumer_control_report *report);
+
+void usb_send_consumer_control(uint16_t consumer_control);
+
+void usb_send_gamepad_report(struct usb_gamepad_report *report);
+
 // USB HID KEYCODE (KC)
 #define KC_NONE                       0x00
 #define KC_ERROR_ROLL_OVER            0x01
 #define KC_POSTFAIL                   0x02
-#define KC_ERROR_UNDEFINED            0x03  
+#define KC_ERROR_UNDEFINED            0x03
 #define KC_A                          0x04
 #define KC_B                          0x05
 #define KC_C                          0x06
@@ -319,7 +331,7 @@ struct usb_consumer_control_report {
 #define KC_KEYPAD_OCTAL               0xDB
 #define KC_KEYPAD_DECIMAL             0xDC
 #define KC_KEYPAD_HEXADECIMAL         0xDD
-// RESERVED                           0xDE to 0xDF 
+// RESERVED                           0xDE to 0xDF
 #define KC_CTRL_LEFT                  0xE0
 #define KC_SHIFT_LEFT                 0xE1
 #define KC_ALT_LEFT                   0xE2
@@ -346,7 +358,7 @@ struct usb_consumer_control_report {
  *  OOC -> On/Off Control
  *  OSC -> One Shot Control
  *  LC  -> Linear Control
- *  RTC -> Re-Trigger Control 
+ *  RTC -> Re-Trigger Control
  */
 #define KC_MEDIA_MUTE                 0x00E2
 #define KC_MEDIA_VOLUME_INCREMENT     0x00E9
