@@ -859,7 +859,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "0c787d62-7a13-4f52-811a-b876bc977b7e")
-		(at 178.59375 81.36375 90)
+		(at 180.975 138.67 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D14"
@@ -2577,7 +2577,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "15b5676c-eb43-437c-ac55-876ed5299852")
-		(at 234.4875 70.30125 90)
+		(at 279.85 49.65 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D34"
@@ -2959,7 +2959,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "18409dc5-644a-4822-bbca-4611145579f1")
-		(at 220.2875 48.76125 90)
+		(at 227.205 28.81 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D56"
@@ -2974,7 +2974,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 4.01 2.77 -90)
 			(layer "F.Fab")
 			(uuid "514202bd-7561-4313-b9bf-f11520f44ce6")
 			(effects
@@ -3341,7 +3341,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "1b48ecfe-83d1-48fd-b2f5-cda95afbe5d4")
-		(at 248.6875 59.53125 90)
+		(at 276.225 138.67 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D51"
@@ -3356,7 +3356,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 3.92 2.775 -90)
 			(layer "F.Fab")
 			(uuid "79eb506b-2442-4a2b-ad5e-9c7e1c9890a0")
 			(effects
@@ -3723,7 +3723,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "1da2c543-4663-4077-a667-5a345a5f0186")
-		(at 248.6875 70.30125 90)
+		(at 349.625 49.665 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D38"
@@ -3738,7 +3738,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 3.945 16.645 -90)
 			(layer "F.Fab")
 			(uuid "fcf97b8b-434d-4ac1-817d-f9ee86a5ed0f")
 			(effects
@@ -4773,7 +4773,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "24fac06e-cadb-4abd-964f-8f881c047793")
-		(at 178.59375 49.05375 90)
+		(at 314.325 138.67 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D53"
@@ -4788,7 +4788,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 3.45375 2.28125 -90)
 			(layer "F.Fab")
 			(uuid "b426bb2c-57c8-46a9-a458-7b20c651b789")
 			(effects
@@ -5823,7 +5823,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "27cb2d23-5a49-48ed-99e1-a1a2e06d6d67")
-		(at 223.8375 91.84125 90)
+		(at 161.925 119.62 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D5"
@@ -5838,7 +5838,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.33375 24.76375 -90)
+			(at 3.52 2.625 -90)
 			(layer "F.Fab")
 			(uuid "28dd354c-be40-4fa2-82be-1a8ceb7eea83")
 			(effects
@@ -6205,7 +6205,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "2ba9912c-37d0-494d-9055-e20b9d65af48")
-		(at 220.2875 81.07125 90)
+		(at 227.205 61.12 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D17"
@@ -6220,7 +6220,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 4.01 2.77 -90)
 			(layer "F.Fab")
 			(uuid "3aa6ca07-c594-4856-8d01-4e2ad34eb9cf")
 			(effects
@@ -6587,7 +6587,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "2f540aa6-3b29-492f-b667-db8eb119715b")
-		(at 230.9375 91.84125 90)
+		(at 200.025 119.62 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D7"
@@ -6602,7 +6602,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 3.83 3.025 -90)
 			(layer "F.Fab")
 			(uuid "16929707-ce2d-457b-9dc2-b3ae9a4c9113")
 			(effects
@@ -7303,7 +7303,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "30376549-ffa3-4e16-b166-e0e70f0cf64a")
-		(at 230.9375 70.30125 90)
+		(at 264.425 49.065 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D33"
@@ -7318,7 +7318,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 3.83 3.025 -90)
 			(layer "F.Fab")
 			(uuid "dc5da56a-6425-4557-9841-f190c4463298")
 			(effects
@@ -7685,7 +7685,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "3186be3e-f3a5-49a6-b814-84880db94327")
-		(at 223.8375 48.76125 90)
+		(at 238.175 25.885 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D57"
@@ -7700,7 +7700,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.33375 24.76375 -90)
+			(at 3.835 3.075 -90)
 			(layer "F.Fab")
 			(uuid "a1a1fb3a-a5f4-42a5-bf82-698932671f20")
 			(effects
@@ -8401,7 +8401,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "32b0b8a1-6a02-434e-87a4-8f1576070373")
-		(at 227.3875 59.53125 90)
+		(at 314.325 119.62 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D45"
@@ -8416,7 +8416,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 3.625 2.225 -90)
 			(layer "F.Fab")
 			(uuid "007d3cc4-2db7-408b-8d2e-362eb8040751")
 			(effects
@@ -9117,7 +9117,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "34a365cc-cd37-41e3-972e-2439849e150b")
-		(at 252.2375 81.07125 90)
+		(at 367.7 60.3 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D26"
@@ -9833,7 +9833,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "3b3b1955-3a8a-4014-9973-0a1f9ee5dd43")
-		(at 230.9375 59.53125 90)
+		(at 333.375 119.62 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D46"
@@ -9848,7 +9848,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 3.83 3.025 -90)
 			(layer "F.Fab")
 			(uuid "897eabfc-0b77-40da-8509-eee92c8c7894")
 			(effects
@@ -10215,11 +10215,11 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "3bd0cbbf-168c-4b18-8e1e-31b132bf9f42")
-		(at 213.1875 81.07125 90)
+		(at 200.025 138.67 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D15"
-			(at 3.5175 -33.16375 -90)
+			(at 4.83 -2.45 -90)
 			(layer "F.SilkS")
 			(uuid "e5854ee9-7960-4515-b79f-238dfd7dfce9")
 			(effects
@@ -10528,7 +10528,7 @@
 			(uuid "c023633f-9701-49f5-9b30-734cff5aae64")
 		)
 		(fp_text user "K"
-			(at -0.2925 -32.84375 -90)
+			(at 1.02 -2.13 -90)
 			(layer "F.SilkS")
 			(uuid "bf0d12d8-7288-4440-9cb5-46b39d890e94")
 			(effects
@@ -10550,7 +10550,7 @@
 			)
 		)
 		(fp_text user "K"
-			(at -0.2925 -32.84375 -90)
+			(at 1.02 -2.13 -90)
 			(layer "F.Fab")
 			(uuid "3441fc50-3890-4c8c-b5a5-d8543f8d8e4a")
 			(effects
@@ -10931,11 +10931,11 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "3cbf2d52-8277-4482-9a49-4d9a8de2d830")
-		(at 213.1875 59.53125 90)
+		(at 238.125 119.62 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D41"
-			(at 3.5175 -33.16375 -90)
+			(at 4.83 -2.45 -90)
 			(layer "F.SilkS")
 			(uuid "7e793609-d26c-44ae-8fa1-4791a3cba998")
 			(effects
@@ -11244,7 +11244,7 @@
 			(uuid "0619ab02-8c36-4370-9447-0b3c960e96ab")
 		)
 		(fp_text user "K"
-			(at -0.2925 -32.84375 -90)
+			(at 1.02 -2.13 -90)
 			(layer "F.SilkS")
 			(uuid "c85f9cbf-a6b3-42c5-a4f1-a662b7837938")
 			(effects
@@ -11255,7 +11255,7 @@
 			)
 		)
 		(fp_text user "K"
-			(at -0.2925 -32.84375 -90)
+			(at 1.02 -2.13 -90)
 			(layer "F.Fab")
 			(uuid "0a4b0f7c-49ea-446c-a3b5-92be07aa506a")
 			(effects
@@ -11981,7 +11981,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "47392e9c-7c29-4864-b4bc-6ebf3625e7e1")
-		(at 241.5875 59.53125 90)
+		(at 238.125 138.67 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D49"
@@ -11996,7 +11996,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 3.67 2.475 -90)
 			(layer "F.Fab")
 			(uuid "0297cf2c-ca35-49a5-bed5-0a39fc0748b5")
 			(effects
@@ -12363,7 +12363,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "49cec735-7c5c-4d76-bfea-fad5e6f64716")
-		(at 241.5875 91.84125 90)
+		(at 104.775 138.67 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D10"
@@ -12378,7 +12378,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 3.695 2.425 -90)
 			(layer "F.Fab")
 			(uuid "ca99e2c3-deea-4108-bfb7-3271200f6b1e")
 			(effects
@@ -12745,7 +12745,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "4c8257b6-603d-414d-bfbd-f29417d4c65e")
-		(at 230.9375 81.07125 90)
+		(at 264.425 59.835 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D20"
@@ -12760,7 +12760,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 3.83 3.025 -90)
 			(layer "F.Fab")
 			(uuid "131a0601-0849-49c6-be00-5a0587994ae4")
 			(effects
@@ -13127,7 +13127,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "4cef27f0-e17a-4d00-b756-af54db04df72")
-		(at 238.0375 48.76125 90)
+		(at 291.425 29.15 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D61"
@@ -13509,7 +13509,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "4fcbec9f-9990-479f-97a5-6569aa2e64f5")
-		(at 252.2375 70.30125 90)
+		(at 367.7 49.53 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D39"
@@ -13891,7 +13891,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "545befe6-fe8e-4104-848f-85c6cb23be1a")
-		(at 252.2375 59.53125 90)
+		(at 295.25 138.67 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D52"
@@ -14273,7 +14273,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "5878c765-0fac-4f38-9a1b-861e33318709")
-		(at 234.4875 59.53125 90)
+		(at 279.85 38.88 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D47"
@@ -14655,7 +14655,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "5b046ac0-35c5-457b-ac4f-e6cf73c56205")
-		(at 223.8375 59.53125 90)
+		(at 295.275 119.62 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D44"
@@ -14670,7 +14670,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.33375 24.76375 -90)
+			(at 3.575 2.525 -90)
 			(layer "F.Fab")
 			(uuid "592c5a3f-744b-457d-bc11-d7c174d5434d")
 			(effects
@@ -15037,7 +15037,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "5ded5112-0a24-4396-9946-1c61fbad5c66")
-		(at 234.4875 48.76125 90)
+		(at 279.85 28.11 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D60"
@@ -15753,7 +15753,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "5f53fa3e-da6c-495c-8daa-01d4bd8e0f76")
-		(at 252.2375 91.84125 90)
+		(at 161.925 138.67 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D13"
@@ -16135,7 +16135,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "5f866a01-8b02-4eb2-8c26-436d3c5ee691")
-		(at 227.3875 48.76125 90)
+		(at 248.125 27.4 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D58"
@@ -16150,7 +16150,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 3.685 14.87 -90)
 			(layer "F.Fab")
 			(uuid "0d4c69cc-ffc7-47b5-90c7-5a6d9a191caa")
 			(effects
@@ -17185,7 +17185,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "61476261-6235-4a0c-81b7-c4a95f0b9ceb")
-		(at 220.2875 91.84125 90)
+		(at 142.875 119.62 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D4"
@@ -17200,7 +17200,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 4.01 2.77 -90)
 			(layer "F.Fab")
 			(uuid "1a175cb9-5888-4d67-9e18-79550205778c")
 			(effects
@@ -17567,7 +17567,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "62342ea4-eda5-4720-9528-4d4013c00234")
-		(at 238.0375 59.53125 90)
+		(at 291.425 39.92 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D48"
@@ -18617,7 +18617,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "66d49c17-a65d-4e23-a3a3-7bde73fe8938")
-		(at 238.0375 70.30125 90)
+		(at 291.425 50.69 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D35"
@@ -18999,11 +18999,11 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "6911b40b-6a56-4988-8d10-b02909fbbe0f")
-		(at 213.1875 48.76125 90)
+		(at 333.375 138.67 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D54"
-			(at 3.5175 -33.16375 -90)
+			(at 4.83 -2.45 -90)
 			(layer "F.SilkS")
 			(uuid "7624acdd-211e-4609-8db0-d2ffec78a0aa")
 			(effects
@@ -19312,7 +19312,7 @@
 			(uuid "273d3da0-426f-41d1-b58b-f38fdade35c9")
 		)
 		(fp_text user "K"
-			(at -0.2925 -32.84375 -90)
+			(at 1.02 -2.13 -90)
 			(layer "F.SilkS")
 			(uuid "5914661b-9777-4b20-8f94-b37b161b3a51")
 			(effects
@@ -19323,7 +19323,7 @@
 			)
 		)
 		(fp_text user "K"
-			(at -0.2925 -32.84375 -90)
+			(at 1.02 -2.13 -90)
 			(layer "F.Fab")
 			(uuid "11f8f7f5-3a2d-4998-8585-0d0ca3ab251a")
 			(effects
@@ -20049,7 +20049,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "70b54edd-4b19-4f34-81f9-30dec9f4d55a")
-		(at 223.8375 81.07125 90)
+		(at 238.175 58.195 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D18"
@@ -20064,7 +20064,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.33375 24.76375 -90)
+			(at 5.245 124.55125 -90)
 			(layer "F.Fab")
 			(uuid "35f8a18a-16d5-44e2-ba8a-803d75d11862")
 			(effects
@@ -21433,7 +21433,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "7923d047-dc45-4a40-9307-98bdc28d2229")
-		(at 245.1375 48.76125 90)
+		(at 337.05 27.59 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D63"
@@ -21448,7 +21448,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 3.275 11.145 -90)
 			(layer "F.Fab")
 			(uuid "cca013c2-6fb1-48c8-94f9-e65336c11856")
 			(effects
@@ -24004,7 +24004,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "7b8b253a-df37-442f-9475-d09eeb23804e")
-		(at 248.6875 91.84125 90)
+		(at 142.875 138.67 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D12"
@@ -24019,7 +24019,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 4.195 2.55 -90)
 			(layer "F.Fab")
 			(uuid "99c7e2ee-2237-4716-8aee-a217cc8f6d61")
 			(effects
@@ -24386,7 +24386,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "7db08451-fbb9-438d-8b3f-0e7ba2a4ba5a")
-		(at 223.8375 70.30125 90)
+		(at 238.175 47.425 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D31"
@@ -24401,7 +24401,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.33375 24.76375 -90)
+			(at 5.245 124.55125 -90)
 			(layer "F.Fab")
 			(uuid "d9fde265-3709-4726-88b4-b18c488a9c79")
 			(effects
@@ -25436,7 +25436,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "8783ed6e-10e2-4014-ad58-8150d94e1ca8")
-		(at 230.9375 48.76125 90)
+		(at 264.425 27.525 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D59"
@@ -25451,7 +25451,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 3.83 3.025 -90)
 			(layer "F.Fab")
 			(uuid "422d5df3-1bfd-4c32-947f-853d2c551fc7")
 			(effects
@@ -26152,7 +26152,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "8fec1404-16bb-4d2e-831c-51330fcd110c")
-		(at 220.2875 59.53125 90)
+		(at 276.225 119.62 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D43"
@@ -26167,7 +26167,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 4.01 2.77 -90)
 			(layer "F.Fab")
 			(uuid "617f902c-bec0-46a5-acaa-aea1942691d6")
 			(effects
@@ -26534,7 +26534,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "91aa6e1a-6a20-47af-aa71-6988adeeaab5")
-		(at 248.6875 48.76125 90)
+		(at 349.625 28.125 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D64"
@@ -26916,11 +26916,11 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "927e108c-8e82-4e2f-b769-50fb81b80862")
-		(at 213.1875 70.30125 90)
+		(at 194.35 51.125 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D28"
-			(at 3.5175 -33.16375 -90)
+			(at 4.83 -2.45 -90)
 			(layer "F.SilkS")
 			(uuid "5e6ed1ef-77f3-449c-ac04-a7fe5c9760e0")
 			(effects
@@ -27229,7 +27229,7 @@
 			(uuid "5761c712-51f9-4a67-995d-6c6d935bce62")
 		)
 		(fp_text user "K"
-			(at -0.2925 -32.84375 -90)
+			(at 1.02 -2.13 -90)
 			(layer "F.SilkS")
 			(uuid "ad709204-82ec-4ff7-915c-5583e5442ce7")
 			(effects
@@ -27240,7 +27240,7 @@
 			)
 		)
 		(fp_text user "K"
-			(at -0.2925 -32.84375 -90)
+			(at 1.02 -2.13 -90)
 			(layer "F.Fab")
 			(uuid "64d747cb-9c2e-4450-9c7f-89f9d1d6df09")
 			(effects
@@ -27298,7 +27298,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "95a60f9e-aede-4747-a4a6-edf2bd7f5676")
-		(at 227.3875 70.30125 90)
+		(at 248.125 48.94 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D32"
@@ -27313,7 +27313,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 3.685 14.87 -90)
 			(layer "F.Fab")
 			(uuid "10daca2b-9b21-4e39-b534-80d01fcfbff6")
 			(effects
@@ -28348,7 +28348,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "9eb33ed6-8efc-4520-bfdf-763228cfde24")
-		(at 238.0375 91.84125 90)
+		(at 85.725 138.67 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D9"
@@ -28730,7 +28730,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "9f9598c3-70aa-4899-8454-57ee1639b414")
-		(at 227.3875 91.84125 90)
+		(at 180.975 119.62 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D6"
@@ -28745,7 +28745,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 3.82 2.175 -90)
 			(layer "F.Fab")
 			(uuid "4dcb39c2-d001-41cb-87a9-4321638189ee")
 			(effects
@@ -29112,7 +29112,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "a8acba1e-7aba-455a-b34e-0c48b95b52a1")
-		(at 241.5875 48.76125 90)
+		(at 307.425 29.065 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D62"
@@ -29127,7 +29127,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 5.285 28.195 -90)
 			(layer "F.Fab")
 			(uuid "7402ed37-8820-44e8-b581-d392fc804e20")
 			(effects
@@ -31832,11 +31832,11 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "baee3787-3393-4927-bf96-84042cab5207")
-		(at 213.1875 91.84125 90)
+		(at 104.775 119.62 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D2"
-			(at 3.5175 -33.16375 -90)
+			(at 3.5175 -2.38125 -90)
 			(layer "F.SilkS")
 			(uuid "647d4c21-6455-40ec-bf10-7591785ffaae")
 			(effects
@@ -31847,7 +31847,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 3.81 2.38125 -90)
 			(layer "F.Fab")
 			(uuid "d44fa61d-1a8f-4e0e-be8a-0cffc4d9945b")
 			(effects
@@ -32145,7 +32145,7 @@
 			(uuid "eadfdddd-463b-4bdf-a9bc-44621a5724fe")
 		)
 		(fp_text user "K"
-			(at -0.2925 -32.84375 -90)
+			(at 0.47625 -2.38125 -90)
 			(layer "F.SilkS")
 			(uuid "efbce964-5de3-4fbb-800f-a301981df977")
 			(effects
@@ -32156,7 +32156,7 @@
 			)
 		)
 		(fp_text user "K"
-			(at -0.2925 -32.84375 -90)
+			(at 0.47625 -2.38125 -90)
 			(layer "F.Fab")
 			(uuid "2c72b5d3-2165-4461-9935-cb32da0c1a10")
 			(effects
@@ -32214,7 +32214,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "bb4063db-4bc3-4e72-8d18-65dd3eadd9e9")
-		(at 241.5875 81.07125 90)
+		(at 307.425 61.375 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D23"
@@ -32229,7 +32229,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 5.285 28.195 -90)
 			(layer "F.Fab")
 			(uuid "d4595250-3e8e-40b2-a0c3-e7232f442251")
 			(effects
@@ -32596,7 +32596,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "bd036bf5-610a-4adf-ac10-db85d5f4a683")
-		(at 245.1375 59.53125 90)
+		(at 257.175 138.67 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D50"
@@ -32611,7 +32611,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 3.135 2.55 -90)
 			(layer "F.Fab")
 			(uuid "9e11dc93-051c-4520-8939-961dcecdf52b")
 			(effects
@@ -32978,7 +32978,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "bd950f92-7529-4338-a28e-d6a60009ee3c")
-		(at 220.2875 70.30125 90)
+		(at 227.205 50.35 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D30"
@@ -32993,7 +32993,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 4.01 2.77 -90)
 			(layer "F.Fab")
 			(uuid "f3686ef1-5102-445a-a3ca-b0c318b379ee")
 			(effects
@@ -34696,7 +34696,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "c2d1aeda-e67d-495d-ad7e-1d4b22648453")
-		(at 241.5875 70.30125 90)
+		(at 307.425 50.605 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D36"
@@ -34711,7 +34711,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 5.285 28.195 -90)
 			(layer "F.Fab")
 			(uuid "68b4d90b-1b10-4ce3-bcbe-9337c532684f")
 			(effects
@@ -35078,7 +35078,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "c818ebb7-a218-41c3-886e-98434f4aca3b")
-		(at 178.59375 70.59375 90)
+		(at 179.74375 51.86875 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D27"
@@ -35794,7 +35794,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "cb10adf7-6a25-4445-8411-c23b0e0715f6")
-		(at 245.1375 81.07125 90)
+		(at 337.05 59.9 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D24"
@@ -35809,7 +35809,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 3.275 11.145 -90)
 			(layer "F.Fab")
 			(uuid "5a540a95-f3d3-4d5d-8b04-eea7dbf69aee")
 			(effects
@@ -36176,11 +36176,11 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "cb250385-16f3-4f85-8f0c-db6a5dabe9d8")
-		(at 216.7375 81.07125 90)
+		(at 219.075 138.67 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D16"
-			(at 3.81 -2.12 -90)
+			(at 5.005 -2.4 -90)
 			(layer "F.SilkS")
 			(uuid "b02118b4-b0c6-4b9f-ac93-279b9ab5d176")
 			(effects
@@ -36191,7 +36191,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 3.67 2.1 -90)
 			(layer "F.Fab")
 			(uuid "09b5d1e1-4a41-4522-a32c-8408c53a3c29")
 			(effects
@@ -36489,7 +36489,7 @@
 			(uuid "44d1118f-3ad4-4c17-a627-c451cf892cb5")
 		)
 		(fp_text user "K"
-			(at 0 -1.8 -90)
+			(at 1.195 -2.08 -90)
 			(layer "F.SilkS")
 			(uuid "40b2fb79-9d92-4f72-8b40-650256c7c3da")
 			(effects
@@ -36511,7 +36511,7 @@
 			)
 		)
 		(fp_text user "K"
-			(at 0 -1.8 -90)
+			(at 1.195 -2.08 -90)
 			(layer "F.Fab")
 			(uuid "e0d53ad4-8ab5-463c-82cb-14e5ccfd7d3e")
 			(effects
@@ -37894,7 +37894,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "d2bb45e9-d406-4b15-b26c-6370b488703f")
-		(at 245.1375 91.84125 90)
+		(at 123.825 138.67 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D11"
@@ -37909,7 +37909,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 3.87 2.25 -90)
 			(layer "F.Fab")
 			(uuid "a0bc0d52-f5ef-47eb-abec-734eb6ed077d")
 			(effects
@@ -38944,11 +38944,11 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "d4f808fe-196b-4309-9240-5d300d4bad7a")
-		(at 216.7375 59.53125 90)
+		(at 257.175 119.62 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D42"
-			(at 3.81 -2.12 -90)
+			(at 4.665 -2.65 -90)
 			(layer "F.SilkS")
 			(uuid "924e1d9e-88da-47df-a6b6-091a847fa7be")
 			(effects
@@ -38959,7 +38959,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 3.615 2.2 -90)
 			(layer "F.Fab")
 			(uuid "82b9f405-88a7-4f6c-89e4-2b3afbd26379")
 			(effects
@@ -39257,7 +39257,7 @@
 			(uuid "b2d04c56-b352-4bee-b789-5a8dd857651d")
 		)
 		(fp_text user "K"
-			(at 0 -1.8 -90)
+			(at 0.855 -2.33 -90)
 			(layer "F.SilkS")
 			(uuid "30207aee-bfef-475f-ac34-79aa24abf36f")
 			(effects
@@ -39279,7 +39279,7 @@
 			)
 		)
 		(fp_text user "K"
-			(at 0 -1.8 -90)
+			(at 0.855 -2.33 -90)
 			(layer "F.Fab")
 			(uuid "d8c83cdf-b527-4d46-9399-206f13972b14")
 			(effects
@@ -39326,7 +39326,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "d9244890-7187-475c-bca3-00862b4b6d74")
-		(at 216.7375 91.84125 90)
+		(at 123.825 119.62 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D3"
@@ -39341,7 +39341,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 4.05 2.2 -90)
 			(layer "F.Fab")
 			(uuid "88feae6b-49e4-42f8-8af5-5b92f1325bf6")
 			(effects
@@ -40376,7 +40376,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "dbe3d924-ed8c-4a88-876c-5daf04dbdb15")
-		(at 248.6875 81.07125 90)
+		(at 349.625 60.435 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D25"
@@ -40391,7 +40391,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 3.945 16.645 -90)
 			(layer "F.Fab")
 			(uuid "b950755a-657f-4d21-b6e6-43ee7964a8cd")
 			(effects
@@ -41092,7 +41092,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "dcf62428-0c09-43df-ae43-bde4bbe7008b")
-		(at 234.4875 81.07125 90)
+		(at 279.85 60.42 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D21"
@@ -41474,7 +41474,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "de0d9e66-5c2e-400e-9426-f6cf01408851")
-		(at 245.1375 70.30125 90)
+		(at 337.05 49.13 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D37"
@@ -41489,7 +41489,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 3.275 11.145 -90)
 			(layer "F.Fab")
 			(uuid "0ef4d82d-5c02-4240-834c-260da5288757")
 			(effects
@@ -43192,7 +43192,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "e57a0b93-ecc8-4dc1-836c-c0dfe4f9feb2")
-		(at 178.59375 92.13375 90)
+		(at 85.725 119.62 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D1"
@@ -43908,7 +43908,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "eacf4a4e-9cc8-481e-8787-530e01e992d4")
-		(at 178.59375 59.82375 90)
+		(at 179.74375 41.09875 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D40"
@@ -44958,7 +44958,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "ee62eb48-ced8-455e-afc8-9b2b36ee0452")
-		(at 238.0375 81.07125 90)
+		(at 291.425 61.46 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D22"
@@ -45340,7 +45340,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "ee769efc-e254-40a5-915c-2c133a57d633")
-		(at 227.3875 81.07125 90)
+		(at 248.125 59.71 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D19"
@@ -45355,7 +45355,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 3.685 14.87 -90)
 			(layer "F.Fab")
 			(uuid "5e7ef260-56d6-4587-9a99-00bad59b45ae")
 			(effects
@@ -45722,11 +45722,11 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "ee8ad5da-8e84-4e3c-9bb4-2d0680cdc637")
-		(at 216.7375 48.76125 90)
+		(at 205.575 30.27 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D55"
-			(at 3.81 -2.12 -90)
+			(at 4.895 -2.725 -90)
 			(layer "F.SilkS")
 			(uuid "b3cd2f0e-f5fb-4171-91db-cf3abf7bad65")
 			(effects
@@ -45737,7 +45737,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 3.795 2.45 -90)
 			(layer "F.Fab")
 			(uuid "aca52fd8-8ea0-49c9-88c2-e69b8b6a296d")
 			(effects
@@ -46035,7 +46035,7 @@
 			(uuid "4ed49d72-1814-4f5f-ae53-4b68a0484265")
 		)
 		(fp_text user "K"
-			(at 0 -1.8 -90)
+			(at 1.085 -2.405 -90)
 			(layer "F.SilkS")
 			(uuid "b0b2e26a-d0c1-4ed0-b51a-66b4f3b29ecf")
 			(effects
@@ -46046,7 +46046,7 @@
 			)
 		)
 		(fp_text user "K"
-			(at 0 -1.8 -90)
+			(at 1.085 -2.405 -90)
 			(layer "F.Fab")
 			(uuid "934700a3-8893-4fb2-8bf1-82cdf781b056")
 			(effects
@@ -46438,11 +46438,11 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "f520de57-a1c6-4463-9ca3-844429f76f90")
-		(at 216.7375 70.30125 90)
+		(at 205.575 51.81 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D29"
-			(at 3.81 -2.12 -90)
+			(at 4.71 -2.85 -90)
 			(layer "F.SilkS")
 			(uuid "713c3c87-5709-41e2-8275-d0d6ef40b3ce")
 			(effects
@@ -46453,7 +46453,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 3.81 2.12 -90)
+			(at 3.86 2.2 -90)
 			(layer "F.Fab")
 			(uuid "32745213-b203-4dc2-b7a7-29184a2b22ad")
 			(effects
@@ -46751,7 +46751,7 @@
 			(uuid "f3594b9f-bff1-4cea-a17f-a2c33ed90e50")
 		)
 		(fp_text user "K"
-			(at 0 -1.8 -90)
+			(at 0.9 -2.53 -90)
 			(layer "F.SilkS")
 			(uuid "e17e7bbd-395d-48d8-8120-251c18ef826e")
 			(effects
@@ -46773,7 +46773,7 @@
 			)
 		)
 		(fp_text user "K"
-			(at 0 -1.8 -90)
+			(at 0.9 -2.53 -90)
 			(layer "F.Fab")
 			(uuid "e2234b03-9278-47b4-92ac-687aedf74ae7")
 			(effects
@@ -47488,7 +47488,7 @@
 	(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 		(layer "F.Cu")
 		(uuid "fcbce601-357e-4b53-ac47-b17149e828a7")
-		(at 234.4875 91.84125 90)
+		(at 219.075 119.62 90)
 		(descr "Diode, DO-35_SOD27 series, Axial, Horizontal, pin pitch=7.62mm, , length*diameter=4*2mm^2, , http://www.diodes.com/_files/packages/DO-35.pdf")
 		(tags "Diode DO-35_SOD27 series Axial Horizontal pin pitch 7.62mm  length 4mm diameter 2mm")
 		(property "Reference" "D8"
@@ -48200,5 +48200,486 @@
 				(xyz 0 0 0)
 			)
 		)
+	)
+	(dimension
+		(type aligned)
+		(layer "F.Cu")
+		(uuid "7a1279b8-cabc-4c6b-9db1-3bbaaa6bdf79")
+		(pts
+			(xy 85.725 110.95) (xy 85.725 104.775)
+		)
+		(height -9.175)
+		(gr_text "6.1750 mm"
+			(at 74.75 107.8625 90)
+			(layer "F.Cu")
+			(uuid "7a1279b8-cabc-4c6b-9db1-3bbaaa6bdf79")
+			(effects
+				(font
+					(size 1.5 1.5)
+					(thickness 0.3)
+				)
+			)
+		)
+		(format
+			(prefix "")
+			(suffix "")
+			(units 3)
+			(units_format 1)
+			(precision 4)
+		)
+		(style
+			(thickness 0.2)
+			(arrow_length 1.27)
+			(text_position_mode 0)
+			(extension_height 0.58642)
+			(extension_offset 0.5) keep_text_aligned)
+	)
+	(segment
+		(start 85.725 112)
+		(end 91.2 112)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 1)
+		(uuid "715c38f7-a064-455b-acbe-ffe2c11fe333")
+	)
+	(segment
+		(start 91.2 112)
+		(end 91.44 111.76)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 1)
+		(uuid "958b22a6-bde6-4da9-8347-5952c90210e2")
+	)
+	(segment
+		(start 104.775 112)
+		(end 110.25 112)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 3)
+		(uuid "2a0fe2c7-e317-4e47-a78e-8ff74d00453c")
+	)
+	(segment
+		(start 110.25 112)
+		(end 110.49 111.76)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 3)
+		(uuid "3375956c-8c63-4c01-96cc-df27702de258")
+	)
+	(segment
+		(start 123.825 112)
+		(end 129.3 112)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 4)
+		(uuid "41361d3d-5352-4f3f-b350-cef1362cf0b9")
+	)
+	(segment
+		(start 129.3 112)
+		(end 129.54 111.76)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 4)
+		(uuid "4c3ea24c-162e-42e0-8ab6-ff09bc5df5f3")
+	)
+	(segment
+		(start 148.35 112)
+		(end 148.59 111.76)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 5)
+		(uuid "13b2485a-3d2a-4975-a640-ecd57ed3a137")
+	)
+	(segment
+		(start 142.875 112)
+		(end 148.35 112)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 5)
+		(uuid "fd40f191-c14d-44e2-a59d-93339e393112")
+	)
+	(segment
+		(start 161.925 112)
+		(end 167.4 112)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 6)
+		(uuid "36096009-bca2-4642-b01c-1c039e44e9d8")
+	)
+	(segment
+		(start 167.4 112)
+		(end 167.64 111.76)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 6)
+		(uuid "8b3099fd-9122-462e-acd0-d23d5fbe553b")
+	)
+	(segment
+		(start 180.975 112)
+		(end 186.45 112)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 7)
+		(uuid "4f0a2f34-2c96-4e98-8a22-275233502230")
+	)
+	(segment
+		(start 186.45 112)
+		(end 186.69 111.76)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 7)
+		(uuid "58ebc8cf-4b7f-4973-8568-606a99601c24")
+	)
+	(segment
+		(start 200.025 112)
+		(end 205.5 112)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 8)
+		(uuid "27f30ecd-30da-407a-858c-3e56bf333a9c")
+	)
+	(segment
+		(start 205.5 112)
+		(end 205.74 111.76)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 8)
+		(uuid "2ecd650c-c4c3-4ac2-89b1-5d1727917388")
+	)
+	(segment
+		(start 224.55 112)
+		(end 224.79 111.76)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 9)
+		(uuid "11242bad-9a8a-4888-8dae-f7320cfabfbb")
+	)
+	(segment
+		(start 219.075 112)
+		(end 224.55 112)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 9)
+		(uuid "70fab905-6701-42ea-b06f-91b7bb71f4ca")
+	)
+	(segment
+		(start 91.2 131.05)
+		(end 91.44 130.81)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 11)
+		(uuid "22405306-6e06-46ef-bab2-8749372ab509")
+	)
+	(segment
+		(start 85.725 131.05)
+		(end 91.2 131.05)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 11)
+		(uuid "cd6ecda7-400b-47ed-82c1-7e5d0774762e")
+	)
+	(segment
+		(start 104.775 131.05)
+		(end 110.25 131.05)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 12)
+		(uuid "17f3c9bf-ecae-4054-ada3-13913f11b894")
+	)
+	(segment
+		(start 110.25 131.05)
+		(end 110.49 130.81)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 12)
+		(uuid "a3729a02-8c4f-439c-9c0b-447f17aa9418")
+	)
+	(segment
+		(start 129.3 131.05)
+		(end 129.54 130.81)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 13)
+		(uuid "3451611f-f1f5-4367-9b8a-1c8acb709354")
+	)
+	(segment
+		(start 123.825 131.05)
+		(end 129.3 131.05)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 13)
+		(uuid "9e6fafaf-2075-431f-844b-14d0fc45de39")
+	)
+	(segment
+		(start 142.875 131.05)
+		(end 148.35 131.05)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 14)
+		(uuid "3226ee26-cfd4-4922-8725-0373cf06ed35")
+	)
+	(segment
+		(start 148.35 131.05)
+		(end 148.59 130.81)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 14)
+		(uuid "8802fcd1-3aa0-45a1-b1c4-22ce2966b35e")
+	)
+	(segment
+		(start 167.4 131.05)
+		(end 167.64 130.81)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 15)
+		(uuid "4ca36731-0b7b-4d7a-a27d-cf59c1a0e8c4")
+	)
+	(segment
+		(start 161.925 131.05)
+		(end 167.4 131.05)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 15)
+		(uuid "efcad74b-009c-45ad-9e5b-8816d406c621")
+	)
+	(segment
+		(start 180.975 131.05)
+		(end 186.45 131.05)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 16)
+		(uuid "158b1c3f-12f5-4c36-94c3-8d2d1cec6d01")
+	)
+	(segment
+		(start 186.45 131.05)
+		(end 186.69 130.81)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 16)
+		(uuid "c54a495e-5374-4ce4-8309-06a576ac098e")
+	)
+	(segment
+		(start 200.025 131.05)
+		(end 205.5 131.05)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 17)
+		(uuid "a2db675b-6069-48dc-bd2f-ff429d2fd5ab")
+	)
+	(segment
+		(start 205.5 131.05)
+		(end 205.74 130.81)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 17)
+		(uuid "e94d088a-6914-468f-9782-e8e855f2d9b2")
+	)
+	(segment
+		(start 224.55 131.05)
+		(end 224.79 130.81)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 18)
+		(uuid "491012a5-4dd1-47a8-83e4-0c3e5597a946")
+	)
+	(segment
+		(start 219.075 131.05)
+		(end 224.55 131.05)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 18)
+		(uuid "7c8d52e3-d770-47f3-8eab-d134cae3da97")
+	)
+	(segment
+		(start 238.125 112)
+		(end 243.6 112)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 46)
+		(uuid "5a15d413-f73e-44a0-b2ed-6a46b76bc241")
+	)
+	(segment
+		(start 243.6 112)
+		(end 243.84 111.76)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 46)
+		(uuid "b7a4cb2e-47df-49fa-8608-d410f6d0043c")
+	)
+	(segment
+		(start 257.175 112)
+		(end 262.65 112)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 48)
+		(uuid "1b51f20f-cd32-409f-ac98-163bd629c239")
+	)
+	(segment
+		(start 262.65 112)
+		(end 262.89 111.76)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 48)
+		(uuid "2e34955b-4943-4fdc-bdcb-94b62372eda5")
+	)
+	(segment
+		(start 276.225 112)
+		(end 281.7 112)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 49)
+		(uuid "72b987d1-8446-41b6-a607-12ef3d718fe0")
+	)
+	(segment
+		(start 281.7 112)
+		(end 281.94 111.76)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 49)
+		(uuid "ce50eb30-8928-4adf-a82c-37404ed62148")
+	)
+	(segment
+		(start 300.75 112)
+		(end 300.99 111.76)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 50)
+		(uuid "02ad720d-86a1-4cc5-be9d-63da3667cd64")
+	)
+	(segment
+		(start 295.275 112)
+		(end 300.75 112)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 50)
+		(uuid "d2bee7e6-9b30-4bb5-8b54-b7d670da8201")
+	)
+	(segment
+		(start 319.8 112)
+		(end 320.04 111.76)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 51)
+		(uuid "7814a5b0-1894-47fe-9a18-4ca4f4145606")
+	)
+	(segment
+		(start 314.325 112)
+		(end 319.8 112)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 51)
+		(uuid "82c08c86-e135-4203-a667-1fddf9e48f76")
+	)
+	(segment
+		(start 338.85 112)
+		(end 339.09 111.76)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 52)
+		(uuid "af6ba660-5aec-415a-900c-268dee8bf9a9")
+	)
+	(segment
+		(start 333.375 112)
+		(end 338.85 112)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 52)
+		(uuid "ef9d993a-bbd4-43d5-bbb3-6719d04eb8cb")
+	)
+	(segment
+		(start 243.6 131.05)
+		(end 243.84 130.81)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 55)
+		(uuid "24a85803-34b7-4711-bc8b-328720750f3f")
+	)
+	(segment
+		(start 238.125 131.05)
+		(end 243.6 131.05)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 55)
+		(uuid "69b7b34d-19ff-43e1-8228-343164cde347")
+	)
+	(segment
+		(start 262.65 131.05)
+		(end 262.89 130.81)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 57)
+		(uuid "036d5672-fa95-45fb-93cc-d1c6b9751d55")
+	)
+	(segment
+		(start 257.175 131.05)
+		(end 262.65 131.05)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 57)
+		(uuid "abe65cfc-3b88-4eab-b6f9-f0a935ccca3d")
+	)
+	(segment
+		(start 276.225 131.05)
+		(end 281.7 131.05)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 58)
+		(uuid "5e7747e9-c1f9-43d3-8619-7ce0d2e02314")
+	)
+	(segment
+		(start 281.7 131.05)
+		(end 281.94 130.81)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 58)
+		(uuid "caaceaa4-2fcd-4d0a-9b72-f1691659f785")
+	)
+	(segment
+		(start 300.75 131.05)
+		(end 300.99 130.81)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 59)
+		(uuid "df0b3fac-15f3-44b8-9cd1-a634c0e708bc")
+	)
+	(segment
+		(start 295.25 131.05)
+		(end 300.75 131.05)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 59)
+		(uuid "e82ca3c7-0531-47ea-b981-00283e2ca8b9")
+	)
+	(segment
+		(start 314.325 131.05)
+		(end 319.8 131.05)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 60)
+		(uuid "8c6d700a-46a6-4e2b-89fe-da36e655133e")
+	)
+	(segment
+		(start 319.8 131.05)
+		(end 320.04 130.81)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 60)
+		(uuid "e138ebb3-805b-4076-9143-8c3bebd9712a")
+	)
+	(segment
+		(start 333.375 131.05)
+		(end 338.85 131.05)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 61)
+		(uuid "6dfc37ba-43eb-4b2a-87c3-c9bee7eaae93")
+	)
+	(segment
+		(start 338.85 131.05)
+		(end 339.09 130.81)
+		(width 0.2)
+		(layer "F.Cu")
+		(net 61)
+		(uuid "dc3e8067-9e9b-43fe-9a21-76d6c39c1354")
 	)
 )
