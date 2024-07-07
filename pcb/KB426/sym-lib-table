@@ -1,0 +1,5 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "SSD1331_OLED_Display")(type "KiCad")(uri "${KIPRJMOD}/Library/SSD1331_OLED_Display/SSD1331_OLED_Display.kicad_sym")(options "")(descr ""))
+  (lib (name "OLED_Display_SSD1331_SPI")(type "KiCad")(uri "${KIPRJMOD}/Library/OLED_Display_SSD1331_SPI/OLED_Display_SSD1331_SPI.kicad_sym")(options "")(descr ""))
+)

@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "OLED_Display_SSD1331_SPI")(type "KiCad")(uri "${KIPRJMOD}/Library/OLED_Display_SSD1331_SPI/OLED_Display_SSD1331_SPI.pretty")(options "")(descr ""))
+)
