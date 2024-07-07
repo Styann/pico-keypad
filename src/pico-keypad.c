@@ -25,10 +25,10 @@
 #define USE_KEYBOARD
 #define USE_HW40
 // #define USE_FIGHTSTICK
-#define USE_WS2812B
+// #define USE_WS2812B
 
-// #include "cow.h"
-// #define USE_SSD1331
+#include "blaziken.h"
+#define USE_SSD1331
 
 #define DEBOUNCE_MS 10
 
@@ -237,11 +237,10 @@ void main_core1(void) {
         ssd1331_init(&display);
 
         while(true) {
-            for (uint8_t i = 0; i < 39; i++) {
-                ssd1331_write_data(&display, (uint16_t*)cow[i], SSD1331_RESOLUTION);
-                sleep_ms(80);
+            for (uint8_t i = 0; i < 87; i++) {
+                ssd1331_write_data(&display, (uint16_t*)blaziken_framebuffer[i], SSD1331_RESOLUTION);
+                sleep_ms(40);
             }
-            // asm volatile("nop");
         }
     #endif
 }
