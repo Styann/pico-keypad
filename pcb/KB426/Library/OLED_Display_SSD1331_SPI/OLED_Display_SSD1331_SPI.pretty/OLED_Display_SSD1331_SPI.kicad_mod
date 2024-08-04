@@ -74,7 +74,7 @@
 			(width 0.1)
 			(type default)
 		)
-		(layer "F.SilkS")
+		(layer "Dwgs.User")
 		(uuid "59d19bb7-e5f9-4600-b60b-ff3e77b34698")
 	)
 	(fp_line
@@ -84,7 +84,7 @@
 			(width 0.1)
 			(type default)
 		)
-		(layer "F.SilkS")
+		(layer "Dwgs.User")
 		(uuid "286e554b-bd60-4f40-985d-c923a1838c69")
 	)
 	(fp_line
@@ -94,7 +94,7 @@
 			(width 0.1)
 			(type default)
 		)
-		(layer "F.SilkS")
+		(layer "Dwgs.User")
 		(uuid "6e2f1f90-582f-444f-96d1-e59ed3f46be0")
 	)
 	(fp_line
@@ -102,9 +102,9 @@
 		(end 13.55 -10.19)
 		(stroke
 			(width 0.1)
-			(type default)
+			(type solid)
 		)
-		(layer "F.SilkS")
+		(layer "Dwgs.User")
 		(uuid "7eb77330-2725-44fb-89bf-2648d57b44a5")
 	)
 	(fp_text user "${REFERENCE}"
@@ -118,105 +118,6 @@
 				(thickness 0.15)
 			)
 		)
-	)
-	(dimension
-		(type aligned)
-		(layer "F.SilkS")
-		(uuid "363706c7-5465-4687-a4bc-7d4c72878787")
-		(pts
-			(xy 13.55 20.71) (xy -13.55 20.71)
-		)
-		(height -9.69)
-		(gr_text "27.1000 mm"
-			(at 0 29.3 0)
-			(layer "F.SilkS")
-			(uuid "363706c7-5465-4687-a4bc-7d4c72878787")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.1)
-				)
-			)
-		)
-		(format
-			(prefix "")
-			(suffix "")
-			(units 3)
-			(units_format 1)
-			(precision 4)
-		)
-		(style
-			(thickness 0.1)
-			(arrow_length 1.27)
-			(text_position_mode 0)
-			(extension_height 0.58642)
-			(extension_offset 0.5) keep_text_aligned)
-	)
-	(dimension
-		(type aligned)
-		(layer "F.SilkS")
-		(uuid "3a63499f-4fd6-48d7-a99a-5b00af3ddda3")
-		(pts
-			(xy -7.62 -7.62) (xy 7.62 -7.62)
-		)
-		(height 5.08)
-		(gr_text "15.2400 mm"
-			(at 0 -3.64 0)
-			(layer "F.SilkS")
-			(uuid "3a63499f-4fd6-48d7-a99a-5b00af3ddda3")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.1)
-				)
-			)
-		)
-		(format
-			(prefix "")
-			(suffix "")
-			(units 3)
-			(units_format 1)
-			(precision 4)
-		)
-		(style
-			(thickness 0.1)
-			(arrow_length 1.27)
-			(text_position_mode 0)
-			(extension_height 0.58642)
-			(extension_offset 0.5) keep_text_aligned)
-	)
-	(dimension
-		(type aligned)
-		(layer "F.SilkS")
-		(uuid "f5955f67-9725-46fd-8c41-1405bf8180ac")
-		(pts
-			(xy -13.55 20.71) (xy -13.55 -10.19)
-		)
-		(height -10.29)
-		(gr_text "30.9000 mm"
-			(at -24.94 5.26 90)
-			(layer "F.SilkS")
-			(uuid "f5955f67-9725-46fd-8c41-1405bf8180ac")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.1)
-				)
-			)
-		)
-		(format
-			(prefix "")
-			(suffix "")
-			(units 3)
-			(units_format 1)
-			(precision 4)
-		)
-		(style
-			(thickness 0.1)
-			(arrow_length 1.27)
-			(text_position_mode 0)
-			(extension_height 0.58642)
-			(extension_offset 0.5) keep_text_aligned)
 	)
 	(pad "1" thru_hole rect
 		(at -7.62 -7.62)
