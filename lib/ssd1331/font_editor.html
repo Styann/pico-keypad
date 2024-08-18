@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSD1331 Font editor</title>
+</head>
+
+<style>
+.parent {
+    display: grid;
+    grid-template-columns: repeat(8, 50px);
+    grid-template-rows: repeat(8, 50px);
+    grid-column-gap: 1px;
+    grid-row-gap: 1px;
+}
+
+.parent > div {
+    background-color: black;
+}
+
+.checked {
+    background-color: green !important;
+}
+
+#output {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    font-family: monospace;
+    font-size: 3em;
+}
+
+.div1 { grid-area: 1 / 1 / 2 / 2; }
+.div2 { grid-area: 1 / 2 / 2 / 3; }
+.div3 { grid-area: 1 / 3 / 2 / 4; }
+.div4 { grid-area: 1 / 4 / 2 / 5; }
+.div5 { grid-area: 1 / 5 / 2 / 6; }
+.div6 { grid-area: 1 / 6 / 2 / 7; }
+.div7 { grid-area: 1 / 7 / 2 / 8; }
+.div8 { grid-area: 1 / 8 / 2 / 9; }
+.div9 { grid-area: 2 / 1 / 3 / 2; }
+.div10 { grid-area: 2 / 2 / 3 / 3; }
+.div11 { grid-area: 2 / 3 / 3 / 4; }
+.div12 { grid-area: 2 / 4 / 3 / 5; }
+.div13 { grid-area: 2 / 5 / 3 / 6; }
+.div14 { grid-area: 2 / 6 / 3 / 7; }
+.div15 { grid-area: 2 / 7 / 3 / 8; }
+.div16 { grid-area: 2 / 8 / 3 / 9; }
+.div17 { grid-area: 3 / 1 / 4 / 2; }
+.div18 { grid-area: 3 / 2 / 4 / 3; }
+.div19 { grid-area: 3 / 3 / 4 / 4; }
+.div20 { grid-area: 3 / 4 / 4 / 5; }
+.div21 { grid-area: 3 / 5 / 4 / 6; }
+.div22 { grid-area: 3 / 6 / 4 / 7; }
+.div23 { grid-area: 3 / 7 / 4 / 8; }
+.div24 { grid-area: 3 / 8 / 4 / 9; }
+.div25 { grid-area: 4 / 1 / 5 / 2; }
+.div26 { grid-area: 4 / 2 / 5 / 3; }
+.div27 { grid-area: 4 / 3 / 5 / 4; }
+.div28 { grid-area: 4 / 4 / 5 / 5; }
+.div29 { grid-area: 4 / 5 / 5 / 6; }
+.div30 { grid-area: 4 / 6 / 5 / 7; }
+.div31 { grid-area: 4 / 7 / 5 / 8; }
+.div32 { grid-area: 4 / 8 / 5 / 9; }
+.div33 { grid-area: 5 / 1 / 6 / 2; }
+.div34 { grid-area: 5 / 2 / 6 / 3; }
+.div35 { grid-area: 5 / 3 / 6 / 4; }
+.div36 { grid-area: 5 / 4 / 6 / 5; }
+.div37 { grid-area: 5 / 5 / 6 / 6; }
+.div38 { grid-area: 5 / 6 / 6 / 7; }
+.div39 { grid-area: 5 / 7 / 6 / 8; }
+.div40 { grid-area: 5 / 8 / 6 / 9; }
+.div41 { grid-area: 6 / 1 / 7 / 2; }
+.div42 { grid-area: 6 / 2 / 7 / 3; }
+.div43 { grid-area: 6 / 3 / 7 / 4; }
+.div44 { grid-area: 6 / 4 / 7 / 5; }
+.div45 { grid-area: 6 / 5 / 7 / 6; }
+.div46 { grid-area: 6 / 6 / 7 / 7; }
+.div47 { grid-area: 6 / 7 / 7 / 8; }
+.div48 { grid-area: 6 / 8 / 7 / 9; }
+.div49 { grid-area: 7 / 1 / 8 / 2; }
+.div50 { grid-area: 7 / 2 / 8 / 3; }
+.div51 { grid-area: 7 / 3 / 8 / 4; }
+.div52 { grid-area: 7 / 4 / 8 / 5; }
+.div53 { grid-area: 7 / 5 / 8 / 6; }
+.div54 { grid-area: 7 / 6 / 8 / 7; }
+.div55 { grid-area: 7 / 7 / 8 / 8; }
+.div56 { grid-area: 7 / 8 / 8 / 9; }
+.div57 { grid-area: 8 / 1 / 9 / 2; }
+.div58 { grid-area: 8 / 2 / 9 / 3; }
+.div59 { grid-area: 8 / 3 / 9 / 4; }
+.div60 { grid-area: 8 / 4 / 9 / 5; }
+.div61 { grid-area: 8 / 5 / 9 / 6; }
+.div62 { grid-area: 8 / 6 / 9 / 7; }
+.div63 { grid-area: 8 / 7 / 9 / 8; }
+.div64 { grid-area: 8 / 8 / 9 / 9; }
+
+</style>
+
+<body>
+    <div id="matrix" class="parent">
+        <div class="div1"></div>
+        <div class="div2"></div>
+        <div class="div3"></div>
+        <div class="div4"></div>
+        <div class="div5"></div>
+        <div class="div6"></div>
+        <div class="div7"></div>
+        <div class="div8"></div>
+        <div class="div9"></div>
+        <div class="div10"></div>
+        <div class="div11"></div>
+        <div class="div12"></div>
+        <div class="div13"></div>
+        <div class="div14"></div>
+        <div class="div15"></div>
+        <div class="div16"></div>
+        <div class="div17"></div>
+        <div class="div18"></div>
+        <div class="div19"></div>
+        <div class="div20"></div>
+        <div class="div21"></div>
+        <div class="div22"></div>
+        <div class="div23"></div>
+        <div class="div24"></div>
+        <div class="div25"></div>
+        <div class="div26"></div>
+        <div class="div27"></div>
+        <div class="div28"></div>
+        <div class="div29"></div>
+        <div class="div30"></div>
+        <div class="div31"></div>
+        <div class="div32"></div>
+        <div class="div33"></div>
+        <div class="div34"></div>
+        <div class="div35"></div>
+        <div class="div36"></div>
+        <div class="div37"></div>
+        <div class="div38"></div>
+        <div class="div39"></div>
+        <div class="div40"></div>
+        <div class="div41"></div>
+        <div class="div42"></div>
+        <div class="div43"></div>
+        <div class="div44"></div>
+        <div class="div45"></div>
+        <div class="div46"></div>
+        <div class="div47"></div>
+        <div class="div48"></div>
+        <div class="div49"></div>
+        <div class="div50"></div>
+        <div class="div51"></div>
+        <div class="div52"></div>
+        <div class="div53"></div>
+        <div class="div54"></div>
+        <div class="div55"></div>
+        <div class="div56"></div>
+        <div class="div57"></div>
+        <div class="div58"></div>
+        <div class="div59"></div>
+        <div class="div60"></div>
+        <div class="div61"></div>
+        <div class="div62"></div>
+        <div class="div63"></div>
+        <div class="div64"></div>
+    </div>
+
+    <h3 id="output">0x0000000000000000</h3>
+
+    <button style="height: 70px; width: 160px;" onclick="clear_matrix()">clear</button>
+    <button style="height: 70px; width: 160px;" onclick="copy()">copy</button>
+
+    <script>
+        const matrix = document.getElementById('matrix');
+        const checkboxes = [...split_array_into_chunks([].slice.call(matrix.children), 8)];
+        const output_element = document.getElementById('output');
+
+        let output_buffer;
+
+        for (let y = 0; y < 8; y++) {
+            for (let x = 0; x < 8; x++) {
+                const checkbox = checkboxes[y][x];
+
+                checkbox.addEventListener('click', () => {
+                    if (checkbox.classList.contains('checked')) {
+                        checkbox.classList.remove('checked');
+                    }
+                    else {
+                        checkbox.classList.add('checked');
+                    }
+
+                    compute();
+                });
+            }
+        }
+
+        function* split_array_into_chunks(arr, n) {
+            for (let i = 0; i < arr.length; i += n) {
+                yield arr.slice(i, i + n);
+            }
+        }
+
+        const compute = () => {
+            let output = 0x0000000000000000n;
+
+            let offset = 64n - 8n;
+
+            for (let y = 0n; y < 8n; y++) {
+                let byte = 0x00n;
+
+                for (let x = 0n; x < 8n; x++) {
+                    const checkbox = checkboxes[y][x];
+                    const bit = BigInt(checkbox.classList.contains('checked')) & 0b1n;
+                    byte |= bit << (7n - x);
+                }
+
+                output |= (byte << offset);
+                offset -= 8n;
+            }
+
+            // console.log('0x' + output.toString(16), '0b' + output.toString(2), output);
+
+            let output_str = output.toString(16).toUpperCase();
+
+            const zero_to_add = (16 - output_str.length);
+
+            for (let i = 0; i < zero_to_add; i++) {
+                // fill width zero
+                output_str = '0' + output_str;
+            }
+
+            output_str = '0x' + output_str;
+
+            output_buffer = output_str;
+            output_element.innerHTML = output_str;
+        };
+
+        const copy = () => navigator.clipboard.writeText(output_buffer);
+
+        const clear_matrix = () => {
+            for (let y = 0n; y < 8n; y++) {
+                for (let x = 0n; x < 8n; x++) {
+                    checkboxes[y][x].classList.remove('checked');
+                }
+            }
+        };
+    </script>
+</body>
+</html>

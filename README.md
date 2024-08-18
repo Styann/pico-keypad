@@ -11,7 +11,7 @@ This project contain :
 ## 📦 build
 
 ```sh
-cd /Pico/pico-keypad/src/build
+cd /Pico/pico-keypad/build
 ```
 
 ```sh
@@ -23,7 +23,7 @@ make pico-keypad
 ```
 
 ```sh
-cp /Pico/pico-keypad/src/build/pico-keypad.uf2 /media/user/RPI-RP2/
+cp /Pico/pico-keypad/build/pico-keypad.uf2 /media/user/RPI-RP2/
 ```
 
 ## 🗂️ ressources
@@ -35,3 +35,6 @@ cp /Pico/pico-keypad/src/build/pico-keypad.uf2 /media/user/RPI-RP2/
 
 ## todo
 * add led (Caps-lock...) read USB RX
+* string descriptor fixed bString buffer
+* clean USB code
+* control xfer
