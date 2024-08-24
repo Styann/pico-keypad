@@ -136,7 +136,7 @@ static inline bool ep_is_tx(struct usb_endpoint *ep) {
     return ep->descriptor->bEndpointAddress & USB_DIR_IN;
 }
 
-void usb_xfer(struct usb_endpoint *ep, uint8_t *buf, uint16_t len) {
+void usb_xfer_pkt(struct usb_endpoint *ep, uint8_t *buf, uint16_t len) {
     assert(len <= 64);
 
     // Prepare buffer control register value
@@ -144,7 +144,7 @@ void usb_xfer(struct usb_endpoint *ep, uint8_t *buf, uint16_t len) {
 
     if (ep_is_tx(ep)) {
         // Need to copy the data from the user buffer to the usb memory
-        memcpy((void*)ep->data_buffer, (void*)buf, len);
+        memcpy((void *)ep->data_buffer, (void *)buf, len);
         // Mark as full
         val |= USB_BUF_CTRL_FULL;
     }
@@ -159,13 +159,19 @@ void usb_xfer(struct usb_endpoint *ep, uint8_t *buf, uint16_t len) {
         ep->next_pid = 0;
     }
 
-    val |= USB_BUF_CTRL_LAST;
+    // val |= USB_BUF_CTRL_LAST;
 
     *ep->buffer_control = val & ~USB_BUF_CTRL_AVAIL;
 
     busy_wait_at_least_cycles(12);
 
     *ep->buffer_control = val;
+
+    // if (len > 0) {
+    //     while (*ep->buffer_control & USB_BUF_CTRL_FULL) {
+    //         tight_loop_contents();
+    //     }
+    // }
 }
 
 /**
@@ -173,53 +179,18 @@ void usb_xfer(struct usb_endpoint *ep, uint8_t *buf, uint16_t len) {
  * @param buf
  * @param len
  */
-void usb_great_xfer(struct usb_endpoint *ep, uint8_t *buf, uint16_t len) {
-    // size_t remaining_len = len;
-    // uint16_t ep_buf_size = ep->descriptor->wMaxPacketSize;
-
-    // do {
-    //     size_t pkt_len = (remaining_len > ep_buf_size) ? ep_buf_size : remaining_len;
-
-    //     // Prepare buffer control register value
-    //     uint32_t val = len | USB_BUF_CTRL_AVAIL;
-
-    //     if (ep_is_tx(ep)) {
-    //         // Need to copy the data from the user buffer to the usb memory
-    //         memcpy((void *)ep->data_buffer, (void*)buf, pkt_len);
-    //         // Mark as full
-    //         val |= USB_BUF_CTRL_FULL;
-    //     }
-
-    //     // Set pid and flip for next transfer
-    //     if (ep->next_pid == 0) {
-    //         val |= USB_BUF_CTRL_DATA0_PID;
-    //         ep->next_pid = 1;
-    //     }
-    //     else {
-    //         val |= USB_BUF_CTRL_DATA1_PID;
-    //         ep->next_pid = 0;
-    //     }
-
-    //     val |= USB_BUF_CTRL_LAST;
-
-    //     *ep->buffer_control = val & ~USB_BUF_CTRL_AVAIL;
-
-    //     busy_wait_at_least_cycles(12);
-
-    //     *ep->buffer_control = val;
-
-    //     buf += pkt_len;
-    //     remaining_len -= pkt_len;
-    // }
-    // while (remaining_len > 0);
+void usb_xfer(struct usb_endpoint *ep, uint8_t *buf, uint16_t len) {
+    if (len == 0) {
+        usb_xfer_pkt(ep, buf, len);
+    }
 
     uint16_t remaining_len = len;
     size_t ep_buf_size = ep->descriptor->wMaxPacketSize;
 
     while (remaining_len > 0) {
-        size_t pkt_size = (remaining_len > ep_buf_size) ? ep_buf_size : remaining_len;
+        size_t pkt_size = MIN(remaining_len, ep_buf_size);
 
-        usb_xfer(ep, buf, pkt_size);
+        usb_xfer_pkt(ep, buf, pkt_size);
 
         while (*ep->buffer_control & USB_BUF_CTRL_FULL) {
             tight_loop_contents();
@@ -336,8 +307,7 @@ void usb_handle_setup_packet(void) {
         }
         else if (req == USB_REQUEST_SET_REPORT) {
             usb_acknowledge_out_request();
-            static struct usb_keyboard_report rp = {.id = 0x01};
-            usb_send_keyboard_report(&rp);
+            set_report_callback(usb_get_endpoint_configuration(0x00)->data_buffer, pkt->wLength);
         }
     }
     else if (req_direction == EP_IN_HID) {
@@ -466,6 +436,6 @@ void isr_usbctrl(void) {
     }
 }
 
-void set_report_callback(uint8_t const *buf, uint16_t len) {
+void set_report_callback(volatile uint8_t *buf, uint16_t len) {
 
 }

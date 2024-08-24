@@ -40,17 +40,3 @@ bool button_is_pressed_and_state_changed(button_t *this) {
 bool button_is_released_and_state_changed(button_t *this) {
     return (button_is_released(this) && this->hasStateChanged);
 }
-
-/**
- * @param timer
- * @param ms
- * @returns {bool}
- */
-bool debounce(uint32_t *timer, uint32_t ms) {
-    if (millis() - *timer > ms) {
-        *timer = millis();
-        return true;
-    }
-
-    return false;
-}

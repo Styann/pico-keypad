@@ -35,6 +35,6 @@ cp /Pico/pico-keypad/build/pico-keypad.uf2 /media/user/RPI-RP2/
 
 ## todo
 * add led (Caps-lock...) read USB RX
-* string descriptor fixed bString buffer
-* clean USB code
+* rotary encoder using ints ?
 * control xfer
+* pio

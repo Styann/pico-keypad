@@ -13,6 +13,7 @@
 #include "../lib/usb/usb.h"
 #include "../lib/usb/usb_hid.h"
 
+#include "../lib/debounce/debounce.h"
 #include "../lib/keyboard/keyboard.h"
 #include "../lib/rotary_encoder/rotary_encoder.h"
 #include "../lib/ws2812b/ws2812b.h"
@@ -28,7 +29,7 @@
 // #define USE_FIGHTSTICK
 // #define USE_WS2812B
 
-#include "../include/blaziken.h"
+// #include "../include/blaziken.h"
 // #define USE_SSD1331
 
 #define DEBOUNCE_MS 10
@@ -36,30 +37,29 @@
 #ifdef USE_KNOB
     void volume_knob_cw_callback(uint32_t state) {
         usb_send_consumer_control(KC_MEDIA_VOLUME_INCREMENT);
+        debug_callback(state);
     }
 
     void volume_knob_ccw_callback(uint32_t state) {
         usb_send_consumer_control(KC_MEDIA_VOLUME_DECREMENT);
+        debug_callback(state);
     }
 
     rotary_encoder_t volume_knob = {
-        .pin_DT = GPIO27,
-        .pin_CLK = GPIO26,
-        .state_CLK = LOW,
+        .pin_DT = GPIO26,
+        .pin_CLK = GPIO27,
         .cw_callback = &volume_knob_cw_callback,
         .ccw_callback = &volume_knob_ccw_callback
     };
 
-    //     if (debounce(&timer, DEBOUNCE_MS)) {
-    //         usb_send_consumer_control(KC_MEDIA_PLAY_PAUSE);
-    //     }
+    button_t knob_btn = { .pin = GPIO28, .debounce_ms = 10};
 #endif
 
 #ifdef USE_KEYBOARD
     #define LAYOUT_COLUMN_SIZE 8
     #define LAYOUT_ROW_SIZE 8
 
-    const uint8_t columns_pins[LAYOUT_COLUMN_SIZE] = { GPIO0, GPIO1, GPIO2, GPIO3, GPIO4, GPIO5, GPIO6, GPIO7 };
+    const uint8_t columns_pins[LAYOUT_COLUMN_SIZE] = { GPIO22, GPIO1, GPIO2, GPIO3, GPIO4, GPIO5, GPIO6, GPIO7 };
     const uint8_t rows_pins[LAYOUT_ROW_SIZE] = { GPIO8, GPIO9, GPIO10, GPIO11, GPIO12, GPIO13, GPIO14, GPIO15 };
 
     const uint8_t layout[8][8] = {
@@ -230,24 +230,24 @@ void main_core1(void) {
 
         ssd1331_init(&display);
 
-        ssd1331_fill_screen(&display, 0);
+        // ssd1331_fill_screen(&display, 0);
 
-        unsigned int input = 1235467890;
+        // unsigned int input = 1235467890;
 
-        char input_str[10];
+        // char input_str[10];
 
-        sprintf(input_str, "%d", input);
+        // sprintf(input_str, "%d", input);
 
-        ssd1331_print(&display, 0, 0, input_str);
+        // ssd1331_print(&display, 0, 0, input_str);
 
         // ssd1331_print(&display, 0, 0, "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
-        // while(true) {
-        //     for (uint8_t i = 0; i < 87; i++) {
-        //         ssd1331_write_data(&display, (uint16_t*)blaziken_framebuffer[i], SSD1331_RESOLUTION);
-        //         sleep_ms(40);
-        //     }
-        // }
+        while(true) {
+            for (uint8_t i = 0; i < 87; i++) {
+                ssd1331_write_data(&display, (uint16_t*)blaziken_framebuffer[i], SSD1331_RESOLUTION);
+                sleep_ms(40);
+            }
+        }
 
         while (true) { asm("nop"); };
 
@@ -255,36 +255,14 @@ void main_core1(void) {
     #endif
 }
 
-// void set_report_callback(uint8_t const *buf, uint16_t len) {
-//     if (len == 2) {
-//         printf("-> %d %d\n", buf[0], buf[1]);
-
-//         if (*buf == 0x67) {
-//             static bool state = HIGH;
-//             built_in_led_put(state);
-//             state = !state;
-//         }
-//     }
-// }
-
-// debug
-struct ssd1331 display = {
-    .pin_DC = GPIO20,
-    .pin_SDA = GPIO19,
-    .pin_SCL = GPIO18,
-    .pin_CS = GPIO17,
-    .pin_RES = GPIO16,
-    .spi_inst = spi0
-};
-
-void debug_callback(uint32_t data) {
-    char input_str[10];
-    sprintf(input_str, "%d", data);
-    ssd1331_println(&display, input_str);
+void set_report_callback(volatile uint8_t *buf, uint16_t len) {
+    release_keyboard();
 }
 
 int main(void) {
     stdio_init_all();
+
+    printf("Hello, World! from pi pico.\n");
 
     usb_device_init();
 
@@ -292,16 +270,13 @@ int main(void) {
 
     built_in_led_init();
 
-    // debug
-    ssd1331_init(&display);
-    ssd1331_fill_screen(&display, 0);
-
     #ifdef USE_KEYBOARD
         keyboard_matrix_init(&keyboard_matrix);
     #endif
 
     #ifdef USE_KNOB
         rotary_encoder_init(&volume_knob, true);
+        button_init(&knob_btn, true);
     #endif
 
     #ifdef USE_FIGHTSTICK
@@ -327,6 +302,10 @@ int main(void) {
 
         #ifdef USE_KNOB
             rotary_encoder_task(&volume_knob);
+
+            if (button_debounce(&knob_btn) && button_is_pressed_and_state_changed(&knob_btn)) {
+                usb_send_consumer_control(KC_MEDIA_PLAY_PAUSE);
+            }
         #endif
 
         #ifdef USE_FIGHTSTICK

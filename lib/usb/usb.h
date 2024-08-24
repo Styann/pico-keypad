@@ -12,7 +12,7 @@
 
 void debug_callback(uint32_t data) __attribute__((weak));
 
-void set_report_callback(uint8_t const *buf, uint16_t len) __attribute__((weak));
+void set_report_callback(volatile uint8_t *buf, uint16_t len) __attribute__((weak));
 
 bool is_configured(void);
 
@@ -32,9 +32,9 @@ void usb_device_init(void);
 
 static inline bool ep_is_tx(struct usb_endpoint *ep);
 
-void usb_xfer(struct usb_endpoint *ep, uint8_t *buf, uint16_t len);
+void usb_xfer_pkt(struct usb_endpoint *ep, uint8_t *buf, uint16_t len);
 
-void usb_great_xfer(struct usb_endpoint *ep, uint8_t *buf, uint16_t len);
+void usb_xfer(struct usb_endpoint *ep, uint8_t *buf, uint16_t len);
 
 void usb_control_xfer(uint8_t *buf, uint16_t len);
 

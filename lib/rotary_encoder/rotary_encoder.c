@@ -9,6 +9,7 @@
 
 void rotary_encoder_init(rotary_encoder_t *this, bool internal_pull_up) {
     this->state = 0;
+    this->state_CLK = LOW;
 
     gpio_init(this->pin_CLK);
     gpio_init(this->pin_DT);
@@ -24,14 +25,14 @@ void rotary_encoder_init(rotary_encoder_t *this, bool internal_pull_up) {
 
 /**
  * @brief read and return direction
- * @returns {int8_t} clockwise: 1, unmoving: 0, counter_clockwise: 1
+ * @returns {int8_t} clockwise: 1, unmoving: 0, counter_clockwise: -1
  */
 int8_t rotary_encoder_read(rotary_encoder_t *this) {
     const bool last_state_CLK = this->state_CLK;
     this->state_CLK = gpio_get(this->pin_CLK);
 
     if (this->state_CLK != last_state_CLK) {
-        if (gpio_get(this->pin_DT) != this->state) {
+        if (gpio_get(this->pin_DT) != this->state_CLK) {
             return 1;
         }
         else {

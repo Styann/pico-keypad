@@ -26,6 +26,4 @@ bool button_is_pressed_and_state_changed(button_t *button);
 
 bool button_is_released_and_state_changed(button_t *button);
 
-bool debounce(uint32_t *timer, uint32_t ms);
-
 #endif

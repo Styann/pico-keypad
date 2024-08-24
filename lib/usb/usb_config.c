@@ -43,6 +43,8 @@ static const struct usb_interface_descriptor interface_descriptor = {
     .iInterface         = 0
 };
 
+#define KEYBOARD_REPORT_DESCRIPTOR_LEN 96
+
 static const struct usb_hid_descriptor hid_descriptor = {
     .bLength         = sizeof(struct usb_hid_descriptor),
     .bDescriptorType = USB_DESCRIPTOR_TYPE_HID,
@@ -50,7 +52,7 @@ static const struct usb_hid_descriptor hid_descriptor = {
     .bCountryCode    = USB_COUNTRY_CODE_FRENCH,
     .bNumDescriptors = 0x01,
     .bReportType     = USB_DESCRIPTOR_TYPE_REPORT,
-    .wReportLength   = 92
+    .wReportLength   = KEYBOARD_REPORT_DESCRIPTOR_LEN
 };
 
 static const struct usb_endpoint_descriptor ep0_out_descriptor = {
@@ -85,8 +87,6 @@ static const struct usb_string_language_descriptor language_descriptor = {
     .bDescriptorType = USB_DESCRIPTOR_TYPE_STRING,
     .wLANGID = USB_LANGUAGE_ID_FRENCH
 };
-
-#define KEYBOARD_REPORT_DESCRIPTOR_LEN 92
 
 static const uint8_t keyboard_report_descriptor[KEYBOARD_REPORT_DESCRIPTOR_LEN] = {
     USAGE_PAGE, GENERIC_DESKTOP_PAGE,
@@ -132,14 +132,15 @@ static const uint8_t keyboard_report_descriptor[KEYBOARD_REPORT_DESCRIPTOR_LEN] 
             INPUT, DATA_ARRAY_ABS,
     END_COLLECTION,
 
-    USAGE, USAGE_CONSUMER_CONTROL, // length 21
+    USAGE_PAGE, CONSUMER_PAGE,
+    USAGE, USAGE_CONSUMER_CONTROL,
     COLLECTION, COLLECTION_APPLICATION,
             REPORT_ID, 0x02,
-            USAGE_PAGE, CONSUMER_PAGE,
-            USAGE_MINIMUM, 0x00,
-            USAGE_MAXIMUM, 0xFF,
             LOGICAL_MINIMUM, 0x00,
-            LOGICAL_MAXIMUM, 0xFF,
+            LOGICAL_MAXIMUM + 1, 0xFF, 0x03,
+            USAGE_MINIMUM, 0x00,
+            0x2A, 0xFF, 0x03,
+            REPORT_COUNT, 1,
             REPORT_SIZE, 16,
             INPUT, DATA_ARRAY_ABS,
     END_COLLECTION
@@ -251,8 +252,7 @@ void usb_handle_string_descriptor(const uint8_t descriptorIndex, const uint16_t 
 }
 
 void usb_handle_report_descriptor(const uint16_t wLength) {
-    struct usb_endpoint *ep = usb_get_endpoint_configuration(0x80u);
-    usb_great_xfer(ep, (uint8_t *)keyboard_report_descriptor, 92);
+    usb_xfer_ep0_in((uint8_t *)pico.report_descriptor, pico.report_descriptor_len);
 }
 
 
