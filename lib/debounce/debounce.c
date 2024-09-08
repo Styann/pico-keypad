@@ -6,7 +6,7 @@
  * @param ms
  * @returns {bool}
  */
-bool debounce(uint32_t *timer, uint32_t ms) {
+bool debounce(uint32_t *timer, const uint32_t ms) {
     if (millis() - *timer > ms) {
         *timer = millis();
         return true;

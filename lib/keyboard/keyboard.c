@@ -10,8 +10,7 @@
 #include "../usb/usb.h"
 #include <string.h>
 
-#define DEBOUNCE_MS 10
-#define KRO 6 // Key RollOver, number of keys that can be pressed at once
+#define KRO 6 // number of keycodes in usb keyboard report
 
 /**
  * @brief Set all rows pins as OUPUT and HIGH then all columns pins as GPIO INPUT PULL UP
@@ -76,7 +75,7 @@ static uint8_t get_modifier_from_keycode(uint8_t keycode) {
 /**
  * @brief add a modifier if keycode is a modifier
  */
-static bool try_add_modifier(struct usb_keyboard_report *report, uint8_t keycode) {
+static bool try_add_modifier(struct usb_keyboard_report *report, const uint8_t keycode) {
     if (keycode >= KC_CTRL_LEFT && keycode <= KC_GUI_RIGHT) {
         report->modifiers |= get_modifier_from_keycode(keycode);
         return true;
@@ -99,12 +98,20 @@ static void push_keycode(struct usb_keyboard_report *report, uint8_t keycode) {
     }
 }
 
+bool is_key_in_report(const struct usb_keyboard_report *report, const uint8_t keycode) {
+    for (uint8_t i = 0; i < KRO; i++) {
+        if (report->keycodes[i] == keycode) return true;
+    }
+
+    return false;
+}
+
 /**
  * @brief return true if modifiers and keycodes are set to 0, else false
  * @param keyboard_report
  */
 bool is_keyboard_report_empty(const struct usb_keyboard_report *report) {
-    if (report->modifiers != KC_MOD_NONE) return false;
+    if (report->modifiers != MOD_NONE) return false;
 
     for (uint8_t i = 0; i < KRO; i++) {
         if (report->keycodes[i] != KC_NONE) return false;

@@ -8,6 +8,12 @@
 #include "pico/stdlib.h"
 #include "../usb/usb_hid.h"
 
+enum fn_macro_types {
+    FN_NONE,
+    FN_CC, // consumer control
+    FN_HL // function handler
+};
+
 typedef struct {
     const struct usb_keyboard_report input;
     const struct usb_keyboard_report output;

@@ -58,6 +58,8 @@ void ssd1331_init(struct ssd1331 *this) {
     };
 
     ssd1331_write_commands(this, commands, sizeof(commands));
+
+    this->is_on = true;
 }
 
 void ssd1331_reset(struct ssd1331 *this) {
@@ -67,9 +69,25 @@ void ssd1331_reset(struct ssd1331 *this) {
     sleep_ms(50);
 }
 
+void ssd1331_turn(struct ssd1331 *this, const bool onoff) {
+    if (this->is_on != onoff) {
+        ssd1331_write_command(this, (onoff) ? SET_DISPLAY_ON : SET_DISPLAY_OFF);
+        this->is_on = onoff;
+    }
+}
+
+void ssd1331_turn_on(struct ssd1331 *this) {
+    if (!(this->is_on)) {
+        ssd1331_write_command(this, SET_DISPLAY_ON);
+        this->is_on = true;
+    }
+}
+
 void ssd1331_turn_off(struct ssd1331 *this) {
-    const uint8_t set_display_off = SET_DISPLAY_OFF;
-    ssd1331_write_command(this, set_display_off);
+    if (this->is_on) {
+        ssd1331_write_command(this, SET_DISPLAY_OFF);
+        this->is_on = false;
+    }
 }
 
 /**
@@ -142,7 +160,7 @@ void ssd1331_fill_screen(struct ssd1331 *this, uint16_t color) {
 }
 
 void ssd1331_print_char(struct ssd1331 *this, uint8_t x, uint8_t y, const char c) {
-    const uint64_t font_char = font[toupper(c) - 48];
+    const uint64_t font_char = font[toupper(c)];
 
     for (uint8_t offset_y = 0; offset_y < 8; offset_y++) {
 

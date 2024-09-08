@@ -8,8 +8,8 @@ static const struct usb_device_descriptor device_descriptor = {
     .bDeviceSubClass    = 0,
     .bDeviceProtocol    = 0,
     .bMaxPacketSize0    = 64,
-    .idVendor           = 0x2137,
-    .idProduct          = 0xB426,
+    .idVendor           = 0x2E8A,
+    .idProduct          = 0x0003,
     .bcdDevice          = 0x0100,
     .iManufacturer      = 1,
     .iProduct           = 2,
@@ -160,7 +160,7 @@ struct usb_device pico = {
 
     .language_descriptor = &language_descriptor,
     .vendor = "Seegson Corporation",
-    .product = "KB-426",
+    .product = "Arquebus Keyboard",
 
     .report_descriptor = keyboard_report_descriptor,
     .report_descriptor_len = KEYBOARD_REPORT_DESCRIPTOR_LEN,

@@ -28,6 +28,8 @@ static bool try_add_modifier(struct usb_keyboard_report *report, uint8_t keycode
 
 static void push_keycode(struct usb_keyboard_report *report, uint8_t keycode);
 
+bool is_key_in_report(const struct usb_keyboard_report *report, const uint8_t keycode);
+
 bool is_keyboard_report_empty(const struct usb_keyboard_report *report);
 
 bool keyboard_report_cmp(const struct usb_keyboard_report *x, const struct usb_keyboard_report *y);

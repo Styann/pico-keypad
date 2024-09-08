@@ -306,8 +306,8 @@ void usb_handle_setup_packet(void) {
 
         }
         else if (req == USB_REQUEST_SET_REPORT) {
+            set_report_callback(usb_get_endpoint_configuration(0x81)->data_buffer, pkt->wLength);
             usb_acknowledge_out_request();
-            set_report_callback(usb_get_endpoint_configuration(0x00)->data_buffer, pkt->wLength);
         }
     }
     else if (req_direction == EP_IN_HID) {

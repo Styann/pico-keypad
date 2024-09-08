@@ -3,6 +3,6 @@
 
 #include "pico/stdlib.h"
 
-bool debounce(uint32_t *timer, uint32_t ms);
+bool debounce(uint32_t *timer, const uint32_t ms);
 
 #endif

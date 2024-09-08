@@ -29,20 +29,37 @@
 // #define USE_FIGHTSTICK
 // #define USE_WS2812B
 
-// #include "../include/blaziken.h"
-// #define USE_SSD1331
+#include "../include/blaziken.h"
+#define USE_SSD1331
 
-#define DEBOUNCE_MS 10
+#define DEBOUNCE_MS 3
+
+volatile uint8_t modifiers = 0b00000000;
+volatile bool is_fn_pressed = false;
 
 #ifdef USE_KNOB
     void volume_knob_cw_callback(uint32_t state) {
-        usb_send_consumer_control(KC_MEDIA_VOLUME_INCREMENT);
-        debug_callback(state);
+        if (is_fn_pressed) {
+            usb_send_consumer_control(CC_NEXT_TRACK);
+        }
+        else if (modifiers & MOD_CTRL_LEFT) {
+            usb_send_single_keycode(KC_ARROW_DOWN);
+        }
+        else {
+            usb_send_consumer_control(CC_VOLUME_INCREMENT);
+        }
     }
 
     void volume_knob_ccw_callback(uint32_t state) {
-        usb_send_consumer_control(KC_MEDIA_VOLUME_DECREMENT);
-        debug_callback(state);
+        if (is_fn_pressed) {
+            usb_send_consumer_control(CC_PREVIOUS_TRACK);
+        }
+        else if (modifiers & MOD_CTRL_LEFT) {
+            usb_send_single_keycode(KC_ARROW_UP);
+        }
+        else {
+            usb_send_consumer_control(CC_VOLUME_DECREMENT);
+        }
     }
 
     rotary_encoder_t volume_knob = {
@@ -62,24 +79,66 @@
     const uint8_t columns_pins[LAYOUT_COLUMN_SIZE] = { GPIO22, GPIO1, GPIO2, GPIO3, GPIO4, GPIO5, GPIO6, GPIO7 };
     const uint8_t rows_pins[LAYOUT_ROW_SIZE] = { GPIO8, GPIO9, GPIO10, GPIO11, GPIO12, GPIO13, GPIO14, GPIO15 };
 
-    const uint8_t layout[8][8] = {
-        { KC_ESCAPE,     KC_1,        KC_2,        KC_3,                   KC_4,                    KC_5,          KC_6,           KC_7           },
-        { KC_TAB,        KC_A,        KC_Z,        KC_E,                   KC_R,                    KC_T,          KC_Y,           KC_U           },
-        { KC_CAPS_LOCK,  KC_Q,        KC_S,        KC_D,                   KC_F,                    KC_G,          KC_H,           KC_J           },
-        { KC_SHIFT_LEFT, KC_W,        KC_X,        KC_C,                   KC_V,                    KC_B,          KC_N,           KC_COMMA       },
-        { KC_CTRL_LEFT,  KC_GUI_LEFT, KC_ALT_LEFT, KC_SPACE,               KC_NONE,                 KC_CTRL_RIGHT, KC_ARROW_LEFT,  KC_ARROW_DOWN  },
-        { KC_8,          KC_9,        KC_0,        KC_MINUS,               KC_EQUAL,                KC_BACKSPACE,  KC_DELETE,      KC_ARROW_RIGHT },
-        { KC_I,          KC_O,        KC_P,        KC_SQUARE_BRACKET_LEFT, KC_SQUARE_BRACKET_RIGHT, KC_BACKSLASH,  KC_SHIFT_RIGHT, KC_ARROW_UP    },
-        { KC_K,          KC_L,        KC_M,        KC_SEMICOLON,           KC_APOSTROPHE,           KC_ENTER,      KC_PERIOD,      KC_SLASH       }
+    const uint8_t layout[2][8][8] = {
+        {
+            { KC_ESCAPE,     KC_1,        KC_2,        KC_3,                   KC_4,                    KC_5,          KC_6,           KC_7           },
+            { KC_TAB,        KC_A,        KC_Z,        KC_E,                   KC_R,                    KC_T,          KC_Y,           KC_U           },
+            { KC_CAPS_LOCK,  KC_Q,        KC_S,        KC_D,                   KC_F,                    KC_G,          KC_H,           KC_J           },
+            { KC_SHIFT_LEFT, KC_W,        KC_X,        KC_C,                   KC_V,                    KC_B,          KC_N,           KC_COMMA       },
+            { KC_CTRL_LEFT,  KC_GUI_LEFT, KC_ALT_LEFT, KC_SPACE,               KC_FN,                   KC_CTRL_RIGHT, KC_ARROW_LEFT,  KC_ARROW_DOWN  },
+            { KC_8,          KC_9,        KC_0,        KC_MINUS,               KC_EQUAL,                KC_BACKSPACE,  KC_DELETE,      KC_ARROW_RIGHT },
+            { KC_I,          KC_O,        KC_P,        KC_SQUARE_BRACKET_LEFT, KC_SQUARE_BRACKET_RIGHT, KC_BACKSLASH,  KC_SHIFT_RIGHT, KC_ARROW_UP    },
+            { KC_K,          KC_L,        KC_M,        KC_SEMICOLON,           KC_APOSTROPHE,           KC_ENTER,      KC_PERIOD,      KC_SLASH       }
+        },
+        {
+            { KC_ESCAPE,     KC_F1,       KC_F2,       KC_F3,                  KC_F4,                   KC_F5,         KC_F6,          KC_F7          },
+            { KC_TAB,        KC_A,        KC_Z,        KC_E,                   KC_R,                    KC_T,          KC_Y,           KC_U           },
+            { KC_CAPS_LOCK,  KC_Q,        KC_PRINT_SCREEN, KC_D,               KC_F11,                  KC_G,          KC_H,           KC_J           },
+            { KC_SHIFT_LEFT, KC_W,        KC_X,        KC_C,                   KC_V,                    KC_B,          KC_GRAVE,       KC_COMMA       },
+            { KC_CTRL_LEFT,  KC_GUI_LEFT, KC_ALT_LEFT, KC_SPACE,               KC_FN,                   KC_CTRL_RIGHT, KC_ARROW_LEFT,  KC_ARROW_DOWN  },
+            { KC_F8,         KC_F9,       KC_F10,      KC_MINUS,               KC_EQUAL,                KC_BACKSPACE,  KC_DELETE,      KC_ARROW_RIGHT },
+            { KC_F12,        KC_O,        KC_P,        KC_SQUARE_BRACKET_LEFT, KC_SQUARE_BRACKET_RIGHT, KC_BACKSLASH,  KC_SHIFT_RIGHT, KC_ARROW_UP    },
+            { KC_K,          KC_L,        KC_M,        KC_SEMICOLON,           KC_APOSTROPHE,           KC_ENTER,      KC_PERIOD,      KC_SLASH       }
+        }
     };
 
     keyboard_matrix_t keyboard_matrix = {
-        .layout = &layout[0][0],
+        .layout = &layout[0][0][0],
         .rows_pins = rows_pins,
         .columns_pins = columns_pins,
         .row_size = LAYOUT_ROW_SIZE,
         .column_size = LAYOUT_COLUMN_SIZE
     };
+
+    bool macro_task(struct usb_keyboard_report *report) {
+        bool match = false;
+
+        modifiers = report->modifiers;
+        is_fn_pressed = false;
+
+        if (report->keycodes[0] == KC_FN) {
+            is_fn_pressed = true;
+
+            if (report->keycodes[1] == KC_O) {
+                if (multicore_fifo_wready()) multicore_fifo_push_blocking(0x0FF);
+                match = true;
+            }
+        }
+        else if (report->modifiers == MOD_CTRL_LEFT | MOD_CTRL_RIGHT) {
+            switch (report->keycodes[0]) {
+                case KC_ARROW_LEFT:
+                    usb_send_single_keycode(KC_HOME);
+                    match = true;
+                    break;
+                case KC_ARROW_RIGHT:
+                    usb_send_single_keycode(KC_END);
+                    match = true;
+                    break;
+            }
+        }
+
+        return match;
+    }
 
     void keyboard_task(void) {
         static uint32_t timer = 0;
@@ -91,28 +150,17 @@
             struct usb_keyboard_report keyboard_report = { 0x01, 0, 0, { 0, 0, 0, 0, 0, 0 } };
             keyboard_matrix_scan(&keyboard_matrix, &keyboard_report);
 
-            const macro_io_t macro_home = {
-                { 0x01, KC_MOD_CTRL_LEFT | KC_MOD_GUI_LEFT, 0, { KC_ARROW_LEFT, 0, 0, 0, 0, 0 }},
-                { 0x01, 0, 0, { KC_HOME, 0, 0, 0, 0, 0 } }
-            };
-
-            const macro_io_t macro_end = {
-                { 0x01, KC_MOD_CTRL_LEFT | KC_MOD_GUI_LEFT, 0, { KC_ARROW_RIGHT, 0, 0, 0, 0, 0 } },
-                { 0x01, 0, 0, { KC_END, 0, 0, 0, 0, 0 } }
-            };
-
-            handle_macro_io(&keyboard_report, &macro_home);
-            handle_macro_io(&keyboard_report, &macro_end);
-
             // if there is a change between actual and previous report
             if (!keyboard_report_cmp(&keyboard_report, &previous_report)) {
-                if (!is_keyboard_report_empty(&keyboard_report)) {
-                    usb_send_keyboard_report(&keyboard_report);
-                    can_release = true;
-                }
-                else if (can_release) {
-                    release_keyboard();
-                    can_release = false;
+                if (!macro_task(&keyboard_report)) {
+                    if (!is_keyboard_report_empty(&keyboard_report)) {
+                        usb_send_keyboard_report(&keyboard_report);
+                        can_release = true;
+                    }
+                    else if (can_release) {
+                        release_keyboard();
+                        can_release = false;
+                    }
                 }
 
                 previous_report = keyboard_report;
@@ -185,6 +233,17 @@
     }
 #endif
 
+#ifdef USE_SSD1331
+    struct ssd1331 display = {
+        .pin_DC = GPIO20,
+        .pin_SDA = GPIO19,
+        .pin_SCL = GPIO18,
+        .pin_CS = GPIO17,
+        .pin_RES = GPIO16,
+        .spi_inst = spi0
+    };
+#endif
+
 void main_core1(void) {
     #ifdef USE_WS2812B
         grb32_t leds_buffer[30];
@@ -219,18 +278,7 @@ void main_core1(void) {
     #endif
 
     #ifdef USE_SSD1331
-        struct ssd1331 display = {
-            .pin_DC = GPIO20,
-            .pin_SDA = GPIO19,
-            .pin_SCL = GPIO18,
-            .pin_CS = GPIO17,
-            .pin_RES = GPIO16,
-            .spi_inst = spi0
-        };
-
-        ssd1331_init(&display);
-
-        // ssd1331_fill_screen(&display, 0);
+        ssd1331_fill_screen(&display, 0);
 
         // unsigned int input = 1235467890;
 
@@ -240,22 +288,36 @@ void main_core1(void) {
 
         // ssd1331_print(&display, 0, 0, input_str);
 
-        // ssd1331_print(&display, 0, 0, "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        ssd1331_println(&display, "arquebus keyboard");
 
-        while(true) {
-            for (uint8_t i = 0; i < 87; i++) {
-                ssd1331_write_data(&display, (uint16_t*)blaziken_framebuffer[i], SSD1331_RESOLUTION);
-                sleep_ms(40);
+        // while(true) {
+        //     for (uint8_t i = 0; i < 87; i++) {
+        //         ssd1331_write_data(&display, (uint16_t*)blaziken_framebuffer[i], SSD1331_RESOLUTION);
+        //         sleep_ms(40);
+        //     }
+        // }
+
+        while (true) {
+            // if (display.is_on) {}
+
+            if (multicore_fifo_rvalid()) {
+                uint32_t signal = multicore_fifo_pop_blocking();
+
+                if (signal == 0x0FF) {
+                    ssd1331_turn(&display, !display.is_on);
+                }
+
+                multicore_fifo_drain();
             }
+
+            sleep_ms(60);
         }
-
-        while (true) { asm("nop"); };
-
-        ssd1331_turn_off(&display);
     #endif
 }
 
 void set_report_callback(volatile uint8_t *buf, uint16_t len) {
+    // printf("0x%x 0x%x\n", buf[0], buf[1]);
+
     release_keyboard();
 }
 
@@ -265,6 +327,7 @@ int main(void) {
     printf("Hello, World! from pi pico.\n");
 
     usb_device_init();
+    ssd1331_init(&display);
 
     multicore_launch_core1(main_core1);
 
@@ -304,7 +367,12 @@ int main(void) {
             rotary_encoder_task(&volume_knob);
 
             if (button_debounce(&knob_btn) && button_is_pressed_and_state_changed(&knob_btn)) {
-                usb_send_consumer_control(KC_MEDIA_PLAY_PAUSE);
+                if (is_fn_pressed) {
+                    usb_send_consumer_control(CC_MUTE);
+                }
+                else {
+                    usb_send_consumer_control(CC_PLAY_PAUSE);
+                }
             }
         #endif
 

@@ -4,9 +4,15 @@
 /**
  * @brief send keyboard report to host
  */
-void usb_send_keyboard_report(struct usb_keyboard_report *report) {
+void usb_send_keyboard_report(const struct usb_keyboard_report *report) {
     struct usb_endpoint *endpoint = usb_get_endpoint_configuration(EP_IN_HID);
-    usb_xfer(endpoint, (uint8_t*)report, sizeof(struct usb_keyboard_report));
+    usb_xfer(endpoint, (uint8_t *)report, sizeof(const struct usb_keyboard_report));
+}
+
+void usb_send_single_keycode(uint8_t keycode) {
+    const struct usb_keyboard_report report = { 1, 0, 0, { keycode, 0, 0, 0, 0, 0 } };
+    usb_send_keyboard_report(&report);
+    release_keyboard();
 }
 
 /**

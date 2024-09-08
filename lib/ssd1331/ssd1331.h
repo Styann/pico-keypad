@@ -28,11 +28,16 @@ struct ssd1331 {
 		uint8_t x;
 		uint8_t y;
 	} coordinate;
+	volatile bool is_on;
 };
 
 void ssd1331_init(struct ssd1331 *this);
 
 void ssd1331_reset(struct ssd1331 *this);
+
+void ssd1331_turn(struct ssd1331 *this, const bool onoff);
+
+void ssd1331_turn_on(struct ssd1331 *this);
 
 void ssd1331_turn_off(struct ssd1331 *this);
 
