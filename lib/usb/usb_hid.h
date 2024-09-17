@@ -212,8 +212,6 @@ enum usb_keycodes {
     KC_CRSEL_PROPS                = 0xA3,
     KC_EXSEL                      = 0xA4,
     // RESERVED					    0xA5 to 0xAF
-    KC_FN                         = 0xA5, // im using reserved value for FN key
-
     KC_KEYPAD_00                  = 0xB0,
     KC_KEYPAD_000                 = 0xB1,
     KC_THOUSAND_SEPARATOR         = 0xB2,

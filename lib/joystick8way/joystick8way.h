@@ -18,14 +18,14 @@ struct joystick8way {
     button_t left;
 };
 
-void joystick8way_init(struct joystick8way *this);
+void joystick8way_init(struct joystick8way *self);
 
-uint8_t joystick8way_read(struct joystick8way *this);
+uint8_t joystick8way_read(struct joystick8way *self);
 
 static int8_t joystick8way_read_axis(button_t *low_button, button_t *high_button);
 
-int8_t joystick8way_read_x_axis(struct joystick8way *this);
+int8_t joystick8way_read_x_axis(struct joystick8way *self);
 
-int8_t joystick8way_read_y_axis(struct joystick8way *this);
+int8_t joystick8way_read_y_axis(struct joystick8way *self);
 
 #endif

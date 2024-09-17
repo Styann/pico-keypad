@@ -1,4 +1,4 @@
-# exclude all files in this directory
+# exclude all files in build directory
 /build/*
 # except .gitkeep
 !/build/.gitkeep

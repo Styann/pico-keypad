@@ -11,19 +11,7 @@ This project contain :
 ## 📦 build
 
 ```sh
-cd /Pico/pico-keypad/build
-```
-
-```sh
-cmake -D PICO_KEYPAD_PATH=/Pico/pico-keypad ../../
-```
-
-```sh
-make pico-keypad
-```
-
-```sh
-cp /Pico/pico-keypad/build/pico-keypad.uf2 /media/user/RPI-RP2/
+cd ~/Workspace/pico-keypad && ./deploy.sh
 ```
 
 ## 🗂️ ressources

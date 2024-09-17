@@ -16,10 +16,10 @@ typedef struct rotary_encoder {
     void (*ccw_callback)(uint32_t state);
 } rotary_encoder_t;
 
-void rotary_encoder_init(rotary_encoder_t *this, bool internal_pull_up);
+void rotary_encoder_init(rotary_encoder_t *self, bool internal_pull_up);
 
-int8_t rotary_encoder_read(rotary_encoder_t *this);
+int8_t rotary_encoder_read(rotary_encoder_t *self);
 
-void rotary_encoder_task(rotary_encoder_t *this);
+void rotary_encoder_task(rotary_encoder_t *self);
 
 #endif

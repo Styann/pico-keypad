@@ -19,8 +19,11 @@
 #include "../lib/ws2812b/ws2812b.h"
 #include "../lib/joystick8way/joystick8way.h"
 #include "../lib/button/button.h"
-#include "../lib/ssd1331/ssd1331.h"
 #include "../lib/macro/macro.h"
+
+#include "../lib/ssd1331/ssd1331.h"
+#include "../lib/ssd1306/ssd1306.h"
+#include "../lib/st7735s/st7735s.h"
 
 #include <stdio.h>
 
@@ -29,16 +32,18 @@
 // #define USE_FIGHTSTICK
 // #define USE_WS2812B
 
-#include "../include/blaziken.h"
-#define USE_SSD1331
+// #include "../include/blaziken.h"
+// #define USE_SSD1331
+// #define USE_SSD1306
+#define USE_ST7735S
 
-#define DEBOUNCE_MS 3
+#define DEBOUNCE_MS 10
 
 volatile uint8_t modifiers = 0b00000000;
 volatile bool is_fn_pressed = false;
 
 #ifdef USE_KNOB
-    void volume_knob_cw_callback(uint32_t state) {
+    void knob_cw_callback(uint32_t state) {
         if (is_fn_pressed) {
             usb_send_consumer_control(CC_NEXT_TRACK);
         }
@@ -50,7 +55,7 @@ volatile bool is_fn_pressed = false;
         }
     }
 
-    void volume_knob_ccw_callback(uint32_t state) {
+    void knob_ccw_callback(uint32_t state) {
         if (is_fn_pressed) {
             usb_send_consumer_control(CC_PREVIOUS_TRACK);
         }
@@ -65,8 +70,8 @@ volatile bool is_fn_pressed = false;
     rotary_encoder_t volume_knob = {
         .pin_DT = GPIO26,
         .pin_CLK = GPIO27,
-        .cw_callback = &volume_knob_cw_callback,
-        .ccw_callback = &volume_knob_ccw_callback
+        .cw_callback = &knob_cw_callback,
+        .ccw_callback = &knob_ccw_callback
     };
 
     button_t knob_btn = { .pin = GPIO28, .debounce_ms = 10};
@@ -79,31 +84,31 @@ volatile bool is_fn_pressed = false;
     const uint8_t columns_pins[LAYOUT_COLUMN_SIZE] = { GPIO22, GPIO1, GPIO2, GPIO3, GPIO4, GPIO5, GPIO6, GPIO7 };
     const uint8_t rows_pins[LAYOUT_ROW_SIZE] = { GPIO8, GPIO9, GPIO10, GPIO11, GPIO12, GPIO13, GPIO14, GPIO15 };
 
-    const uint8_t layout[2][8][8] = {
-        {
-            { KC_ESCAPE,     KC_1,        KC_2,        KC_3,                   KC_4,                    KC_5,          KC_6,           KC_7           },
-            { KC_TAB,        KC_A,        KC_Z,        KC_E,                   KC_R,                    KC_T,          KC_Y,           KC_U           },
-            { KC_CAPS_LOCK,  KC_Q,        KC_S,        KC_D,                   KC_F,                    KC_G,          KC_H,           KC_J           },
-            { KC_SHIFT_LEFT, KC_W,        KC_X,        KC_C,                   KC_V,                    KC_B,          KC_N,           KC_COMMA       },
-            { KC_CTRL_LEFT,  KC_GUI_LEFT, KC_ALT_LEFT, KC_SPACE,               KC_FN,                   KC_CTRL_RIGHT, KC_ARROW_LEFT,  KC_ARROW_DOWN  },
-            { KC_8,          KC_9,        KC_0,        KC_MINUS,               KC_EQUAL,                KC_BACKSPACE,  KC_DELETE,      KC_ARROW_RIGHT },
-            { KC_I,          KC_O,        KC_P,        KC_SQUARE_BRACKET_LEFT, KC_SQUARE_BRACKET_RIGHT, KC_BACKSLASH,  KC_SHIFT_RIGHT, KC_ARROW_UP    },
-            { KC_K,          KC_L,        KC_M,        KC_SEMICOLON,           KC_APOSTROPHE,           KC_ENTER,      KC_PERIOD,      KC_SLASH       }
-        },
-        {
-            { KC_ESCAPE,     KC_F1,       KC_F2,       KC_F3,                  KC_F4,                   KC_F5,         KC_F6,          KC_F7          },
-            { KC_TAB,        KC_A,        KC_Z,        KC_E,                   KC_R,                    KC_T,          KC_Y,           KC_U           },
-            { KC_CAPS_LOCK,  KC_Q,        KC_PRINT_SCREEN, KC_D,               KC_F11,                  KC_G,          KC_H,           KC_J           },
-            { KC_SHIFT_LEFT, KC_W,        KC_X,        KC_C,                   KC_V,                    KC_B,          KC_GRAVE,       KC_COMMA       },
-            { KC_CTRL_LEFT,  KC_GUI_LEFT, KC_ALT_LEFT, KC_SPACE,               KC_FN,                   KC_CTRL_RIGHT, KC_ARROW_LEFT,  KC_ARROW_DOWN  },
-            { KC_F8,         KC_F9,       KC_F10,      KC_MINUS,               KC_EQUAL,                KC_BACKSPACE,  KC_DELETE,      KC_ARROW_RIGHT },
-            { KC_F12,        KC_O,        KC_P,        KC_SQUARE_BRACKET_LEFT, KC_SQUARE_BRACKET_RIGHT, KC_BACKSLASH,  KC_SHIFT_RIGHT, KC_ARROW_UP    },
-            { KC_K,          KC_L,        KC_M,        KC_SEMICOLON,           KC_APOSTROPHE,           KC_ENTER,      KC_PERIOD,      KC_SLASH       }
-        }
+    const uint8_t layout[8][8] = {
+        { KC_ESCAPE,     KC_1,        KC_2,        KC_3,                   KC_4,                    KC_5,          KC_6,           KC_7           },
+        { KC_TAB,        KC_A,        KC_Z,        KC_E,                   KC_R,                    KC_T,          KC_Y,           KC_U           },
+        { KC_CAPS_LOCK,  KC_Q,        KC_S,        KC_D,                   KC_F,                    KC_G,          KC_H,           KC_J           },
+        { KC_SHIFT_LEFT, KC_W,        KC_X,        KC_C,                   KC_V,                    KC_B,          KC_N,           KC_COMMA       },
+        { KC_CTRL_LEFT,  KC_GUI_LEFT, KC_ALT_LEFT, KC_SPACE,               KC_FN,                   KC_CTRL_RIGHT, KC_ARROW_LEFT,  KC_ARROW_DOWN  },
+        { KC_8,          KC_9,        KC_0,        KC_MINUS,               KC_EQUAL,                KC_BACKSPACE,  KC_DELETE,      KC_ARROW_RIGHT },
+        { KC_I,          KC_O,        KC_P,        KC_SQUARE_BRACKET_LEFT, KC_SQUARE_BRACKET_RIGHT, KC_BACKSLASH,  KC_SHIFT_RIGHT, KC_ARROW_UP    },
+        { KC_K,          KC_L,        KC_M,        KC_SEMICOLON,           KC_APOSTROPHE,           KC_ENTER,      KC_PERIOD,      KC_SLASH       }
+    };
+
+    const uint8_t fn_layout[8][8] = {
+        { KC_ESCAPE,     KC_F1,       KC_F2,       KC_F3,                  KC_F4,                   KC_F5,         KC_F6,          KC_F7          },
+        { KC_TAB,        KC_A,        KC_Z,        KC_E,                   KC_R,                    KC_T,          KC_Y,           KC_U           },
+        { KC_CAPS_LOCK,  KC_Q,        KC_PRINT_SCREEN, KC_D,               KC_F11,                  KC_G,          KC_H,           KC_J           },
+        { KC_SHIFT_LEFT, KC_W,        KC_X,        KC_C,                   KC_V,                    KC_B,          KC_GRAVE,       KC_COMMA       },
+        { KC_CTRL_LEFT,  KC_GUI_LEFT, KC_ALT_LEFT, KC_SPACE,               KC_FN,                   KC_CTRL_RIGHT, KC_ARROW_LEFT,  KC_ARROW_DOWN  },
+        { KC_F8,         KC_F9,       KC_F10,      KC_MINUS,               KC_EQUAL,                KC_BACKSPACE,  KC_DELETE,      KC_ARROW_RIGHT },
+        { KC_F12,        KC_O,        KC_P,        KC_SQUARE_BRACKET_LEFT, KC_SQUARE_BRACKET_RIGHT, KC_BACKSLASH,  KC_SHIFT_RIGHT, KC_ARROW_UP    },
+        { KC_K,          KC_L,        KC_M,        KC_SEMICOLON,           KC_APOSTROPHE,           KC_ENTER,      KC_PERIOD,      KC_SLASH       }
     };
 
     keyboard_matrix_t keyboard_matrix = {
-        .layout = &layout[0][0][0],
+        .layout = &layout[0][0],
+        .fn_layout = &fn_layout[0][0],
         .rows_pins = rows_pins,
         .columns_pins = columns_pins,
         .row_size = LAYOUT_ROW_SIZE,
@@ -244,6 +249,27 @@ volatile bool is_fn_pressed = false;
     };
 #endif
 
+#ifdef USE_SSD1306
+    ssd1306_128x32_t display2 = {
+        .addr = 0x3C,
+        .pin_SCK = GPIO18,
+        .pin_SDA = GPIO19,
+        .i2c_inst = i2c1
+    };
+#endif
+
+#ifdef USE_ST7735S
+    st7735s_t display3 = {
+        .pin_SCL = GPIO18,
+        .pin_SDA = GPIO19,
+        .pin_RES = GPIO16,
+        .pin_DC = GPIO20,
+        .pin_CS = GPIO17,
+        .pin_BLK = GPIO21,
+        .spi_inst = spi0
+    };
+#endif
+
 void main_core1(void) {
     #ifdef USE_WS2812B
         grb32_t leds_buffer[30];
@@ -281,11 +307,8 @@ void main_core1(void) {
         ssd1331_fill_screen(&display, 0);
 
         // unsigned int input = 1235467890;
-
         // char input_str[10];
-
         // sprintf(input_str, "%d", input);
-
         // ssd1331_print(&display, 0, 0, input_str);
 
         ssd1331_println(&display, "arquebus keyboard");
@@ -313,11 +336,26 @@ void main_core1(void) {
             sleep_ms(60);
         }
     #endif
+
+    #ifdef USE_ST7735S
+        st7735s_init(&display3, 8000000);
+
+        while (true) {
+            asm volatile("nop");
+        }
+    #endif
+
+    #ifdef USE_SSD1306
+        ssd1306_init(&display2, 400);
+
+        while (true) {
+            asm volatile("nop");
+        }
+    #endif
 }
 
 void set_report_callback(volatile uint8_t *buf, uint16_t len) {
     // printf("0x%x 0x%x\n", buf[0], buf[1]);
-
     release_keyboard();
 }
 
@@ -327,7 +365,7 @@ int main(void) {
     printf("Hello, World! from pi pico.\n");
 
     usb_device_init();
-    ssd1331_init(&display);
+    // ssd1331_init(&display);
 
     multicore_launch_core1(main_core1);
 

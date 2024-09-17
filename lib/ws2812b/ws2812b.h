@@ -49,20 +49,20 @@ struct ws2812b {
     uint8_t *spi_buffer;
 };
 
-void ws2812b_init(struct ws2812b *this);
+void ws2812b_init(struct ws2812b *self);
 
-void ws2812b_set_all(struct ws2812b *this, grb32_t color);
+void ws2812b_set_all(struct ws2812b *self, grb32_t color);
 
-void ws2812b_set_one(struct ws2812b *this, uint16_t led, grb32_t color);
+void ws2812b_set_one(struct ws2812b *self, uint16_t led, grb32_t color);
 
-void ws2812b_set_off(struct ws2812b *this);
+void ws2812b_set_off(struct ws2812b *self);
 
-void ws2812b_set_brightness(struct ws2812b *this, float factor);
+void ws2812b_set_brightness(struct ws2812b *self, float factor);
 
-bool ws2812b_write(struct ws2812b *this);
+bool ws2812b_write(struct ws2812b *self);
 
 grb32_t rgb_to_grb(uint8_t r, uint8_t g, uint8_t b);
 
-static void ws2812b_update_spi_buffer(struct ws2812b *this);
+static void ws2812b_update_spi_buffer(struct ws2812b *self);
 
 #endif

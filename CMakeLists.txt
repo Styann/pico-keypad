@@ -8,34 +8,40 @@ set(CMAKE_CXX_STANDARD 17)
 
 pico_sdk_init()
 
+message("PICO_KEYPAD_PATH is $ENV{PICO_KEYPAD_PATH}")
+
 add_executable(pico-keypad
-    ${PICO_KEYPAD_PATH}/src/pico-keypad.c
-    ${PICO_KEYPAD_PATH}/lib/debounce/debounce.c
-    ${PICO_KEYPAD_PATH}/lib/keyboard/keyboard.c
-    ${PICO_KEYPAD_PATH}/lib/usb/usb.c
-    ${PICO_KEYPAD_PATH}/lib/usb/usb_hid.c
-    ${PICO_KEYPAD_PATH}/lib/usb/usb_config.c
-    ${PICO_KEYPAD_PATH}/lib/rotary_encoder/rotary_encoder.c
-    ${PICO_KEYPAD_PATH}/lib/ws2812b/ws2812b.c
-    ${PICO_KEYPAD_PATH}/lib/ssd1331/ssd1331.c
-    ${PICO_KEYPAD_PATH}/lib/button/button.c
-    ${PICO_KEYPAD_PATH}/lib/joystick8way/joystick8way.c
-    ${PICO_KEYPAD_PATH}/lib/macro/macro.c
+    $ENV{PICO_KEYPAD_PATH}/src/pico-keypad.c
+    $ENV{PICO_KEYPAD_PATH}/lib/debounce/debounce.c
+    $ENV{PICO_KEYPAD_PATH}/lib/keyboard/keyboard.c
+    $ENV{PICO_KEYPAD_PATH}/lib/usb/usb.c
+    $ENV{PICO_KEYPAD_PATH}/lib/usb/usb_hid.c
+    $ENV{PICO_KEYPAD_PATH}/lib/usb/usb_config.c
+    $ENV{PICO_KEYPAD_PATH}/lib/rotary_encoder/rotary_encoder.c
+    $ENV{PICO_KEYPAD_PATH}/lib/ws2812b/ws2812b.c
+    $ENV{PICO_KEYPAD_PATH}/lib/ssd1331/ssd1331.c
+    $ENV{PICO_KEYPAD_PATH}/lib/ssd1306/ssd1306.c
+    $ENV{PICO_KEYPAD_PATH}/lib/st7735s/st7735s.c
+    $ENV{PICO_KEYPAD_PATH}/lib/button/button.c
+    $ENV{PICO_KEYPAD_PATH}/lib/joystick8way/joystick8way.c
+    $ENV{PICO_KEYPAD_PATH}/lib/macro/macro.c
 )
 
 target_sources(pico-keypad PUBLIC
-    ${PICO_KEYPAD_PATH}/src/pico-keypad.c
-    ${PICO_KEYPAD_PATH}/lib/debounce/debounce.c
-    ${PICO_KEYPAD_PATH}/lib/keyboard/keyboard.c
-    ${PICO_KEYPAD_PATH}/lib/usb/usb.c
-    ${PICO_KEYPAD_PATH}/lib/usb/usb_hid.c
-    ${PICO_KEYPAD_PATH}/lib/usb/usb_config.c
-    ${PICO_KEYPAD_PATH}/lib/rotary_encoder/rotary_encoder.c
-    ${PICO_KEYPAD_PATH}/lib/ws2812b/ws2812b.c
-    ${PICO_KEYPAD_PATH}/lib/ssd1331/ssd1331.c
-    ${PICO_KEYPAD_PATH}/lib/button/button.c
-    ${PICO_KEYPAD_PATH}/lib/joystick8way/joystick8way.c
-    ${PICO_KEYPAD_PATH}/lib/macro/macro.c
+    $ENV{PICO_KEYPAD_PATH}/src/pico-keypad.c
+    $ENV{PICO_KEYPAD_PATH}/lib/debounce/debounce.c
+    $ENV{PICO_KEYPAD_PATH}/lib/keyboard/keyboard.c
+    $ENV{PICO_KEYPAD_PATH}/lib/usb/usb.c
+    $ENV{PICO_KEYPAD_PATH}/lib/usb/usb_hid.c
+    $ENV{PICO_KEYPAD_PATH}/lib/usb/usb_config.c
+    $ENV{PICO_KEYPAD_PATH}/lib/rotary_encoder/rotary_encoder.c
+    $ENV{PICO_KEYPAD_PATH}/lib/ws2812b/ws2812b.c
+    $ENV{PICO_KEYPAD_PATH}/lib/ssd1331/ssd1331.c
+    $ENV{PICO_KEYPAD_PATH}/lib/ssd1306/ssd1306.c
+    $ENV{PICO_KEYPAD_PATH}/lib/st7735s/st7735s.c
+    $ENV{PICO_KEYPAD_PATH}/lib/button/button.c
+    $ENV{PICO_KEYPAD_PATH}/lib/joystick8way/joystick8way.c
+    $ENV{PICO_KEYPAD_PATH}/lib/macro/macro.c
 )
 
 target_link_libraries(pico-keypad
@@ -46,6 +52,7 @@ target_link_libraries(pico-keypad
     hardware_irq
     hardware_pwm
     hardware_spi
+    hardware_i2c
 )
 
 pico_add_extra_outputs(pico-keypad)

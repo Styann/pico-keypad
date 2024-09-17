@@ -2,30 +2,29 @@
  * @author Styann
  */
 
+#include "keyboard.h"
+#include <string.h>
 #include "hardware/gpio.h"
 #include "hardware/timer.h"
-
-#include "keyboard.h"
 #include "../pico_extra/pico_extra.h"
 #include "../usb/usb.h"
-#include <string.h>
 
 #define KRO 6 // number of keycodes in usb keyboard report
 
 /**
  * @brief Set all rows pins as OUPUT and HIGH then all columns pins as GPIO INPUT PULL UP
  */
-void keyboard_matrix_init(keyboard_matrix_t *this) {
-    for (uint16_t r = 0; r < this->row_size; r++) {
-        gpio_init(this->rows_pins[r]);
-        gpio_set_dir(this->rows_pins[r], GPIO_OUT);
-        gpio_put(this->rows_pins[r], HIGH);
+void keyboard_matrix_init(keyboard_matrix_t *self) {
+    for (uint16_t r = 0; r < self->row_size; r++) {
+        gpio_init(self->rows_pins[r]);
+        gpio_set_dir(self->rows_pins[r], GPIO_OUT);
+        gpio_put(self->rows_pins[r], HIGH);
     }
 
-    for (uint16_t c = 0; c < this->column_size; c++) {
-        gpio_init(this->columns_pins[c]);
-        gpio_set_dir(this->columns_pins[c], GPIO_IN);
-        gpio_pull_up(this->columns_pins[c]);
+    for (uint16_t c = 0; c < self->column_size; c++) {
+        gpio_init(self->columns_pins[c]);
+        gpio_set_dir(self->columns_pins[c], GPIO_IN);
+        gpio_pull_up(self->columns_pins[c]);
     }
 }
 
@@ -42,17 +41,17 @@ static bool is_key_pressed(uint8_t column_pin) {
  * @param matrix
  * @param report
  */
-void keyboard_matrix_scan(keyboard_matrix_t *this, struct usb_keyboard_report *report) {
+void keyboard_matrix_scan(keyboard_matrix_t *self, struct usb_keyboard_report *report) {
     uint8_t pressed_keys_count = 0;
 
-    for (uint8_t r = 0; pressed_keys_count < KRO && r < this->row_size; r++) {
-        gpio_put(this->rows_pins[r], LOW);
+    for (uint8_t r = 0; pressed_keys_count < KRO && r < self->row_size; r++) {
+        gpio_put(self->rows_pins[r], LOW);
         busy_wait_us_32(1);
 
-        for (uint8_t c = 0; pressed_keys_count < KRO && c < this->column_size; c++) {
-            uint8_t keycode = this->layout[r * this->column_size + c];
+        for (uint8_t c = 0; pressed_keys_count < KRO && c < self->column_size; c++) {
+            uint8_t keycode = self->layout[r * self->column_size + c];
 
-            if (is_key_pressed(this->columns_pins[c]) && keycode != KC_NONE) {
+            if (is_key_pressed(self->columns_pins[c]) && keycode != KC_NONE) {
                 if (!try_add_modifier(report, keycode)) {
                     push_keycode(report, keycode);
                     pressed_keys_count++;
@@ -60,7 +59,7 @@ void keyboard_matrix_scan(keyboard_matrix_t *this, struct usb_keyboard_report *r
             }
         }
 
-        gpio_put(this->rows_pins[r], HIGH);
+        gpio_put(self->rows_pins[r], HIGH);
     }
 }
 

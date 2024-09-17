@@ -1,21 +1,21 @@
 #include "joystick8way.h"
 
-void joystick8way_init(struct joystick8way *this) {
-    // if (!this->debounce_ms) this->debounce_ms = 10;
+void joystick8way_init(struct joystick8way *self) {
+    // if (!self->debounce_ms) self->debounce_ms = 10;
 
-    button_init(&this->up, true);
-    button_init(&this->right, true);
-    button_init(&this->down, true);
-    button_init(&this->left, true);
+    button_init(&self->up, true);
+    button_init(&self->right, true);
+    button_init(&self->down, true);
+    button_init(&self->left, true);
 }
 
-uint8_t joystick8way_read(struct joystick8way *this) {
+uint8_t joystick8way_read(struct joystick8way *self) {
     uint8_t state = 0b0000;
 
-    state |= button_read(&this->up) << 3;
-    state |= button_read(&this->right) << 2;
-    state |= button_read(&this->down) << 1;
-    state |= button_read(&this->left);
+    state |= button_read(&self->up) << 3;
+    state |= button_read(&self->right) << 2;
+    state |= button_read(&self->down) << 1;
+    state |= button_read(&self->left);
 
     return state;
 }
@@ -26,10 +26,10 @@ static int8_t joystick8way_read_axis(button_t *low_button, button_t *high_button
     return 0;
 }
 
-int8_t joystick8way_read_x_axis(struct joystick8way *this) {
-    return joystick8way_read_axis(&this->left, &this->right);
+int8_t joystick8way_read_x_axis(struct joystick8way *self) {
+    return joystick8way_read_axis(&self->left, &self->right);
 }
 
-int8_t joystick8way_read_y_axis(struct joystick8way *this) {
-    return joystick8way_read_axis(&this->down, &this->up);
+int8_t joystick8way_read_y_axis(struct joystick8way *self) {
+    return joystick8way_read_axis(&self->down, &self->up);
 }

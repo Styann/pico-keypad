@@ -31,35 +31,35 @@ struct ssd1331 {
 	volatile bool is_on;
 };
 
-void ssd1331_init(struct ssd1331 *this);
+void ssd1331_init(struct ssd1331 *self);
 
-void ssd1331_reset(struct ssd1331 *this);
+void ssd1331_reset(struct ssd1331 *self);
 
-void ssd1331_turn(struct ssd1331 *this, const bool onoff);
+void ssd1331_turn(struct ssd1331 *self, const bool onoff);
 
-void ssd1331_turn_on(struct ssd1331 *this);
+void ssd1331_turn_on(struct ssd1331 *self);
 
-void ssd1331_turn_off(struct ssd1331 *this);
+void ssd1331_turn_off(struct ssd1331 *self);
 
-static void ssd1331_command_mode(struct ssd1331 *this);
+static void ssd1331_command_mode(struct ssd1331 *self);
 
-static void ssd1331_data_mode(struct ssd1331 *this);
+static void ssd1331_data_mode(struct ssd1331 *self);
 
-void ssd1331_write_command(struct ssd1331 *this, const uint8_t command);
+void ssd1331_write_command(struct ssd1331 *self, const uint8_t command);
 
-void ssd1331_write_commands(struct ssd1331 *this, const uint8_t *commands, size_t size);
+void ssd1331_write_commands(struct ssd1331 *self, const uint8_t *commands, size_t size);
 
-void ssd1331_write_data(struct ssd1331 *this, uint16_t *data, size_t size);
+void ssd1331_write_data(struct ssd1331 *self, uint16_t *data, size_t size);
 
-void ssd1331_draw_pixel(struct ssd1331 *this, uint8_t x, uint8_t y, uint16_t color);
+void ssd1331_draw_pixel(struct ssd1331 *self, uint8_t x, uint8_t y, uint16_t color);
 
-void ssd1331_fill_screen(struct ssd1331 *this, uint16_t color);
+void ssd1331_fill_screen(struct ssd1331 *self, uint16_t color);
 
-void ssd1331_print_char(struct ssd1331 *this, uint8_t x, uint8_t y, const char c);
+void ssd1331_print_char(struct ssd1331 *self, uint8_t x, uint8_t y, const char c);
 
-void ssd1331_print(struct ssd1331 *this, const char *c);
+void ssd1331_print(struct ssd1331 *self, const char *c);
 
-void ssd1331_println(struct ssd1331 *this, const char *c);
+void ssd1331_println(struct ssd1331 *self, const char *c);
 
 // COMMANDS
 #define SET_COLUMN_ADDRESS     			  	0x15
