@@ -22,7 +22,11 @@ cd ~/Workspace/pico-keypad && ./deploy.sh
 * TinyUSB (as an example)
 
 ## todo
+* show layer on display
+
+
 * add led (Caps-lock...) read USB RX
 * rotary encoder using ints ?
 * control xfer
 * pio
+

@@ -47,8 +47,8 @@ void ssd1306_write_command(const ssd1306_128x32_t *self, const uint8_t command) 
     i2c_write_blocking(self->i2c_inst, self->addr, buffer, 2, false);
 }
 
-void ssd1306_write_commands(const ssd1306_128x32_t *self, const uint8_t *commands, const size_t size) {
-    for (size_t i = 0; i < size; i++) {
+void ssd1306_write_commands(const ssd1306_128x32_t *self, const uint8_t *commands, const uint len) {
+    for (uint i = 0; i < len; i++) {
         built_in_led_on();
         ssd1306_write_command(self, commands[i]);
     }

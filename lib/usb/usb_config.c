@@ -20,39 +20,40 @@ static const struct usb_device_descriptor device_descriptor = {
 static const struct usb_configuration_descriptor config_descriptor = {
     .bLength             = sizeof(struct usb_configuration_descriptor),
     .bDescriptorType     = USB_DESCRIPTOR_TYPE_CONFIG,
-    .wTotalLength        = (sizeof(struct usb_configuration_descriptor)
-                            + sizeof(struct usb_interface_descriptor)
-                            + sizeof(struct usb_hid_descriptor)
-                            + sizeof(struct usb_endpoint_descriptor)),
-    .bNumInterfaces      = 1,
+    .wTotalLength        = sizeof(struct usb_configuration_descriptor) + (
+                                (sizeof(struct usb_interface_descriptor)
+                                + sizeof(struct usb_hid_descriptor)
+                                + sizeof(struct usb_endpoint_descriptor)) * 2
+                            ),
+    .bNumInterfaces      = 2,
     .bConfigurationValue = 1, // Configuration 1
     .iConfiguration      = 0, // No string
     .bmAttributes        = 0xA0, // self powered, remote wakeup
     .bMaxPower           = 50  // 100ma
 };
 
-static const struct usb_interface_descriptor interface_descriptor = {
+static const struct usb_interface_descriptor keyboard_interface_descriptor = {
     .bLength            = sizeof(struct usb_interface_descriptor),
     .bDescriptorType    = USB_DESCRIPTOR_TYPE_INTERFACE,
     .bInterfaceNumber   = 0,
     .bAlternateSetting  = 0,
     .bNumEndpoints      = 0x01, // Interface has 1 endpoints
     .bInterfaceClass    = USB_INTERFACE_CLASS_TYPE_HID, // Vendor specific endpoint
-    .bInterfaceSubClass = 0x01, // boot interface
+    .bInterfaceSubClass = USB_INTERFACE_SUBCLASS_TYPE_BOOT_INTERFACE,
     .bInterfaceProtocol = USB_INTERFACE_PROTOCOL_KEYBOARD,
     .iInterface         = 0
 };
 
-#define KEYBOARD_REPORT_DESCRIPTOR_LEN 96
-
-static const struct usb_hid_descriptor hid_descriptor = {
-    .bLength         = sizeof(struct usb_hid_descriptor),
-    .bDescriptorType = USB_DESCRIPTOR_TYPE_HID,
-    .bcdHID          = 0x0111, // usb hid version
-    .bCountryCode    = USB_COUNTRY_CODE_FRENCH,
-    .bNumDescriptors = 0x01,
-    .bReportType     = USB_DESCRIPTOR_TYPE_REPORT,
-    .wReportLength   = KEYBOARD_REPORT_DESCRIPTOR_LEN
+static const struct usb_interface_descriptor mouse_interface_descriptor = {
+    .bLength            = sizeof(struct usb_interface_descriptor),
+    .bDescriptorType    = USB_DESCRIPTOR_TYPE_INTERFACE,
+    .bInterfaceNumber   = 1,
+    .bAlternateSetting  = 0,
+    .bNumEndpoints      = 0x01, // Interface has 1 endpoints
+    .bInterfaceClass    = USB_INTERFACE_CLASS_TYPE_HID, // Vendor specific endpoint
+    .bInterfaceSubClass = USB_INTERFACE_SUBCLASS_TYPE_BOOT_INTERFACE,
+    .bInterfaceProtocol = USB_INTERFACE_PROTOCOL_MOUSE,
+    .iInterface         = 0
 };
 
 static const struct usb_endpoint_descriptor ep0_out_descriptor = {
@@ -82,13 +83,22 @@ static const struct usb_endpoint_descriptor ep1_in_descriptor = {
     .bInterval        = 5 // ms
 };
 
+static const struct usb_endpoint_descriptor ep2_in_descriptor = {
+    .bLength          = sizeof(struct usb_endpoint_descriptor),
+    .bDescriptorType  = USB_DESCRIPTOR_TYPE_ENDPOINT,
+    .bEndpointAddress = 0x82,
+    .bmAttributes     = USB_TRANSFER_TYPE_INTERRUPT,
+    .wMaxPacketSize   = 64,
+    .bInterval        = 5 // ms
+};
+
 static const struct usb_string_language_descriptor language_descriptor = {
     .bLength = sizeof(struct usb_string_language_descriptor),
     .bDescriptorType = USB_DESCRIPTOR_TYPE_STRING,
     .wLANGID = USB_LANGUAGE_ID_FRENCH
 };
 
-static const uint8_t keyboard_report_descriptor[KEYBOARD_REPORT_DESCRIPTOR_LEN] = {
+static const uint8_t keyboard_report_descriptor[] = {
     USAGE_PAGE, GENERIC_DESKTOP_PAGE,
 
     USAGE, USAGE_KEYBOARD,
@@ -146,6 +156,63 @@ static const uint8_t keyboard_report_descriptor[KEYBOARD_REPORT_DESCRIPTOR_LEN] 
     END_COLLECTION
 };
 
+static const uint8_t mouse_report_descriptor[] = {
+    USAGE_PAGE, GENERIC_DESKTOP_PAGE,
+
+    USAGE, USAGE_MOUSE,
+    COLLECTION, COLLECTION_APPLICATION,
+        REPORT_ID, 0x03,
+        USAGE, USAGE_POINTER,
+        COLLECTION, COLLECTION_PHYSICAL,
+            USAGE, USAGE_BUTTON,
+            USAGE_MINIMUM, 0x01,
+            USAGE_MINIMUM, 0x05,
+            LOGICAL_MINIMUM, 0,
+            LOGICAL_MAXIMUM, 1,
+            REPORT_COUNT, 5,
+            REPORT_SIZE, 1,
+            INPUT, DATA_VAR_ABS,
+
+            USAGE_PAGE, GENERIC_DESKTOP_PAGE,
+            USAGE, USAGE_X,
+            USAGE, USAGE_Y,
+            LOGICAL_MINIMUM + 1, 0x00, 0x80,
+            LOGICAL_MAXIMUM + 1, 0xFF, 0x7F,
+            REPORT_SIZE, 16,
+            REPORT_COUNT, 2,
+            INPUT, DATA_VAR_REL,
+
+            USAGE_PAGE, GENERIC_DESKTOP_PAGE,
+            USAGE, USAGE_WHEEL,
+            LOGICAL_MINIMUM, -127,
+            LOGICAL_MAXIMUM, 127,
+            REPORT_SIZE, 8,
+            REPORT_COUNT, 1,
+            INPUT, DATA_VAR_REL,
+        END_COLLECTION,
+    END_COLLECTION
+};
+
+static const struct usb_hid_descriptor keyboard_hid_descriptor = {
+    .bLength         = sizeof(struct usb_hid_descriptor),
+    .bDescriptorType = USB_DESCRIPTOR_TYPE_HID,
+    .bcdHID          = 0x0111, // usb hid version
+    .bCountryCode    = USB_COUNTRY_CODE_FRENCH,
+    .bNumDescriptors = 0x01,
+    .bReportType     = USB_DESCRIPTOR_TYPE_REPORT,
+    .wReportLength   = sizeof(keyboard_report_descriptor)
+};
+
+static const struct usb_hid_descriptor mouse_hid_descriptor = {
+    .bLength         = sizeof(struct usb_hid_descriptor),
+    .bDescriptorType = USB_DESCRIPTOR_TYPE_HID,
+    .bcdHID          = 0x0111, // usb hid version
+    .bCountryCode    = USB_COUNTRY_CODE_FRENCH,
+    .bNumDescriptors = 0x01,
+    .bReportType     = USB_DESCRIPTOR_TYPE_REPORT,
+    .wReportLength   = sizeof(mouse_report_descriptor)
+};
+
 struct usb_device pico = {
     .addr = 0x00,
     .should_set_addr = false,
@@ -154,41 +221,52 @@ struct usb_device pico = {
     .configured = false,
 
     .device_descriptor = &device_descriptor,
+
     .configuration_descriptor = &config_descriptor,
-    .interface_descriptor = &interface_descriptor,
-    .hid_descriptor = &hid_descriptor,
+    .hid_interfaces = {
+        {
+            .interface_descriptor = &keyboard_interface_descriptor,
+            .hid_descriptor = &keyboard_hid_descriptor,
+            .endpoint = {
+                .descriptor = &ep1_in_descriptor,
+                .handler = &ep1_in_handler,
+                .endpoint_control = &usb_dpram->ep_ctrl[0].in,
+                .buffer_control = &usb_dpram->ep_buf_ctrl[1].in,
+                .data_buffer = &usb_dpram->epx_data[0 * 64]
+            }
+        },
+        {
+            .interface_descriptor = &mouse_interface_descriptor,
+            .hid_descriptor = &mouse_hid_descriptor,
+            .endpoint = {
+                .descriptor = &ep2_in_descriptor,
+                .handler = &ep2_in_handler,
+                .endpoint_control = &usb_dpram->ep_ctrl[1].in,
+                .buffer_control = &usb_dpram->ep_buf_ctrl[2].in,
+                .data_buffer = &usb_dpram->epx_data[1 * 64]
+            }
+        }
+    },
 
     .language_descriptor = &language_descriptor,
     .vendor = "Seegson Corporation",
     .product = "Arquebus Keyboard",
 
-    .report_descriptor = keyboard_report_descriptor,
-    .report_descriptor_len = KEYBOARD_REPORT_DESCRIPTOR_LEN,
-
-    .endpoints = {
-        {
-            .descriptor = &ep0_out_descriptor,
-            .handler = &ep0_out_handler,
-            .endpoint_control = NULL, // NA for EP0
-            .buffer_control = &usb_dpram->ep_buf_ctrl[0].out,
-            // EP0 in and out share a data buffer
-            .data_buffer = &usb_dpram->ep0_buf_a[0],
-        },
-        {
+    .ep0_in = {
             .descriptor = &ep0_in_descriptor,
             .handler = &ep0_in_handler,
             .endpoint_control = NULL, // NA for EP0,
             .buffer_control = &usb_dpram->ep_buf_ctrl[0].in,
             // EP0 in and out share a data buffer
             .data_buffer = &usb_dpram->ep0_buf_a[0],
-        },
-        {
-            .descriptor = &ep1_in_descriptor,
-            .handler = &ep1_in_handler,
-            .endpoint_control = &usb_dpram->ep_ctrl[0].in,
-            .buffer_control = &usb_dpram->ep_buf_ctrl[1].in,
-            .data_buffer = &usb_dpram->epx_data[0 * 64]
-        }
+    },
+    .ep0_out = {
+        .descriptor = &ep0_out_descriptor,
+        .handler = &ep0_out_handler,
+        .endpoint_control = NULL, // NA for EP0
+        .buffer_control = &usb_dpram->ep_buf_ctrl[0].out,
+        // EP0 in and out share a data buffer
+        .data_buffer = &usb_dpram->ep0_buf_a[0],
     }
 };
 
@@ -204,6 +282,18 @@ void usb_handle_device_descriptor(const uint16_t wLength) {
     usb_xfer_ep0_in((uint8_t*)pico.device_descriptor, pico.device_descriptor->bLength);
 }
 
+uint hid_interface_cpy(uint8_t *buffer, const struct usb_hid_interface *const hid_interface) {
+    memcpy((void *)buffer, hid_interface->interface_descriptor, hid_interface->interface_descriptor->bLength);
+    uint offset = hid_interface->interface_descriptor->bLength;
+
+    memcpy((void *)buffer + offset, hid_interface->hid_descriptor, hid_interface->hid_descriptor->bLength);
+    offset += hid_interface->hid_descriptor->bLength;
+
+    memcpy((void *)buffer + offset, hid_interface->endpoint.descriptor, hid_interface->endpoint.descriptor->bLength);
+    offset += hid_interface->endpoint.descriptor->bLength;
+
+    return offset;
+}
 
 void usb_handle_config_descriptor(const uint16_t wLength) {
     uint8_t buffer[34];
@@ -213,21 +303,17 @@ void usb_handle_config_descriptor(const uint16_t wLength) {
     buffer_ptr += pico.configuration_descriptor->bLength;
 
     if (wLength >= pico.configuration_descriptor->wTotalLength) {
-        memcpy((void *)buffer_ptr, pico.interface_descriptor, pico.interface_descriptor->bLength);
-        buffer_ptr += pico.interface_descriptor->bLength;
-
-        memcpy((void *)buffer_ptr, pico.hid_descriptor, pico.hid_descriptor->bLength);
-        buffer_ptr += pico.hid_descriptor->bLength;
-
-        memcpy((void *)buffer_ptr, pico.endpoints[2].descriptor, pico.endpoints[2].descriptor->bLength);
-        buffer_ptr += pico.endpoints[2].descriptor->bLength;
+        // keyboard
+        buffer_ptr += hid_interface_cpy(buffer_ptr, &pico.hid_interfaces[0]);
+        // mouse
+        buffer_ptr += hid_interface_cpy(buffer_ptr, &pico.hid_interfaces[1]);
     }
 
     usb_xfer_ep0_in(buffer, buffer_ptr - buffer);
 }
 
-void utf8_to_utf16(const char *utf8, const size_t utf8_len, uint16_t *utf16_buffer) {
-    for (size_t i = 0; i < utf8_len; i++) utf16_buffer[i] = utf8[i];
+void utf8_to_utf16(const char *utf8, const uint utf8_len, uint16_t *utf16_buffer) {
+    for (uint32_t i = 0; i < utf8_len; i++) utf16_buffer[i] = utf8[i];
 }
 
 /**
@@ -239,8 +325,8 @@ void usb_handle_string_descriptor(const uint8_t descriptorIndex, const uint16_t 
         usb_xfer_ep0_in((uint8_t *)pico.language_descriptor, 4);
     }
     else {
-        char const **string = (descriptorIndex == 1) ? &pico.product : &pico.vendor;
-        const size_t string_len = strlen(*string);
+        char const **string = (descriptorIndex == 1) ? &pico.vendor : &pico.product;
+        const uint string_len = strlen(*string);
         const uint8_t bLength = 2 + string_len * 2;
 
         uint16_t string_descriptor_buffer[40];
@@ -251,10 +337,19 @@ void usb_handle_string_descriptor(const uint8_t descriptorIndex, const uint16_t 
     }
 }
 
-void usb_handle_report_descriptor(const uint16_t wLength) {
-    usb_xfer_ep0_in((uint8_t *)pico.report_descriptor, pico.report_descriptor_len);
+/**
+ * @param bDescriptorIndex - descriptor id for this interface
+ * @param InterfaceNumber - interface id
+ * @param wDescriptorLength - request length
+ */
+void usb_handle_hid_report(const uint16_t bDescriptorIndex, const uint16_t InterfaceNumber, const uint16_t wDescriptorLength) {
+    if (InterfaceNumber == 0) {
+        usb_xfer_ep0_in((uint8_t *)keyboard_report_descriptor, sizeof(keyboard_report_descriptor));
+    }
+    else {
+        usb_xfer_ep0_in((uint8_t *)mouse_report_descriptor, sizeof(mouse_report_descriptor));
+    }
 }
-
 
 void ep0_out_handler(uint8_t *buf, uint16_t len) {
 
@@ -273,16 +368,17 @@ void ep0_in_handler(uint8_t *buf, uint16_t len) {
         pico.should_set_addr = false;
     } else {
         // Receive a zero length status packet from the host on EP0 OUT
-        struct usb_endpoint *ep = usb_get_endpoint_configuration(EP0_OUT_ADDR);
-        usb_xfer(ep, NULL, 0);
+        usb_xfer(&pico.ep0_out, NULL, 0);
     }
 }
-
 
 void ep1_in_handler(uint8_t *buf, uint16_t len) {
 
 }
 
+void ep2_in_handler(uint8_t *buf, uint16_t len) {
+
+}
 
 // #define USB_REPORT_DESCRIPTOR_LENGTH 40
 // const uint8_t fightstick_report_descriptor[40] = {

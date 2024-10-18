@@ -5,7 +5,6 @@
 # sudo apt-get install build-essential
 # sudo apt install g++
 
-export PICO_SDK_PATH=/home/boudiou/Workspace/pico-sdk
 export PICO_KEYPAD_PATH=/home/boudiou/Workspace/pico-keypad
 
 BUILD_PATH="$PICO_KEYPAD_PATH/build"

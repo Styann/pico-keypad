@@ -4,8 +4,6 @@
  */
 
 #include "ssd1331.h"
-#include "../graphics/font.h"
-
 #include <ctype.h> // for toupper()
 
 void ssd1331_init(struct ssd1331 *self) {
@@ -113,30 +111,30 @@ void ssd1331_write_command(struct ssd1331 *self, const uint8_t command) {
 
 /**
  * @param commands
- * @param size
+ * @param len
  */
-void ssd1331_write_commands(struct ssd1331 *self, const uint8_t *commands, size_t size) {
+void ssd1331_write_commands(struct ssd1331 *self, const uint8_t *commands, const uint len) {
     ssd1331_command_mode(self);
     spi_set_format_8(self->spi_inst);
 
     if (!spi_is_busy(self->spi_inst) && spi_is_writable(self->spi_inst)) {
         spi_chip_select(self->pin_CS);
-        spi_write_blocking(self->spi_inst, commands, size);
+        spi_write_blocking(self->spi_inst, commands, len);
         spi_chip_deselect(self->pin_CS);
     }
 }
 
 /**
  * @param data
- * @param size
+ * @param len
  */
-void ssd1331_write_data(struct ssd1331 *self, uint16_t *data, size_t size) {
+void ssd1331_write_data(struct ssd1331 *self, uint16_t *data, uint len) {
     ssd1331_data_mode(self);
     spi_set_format_16(self->spi_inst);
 
     if (!spi_is_busy(self->spi_inst) && spi_is_writable(self->spi_inst)) {
         spi_chip_select(self->pin_CS);
-        spi_write16_blocking(self->spi_inst, data, size);
+        spi_write16_blocking(self->spi_inst, data, len);
         spi_chip_deselect(self->pin_CS);
     }
 }
@@ -159,12 +157,13 @@ void ssd1331_fill_screen(struct ssd1331 *self, uint16_t color) {
 }
 
 void ssd1331_print_char(struct ssd1331 *self, uint8_t x, uint8_t y, const char c) {
-    const uint64_t font_char = font[toupper(c)];
+    // const uint64_t ch = font[toupper(c)];
 
     for (uint8_t offset_y = 0; offset_y < 8; offset_y++) {
 
         // loop through all bytes of font_char
-        const uint8_t byte = (font_char >> (56 - offset_y * 8)) & 0xFF;
+        // 0xC0 = ch
+        const uint8_t byte = (0xC0 >> (56 - offset_y * 8)) & 0xFF;
 
         for (uint8_t offset_x = 0; offset_x < 8; offset_x++) {
 

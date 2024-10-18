@@ -1,12 +1,19 @@
 #include "usb_hid.h"
 #include "usb.h"
 
+extern struct usb_device pico;
+
 /**
  * @brief send keyboard report to host
  */
 void usb_send_keyboard_report(const struct usb_keyboard_report *report) {
-    struct usb_endpoint *endpoint = usb_get_endpoint_configuration(EP_IN_HID);
+    struct usb_endpoint *endpoint = &(pico.hid_interfaces[0].endpoint);
     usb_xfer(endpoint, (uint8_t *)report, sizeof(const struct usb_keyboard_report));
+}
+
+void usb_send_mouse_report(const struct usb_mouse_report *report) {
+    struct usb_endpoint *endpoint = &(pico.hid_interfaces[1].endpoint);
+    usb_xfer(endpoint, (uint8_t *)report, sizeof(const struct usb_mouse_report));
 }
 
 void usb_send_single_keycode(uint8_t keycode) {
@@ -27,7 +34,7 @@ void release_keyboard(void) {
  * @brief send consumer control report to host
  */
 void usb_send_consumer_control_report(struct usb_consumer_control_report *report) {
-    struct usb_endpoint *endpoint = usb_get_endpoint_configuration(EP_IN_HID);
+    struct usb_endpoint *endpoint = &(pico.hid_interfaces[0].endpoint);
     usb_xfer(endpoint, (uint8_t*)report, sizeof(struct usb_consumer_control_report));
 }
 
@@ -47,6 +54,6 @@ void usb_send_consumer_control(uint16_t consumer_control) {
 }
 
 void usb_send_gamepad_report(struct usb_gamepad_report *report) {
-    struct usb_endpoint *endpoint = usb_get_endpoint_configuration(EP_IN_HID);
+    struct usb_endpoint *endpoint = &(pico.hid_interfaces[0].endpoint);
     usb_xfer(endpoint, (uint8_t*)report, sizeof(struct usb_gamepad_report));
 }

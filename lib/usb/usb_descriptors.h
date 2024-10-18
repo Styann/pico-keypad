@@ -69,6 +69,7 @@ enum bInterfaceClass {
 };
 
 enum bInterfaceSubClass {
+    USB_INTERFACE_SUBCLASS_TYPE_BOOT_INTERFACE = 0x01,
     USB_INTERFACE_SUBCLASS_TYPE_ABSTRACT_CONTROL_MODEL = 0x02
 };
 
@@ -156,6 +157,10 @@ enum usb_hid_report_descriptor_value {
     CONSUMER_PAGE          = 0x0C,
     BUTTON_PAGE            = 0x09,
 
+    USAGE_BUTTON           = 0x09,
+    USAGE_POINTER          = 0x01,
+    USAGE_MOUSE            = 0x02,
+    USAGE_WHEEL            = 0x38,
     USAGE_KEYBOARD         = 0x06,
     USAGE_CONSUMER_CONTROL = 0x01,
     USAGE_JOYSTICK         = 0x04,
@@ -171,8 +176,9 @@ enum usb_hid_report_descriptor_value {
     DATA_ARRAY_ABS         = 0x00,
     CONST_ARRAY_ABS        = 0x01,
     DATA_VAR_ABS           = 0x02,
-    DATA_VAR_ABS_NULL      = 0x42,
-    CONST_VAR_ABS          = 0x03
+    CONST_VAR_ABS          = 0x03,
+    DATA_VAR_REL           = 0x06,
+    DATA_VAR_ABS_NULL      = 0x42
 };
 
 #endif

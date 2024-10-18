@@ -12,9 +12,12 @@
 #define LOW 0
 #define HIGH 1
 
+#define U16_HIGH(u16) (u16 >> 8)
+#define U16_LOW(u16) (u16 & 0xFF)
+
 #define GPIO_IRQ_CHANGE (GPIO_IRQ_EDGE_FALL | GPIO_IRQ_EDGE_RISE)
 
-#define BIT_SIZE_OF(type) (sizeof(type) * 8)
+#define bitsizeof(type) (sizeof(type) * 8)
 
 enum GPIO {
     GPIO0 = 0,
@@ -88,8 +91,14 @@ static inline void spi_chip_deselect(uint8_t pin_cs) {
 }
 
 static inline void spi_set_format_from_inst(spi_inst_t *spi, uint data_bits) {
-    spi_cpol_t cpol = (spi == spi0) ? SPI_CPOL_0 : SPI_CPOL_1;
-    spi_cpha_t cpha = (spi == spi0) ? SPI_CPHA_0 : SPI_CPHA_1;
+    spi_cpol_t cpol = SPI_CPOL_0;
+    spi_cpha_t cpha = SPI_CPHA_0;
+
+    if (spi != spi0) {
+        cpol = SPI_CPOL_1;
+        cpha = SPI_CPHA_0;
+    }
+
     spi_set_format(spi, data_bits, cpol,  cpha, SPI_MSB_FIRST);
 }
 

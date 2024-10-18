@@ -2,6 +2,8 @@
  * @author Styann
  */
 
+#include <stdio.h>
+
 #include "pico/stdlib.h"
 #include "pico/multicore.h"
 #include "hardware/gpio.h"
@@ -16,26 +18,22 @@
 #include "../lib/debounce/debounce.h"
 #include "../lib/keyboard/keyboard.h"
 #include "../lib/rotary_encoder/rotary_encoder.h"
-#include "../lib/ws2812b/ws2812b.h"
 #include "../lib/joystick8way/joystick8way.h"
 #include "../lib/button/button.h"
-#include "../lib/macro/macro.h"
 
+#include "../lib/graphics/color.h"
+#include "../lib/ws2812b/ws2812b.h"
 #include "../lib/ssd1331/ssd1331.h"
 #include "../lib/ssd1306/ssd1306.h"
 #include "../lib/st7735s/st7735s.h"
 
-#include <stdio.h>
-
 #define USE_KEYBOARD
-#define USE_KNOB
+// #define USE_KNOB
 // #define USE_FIGHTSTICK
 // #define USE_WS2812B
-
-// #include "../include/blaziken.h"
 // #define USE_SSD1331
 // #define USE_SSD1306
-#define USE_ST7735S
+// #define USE_ST7735S
 
 #define DEBOUNCE_MS 10
 
@@ -111,8 +109,8 @@ volatile bool is_fn_pressed = false;
         .fn_layout = &fn_layout[0][0],
         .rows_pins = rows_pins,
         .columns_pins = columns_pins,
-        .row_size = LAYOUT_ROW_SIZE,
-        .column_size = LAYOUT_COLUMN_SIZE
+        .row_length = LAYOUT_ROW_SIZE,
+        .column_length = LAYOUT_COLUMN_SIZE
     };
 
     bool macro_task(struct usb_keyboard_report *report) {
@@ -159,7 +157,10 @@ volatile bool is_fn_pressed = false;
             if (!keyboard_report_cmp(&keyboard_report, &previous_report)) {
                 if (!macro_task(&keyboard_report)) {
                     if (!is_keyboard_report_empty(&keyboard_report)) {
-                        usb_send_keyboard_report(&keyboard_report);
+                        const struct usb_mouse_report mouse_report = { 0x03, 0b10000000, 0, 0, 0 };
+                        usb_send_mouse_report(&mouse_report);
+
+                        // usb_send_keyboard_report(&keyboard_report);
                         can_release = true;
                     }
                     else if (can_release) {
@@ -239,6 +240,8 @@ volatile bool is_fn_pressed = false;
 #endif
 
 #ifdef USE_SSD1331
+    #include "../include/blaziken.h"
+
     struct ssd1331 display = {
         .pin_DC = GPIO20,
         .pin_SDA = GPIO19,
@@ -259,6 +262,9 @@ volatile bool is_fn_pressed = false;
 #endif
 
 #ifdef USE_ST7735S
+    // #include "../include/naruto_pain.h"
+    #include "../include/itachi.h"
+
     st7735s_t display3 = {
         .pin_SCL = GPIO18,
         .pin_SDA = GPIO19,
@@ -272,11 +278,11 @@ volatile bool is_fn_pressed = false;
 
 void main_core1(void) {
     #ifdef USE_WS2812B
-        grb32_t leds_buffer[30];
-        uint8_t leds_spi_buffer[30][GRB_BIT_SIZE];
+        struct grb leds_buffer[30];
+        uint8_t leds_spi_buffer[30][bitsizeof(struct grb)];
 
         struct ws2812b led_strip = {
-            .pin_mosi = GPIO19,
+            .pin_Din = GPIO19,
             .spi_inst = spi0,
             .num_leds = 30,
             .leds_buffer = leds_buffer,
@@ -286,18 +292,21 @@ void main_core1(void) {
         ws2812b_init(&led_strip);
 
         while (true) {
-            ws2812b_set_all(&led_strip, GRB_ORANGE);
+            ws2812b_breathing(&led_strip, grb(0x17, 0xFF, 0));
+
+            continue;
+            ws2812b_set_all(&led_strip, grb(0x17, 0xFF, 0));
             ws2812b_set_brightness(&led_strip, 0.8);
             ws2812b_write(&led_strip);
             sleep_ms(1000);
 
-            ws2812b_set_brightness(&led_strip, 0.5);
-            // ws2812b_set_all(&led_strip, GRB_YELLOW);
+            ws2812b_set_all(&led_strip, grb(0xFF, 0xFF, 0));
+            ws2812b_set_brightness(&led_strip, 0.7);
             ws2812b_write(&led_strip);
             sleep_ms(1000);
 
-            // ws2812b_set_all(&led_strip, GRB_MAGENTA);
-            ws2812b_set_brightness(&led_strip, 0.1);
+            ws2812b_set_all(&led_strip, grb(0, 0xFF, 0xFF));
+            ws2812b_set_brightness(&led_strip, 0.6);
             ws2812b_write(&led_strip);
             sleep_ms(1000);
         }
@@ -337,19 +346,22 @@ void main_core1(void) {
         }
     #endif
 
-    #ifdef USE_ST7735S
-        st7735s_init(&display3, 8000000);
+    #ifdef USE_SSD1306
+        ssd1306_init(&display2, 400);
 
         while (true) {
             asm volatile("nop");
         }
     #endif
 
-    #ifdef USE_SSD1306
-        ssd1306_init(&display2, 400);
+    #ifdef USE_ST7735S
+        st7735s_init(&display3, 8000000);
 
         while (true) {
-            asm volatile("nop");
+            for (uint8_t i = 0; i < 21; i++) {
+                st7735s_write_image(&display3, (const uint16_t *const)&itachi_frames[i]);
+                sleep_ms(40);
+            }
         }
     #endif
 }
@@ -365,7 +377,6 @@ int main(void) {
     printf("Hello, World! from pi pico.\n");
 
     usb_device_init();
-    // ssd1331_init(&display);
 
     multicore_launch_core1(main_core1);
 

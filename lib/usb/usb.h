@@ -20,7 +20,7 @@ void usb_handle_suspend(void);
 
 void usb_handle_resume(void);
 
-struct usb_endpoint *usb_get_endpoint_configuration(uint8_t addr);
+// struct usb_endpoint *usb_get_endpoint_configuration(uint8_t addr);
 
 static inline uint32_t usb_buffer_offset(volatile uint8_t *buf);
 

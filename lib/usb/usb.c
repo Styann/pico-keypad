@@ -34,15 +34,16 @@ bool is_configured(void) {
  * @param addr
  * @return struct usb_endpoint*
  */
-struct usb_endpoint *usb_get_endpoint_configuration(uint8_t addr) {
-    struct usb_endpoint *endpoints = pico.endpoints;
-    for (int i = 0; i < 3; i++) {
-        if (endpoints[i].descriptor && (endpoints[i].descriptor->bEndpointAddress == addr)) {
-            return &endpoints[i];
-        }
-    }
-    return NULL;
-}
+// struct usb_endpoint *usb_get_endpoint_configuration(uint8_t addr) {
+//     struct usb_endpoint *endpoints = pico.endpoints;
+// 
+//     for (int i = 0; i < 3; i++) {
+//         if (endpoints[i].descriptor && (endpoints[i].descriptor->bEndpointAddress == addr)) {
+//             return &endpoints[i];
+//         }
+//     }
+//     return NULL;
+// }
 
 /**
  * @brief Take a buffer pointer located in the USB RAM and return as an offset of the RAM.
@@ -76,10 +77,14 @@ void usb_setup_endpoint(const struct usb_endpoint *ep) {
  * @brief Set up the endpoint control register for each endpoint.
  */
 void usb_setup_endpoints(void) {
-    const struct usb_endpoint *endpoints = pico.endpoints;
-    for (int i = 0; i < 3; i++) {
-        if (endpoints[i].descriptor && endpoints[i].handler) {
-            usb_setup_endpoint(&endpoints[i]);
+    usb_setup_endpoint(&pico.ep0_in);
+    usb_setup_endpoint(&pico.ep0_out);
+
+    for (int i = 0; i < 2; i++) {
+        struct usb_endpoint *ep = &pico.hid_interfaces[i].endpoint;
+
+        if (ep->descriptor && ep->handler) {
+            usb_setup_endpoint(ep);
         }
     }
 }
@@ -202,12 +207,11 @@ void usb_xfer(struct usb_endpoint *ep, uint8_t *buf, uint16_t len) {
 }
 
 void usb_control_xfer(uint8_t *buf, uint16_t len) {
-    usb_xfer(usb_get_endpoint_configuration(EP0_OUT_ADDR), buf, len);
+    usb_xfer(&pico.ep0_out, buf, len);
 }
 
 void usb_xfer_ep0_in(uint8_t *buf, uint16_t len) {
-    struct usb_endpoint *ep = usb_get_endpoint_configuration(EP0_IN_ADDR);
-    usb_xfer(ep, buf, len);
+    usb_xfer(&pico.ep0_in, buf, len);
 }
 
 /**
@@ -225,7 +229,7 @@ void usb_bus_reset(void) {
  * @brief Sends a zero length status packet back to the host.
  */
 void usb_acknowledge_out_request(void) {
-    usb_xfer(usb_get_endpoint_configuration(EP0_IN_ADDR), NULL, 0);
+    usb_xfer(&pico.ep0_in, NULL, 0);
 }
 
 /**
@@ -263,7 +267,7 @@ void usb_handle_setup_packet(void) {
     uint8_t req = pkt->bRequest;
 
     // Reset PID to 1 for EP0 IN
-    usb_get_endpoint_configuration(EP0_IN_ADDR)->next_pid = 1u;
+    pico.ep0_in.next_pid = 1u;
 
     if (req_direction == USB_DIR_OUT) {
         if (req == USB_REQUEST_SET_ADDRESS) {
@@ -306,7 +310,8 @@ void usb_handle_setup_packet(void) {
 
         }
         else if (req == USB_REQUEST_SET_REPORT) {
-            set_report_callback(usb_get_endpoint_configuration(0x81)->data_buffer, pkt->wLength);
+            struct usb_endpoint *ep = &(pico.hid_interfaces[0].endpoint);
+            set_report_callback(ep->data_buffer, pkt->wLength);
             usb_acknowledge_out_request();
         }
     }
@@ -316,7 +321,7 @@ void usb_handle_setup_packet(void) {
 
             switch (descriptor_type) {
                 case USB_DESCRIPTOR_TYPE_REPORT:
-                    usb_handle_report_descriptor(pkt->wLength);
+                    usb_handle_hid_report(pkt->bRequest, pkt->wIndex, pkt->wLength);
                     static struct usb_keyboard_report rp = {.id = 0x01};
                     usb_send_keyboard_report(&rp);
                     break;
@@ -347,8 +352,15 @@ static void usb_handle_ep_buff_done(struct usb_endpoint *ep) {
 static void usb_handle_buff_done(uint ep_num, bool in) {
     uint8_t ep_addr = ep_num | (in ? USB_DIR_IN : 0);
 
+    struct usb_endpoint *endpoints[4] = {
+        &pico.ep0_in,
+        &pico.ep0_out,
+        &pico.hid_interfaces[0].endpoint,
+        &pico.hid_interfaces[1].endpoint,
+    };
+
     for (uint i = 0; i < 3; i++) {
-        struct usb_endpoint *ep = &pico.endpoints[i];
+        struct usb_endpoint *ep = endpoints[i];
         if (ep->descriptor && ep->handler) {
             if (ep->descriptor->bEndpointAddress == ep_addr) {
                 usb_handle_ep_buff_done(ep);

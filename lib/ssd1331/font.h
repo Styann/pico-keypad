@@ -1,4 +1,4 @@
-static const uint64_t font[] = {
+const uint64_t font[] = {
     0x0000000000000000,
     0x0000000000000000,
     0x0000000000000000,

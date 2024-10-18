@@ -18,10 +18,10 @@
 #define SSD1331_BAUD_RATE 8000000
 
 struct ssd1331 {
-	uint8_t pin_SCL; // CLK
-	uint8_t pin_SDA; // Serial Data, MOSI
-	uint8_t pin_RES; // low -> chip init excuted
-	uint8_t pin_DC; // DataCommand / high -> data = data/ low -> data = command
+	uint8_t pin_SCL;
+	uint8_t pin_SDA;
+	uint8_t pin_RES;
+	uint8_t pin_DC;
 	uint8_t pin_CS;
 	spi_inst_t *spi_inst;
 	struct {
@@ -47,9 +47,9 @@ static void ssd1331_data_mode(struct ssd1331 *self);
 
 void ssd1331_write_command(struct ssd1331 *self, const uint8_t command);
 
-void ssd1331_write_commands(struct ssd1331 *self, const uint8_t *commands, size_t size);
+void ssd1331_write_commands(struct ssd1331 *self, const uint8_t *commands, const uint len);
 
-void ssd1331_write_data(struct ssd1331 *self, uint16_t *data, size_t size);
+void ssd1331_write_data(struct ssd1331 *self, uint16_t *data, const uint len);
 
 void ssd1331_draw_pixel(struct ssd1331 *self, uint8_t x, uint8_t y, uint16_t color);
 
@@ -61,49 +61,49 @@ void ssd1331_print(struct ssd1331 *self, const char *c);
 
 void ssd1331_println(struct ssd1331 *self, const char *c);
 
-// COMMANDS
-#define SET_COLUMN_ADDRESS     			  	0x15
-#define SET_ROW_ADDRESS        			  	0x75
-#define SET_CONTRAST_COLOR_A   			  	0x81
-#define SET_CONTRAST_COLOR_B   			  	0x82
-#define SET_CONTRAST_COLOR_C   			  	0x83
-#define MASTER_CURRENT_CONTROL 			  	0x87
-#define SET_SECOND_PRECHARGE_SPEED_COLOR_A	0x8A
-#define SET_SECOND_PRECHARGE_SPEED_COLOR_B	0x8B
-#define SET_SECOND_PRECHARGE_SPEED_COLOR_C	0x8C
-#define SET_REMAP_AND_DATA_FORMAT 		  	0xA0
-#define SET_DISPLAY_START_LINE 			  	0xA1
-#define SET_DISPLAY_OFFSET 				  	0xA2
-#define SET_DISPLAY_MODE_NORMAL 		  	0xA4
-#define SET_DISPLAY_MODE_ENTIRE_ON 		  	0xA5
-#define SET_DISPLAY_MODE_ENTIRE_OFF 	  	0xA6
-#define SET_DISPLAY_MODE_INVERSE 		  	0xA7
-#define SET_MULTIPLEX_RATIO 			  	0xA8
-#define DIM_MODE_SETTING 				  	0xAB
-#define SET_MASTER_CONFIGURATION 		  	0xAD
-#define SET_DISPLAY_DIM_MODE_DISPLAY_ON   	0xAC
-#define SET_DISPLAY_OFF					  	0xAE
-#define SET_DISPLAY_ON  				  	0xAF
-#define POWER_SAVE_MODE 				  	0xB0
-#define PHASE_1_AND_2_PERIOD_ADJUSTMENT   	0xB1
-#define SET_DISPLAY_CLOCK_DIVIDE_RATIO 		0xB3
-#define SET_GRAY_SCALE_TABLE				0xB8
-#define ENABLE_LINEAR_GRAY_SCALE_TABLE		0xB9
-#define SET_PRECHARGE_VOLTAGE				0xBB
-#define SET_Vcomh_VOLTAGE					0xBE
-#define NOP									0xBC // or 0xBD or 0xE3
-#define SET_COMMAND_LOCK 					0xFD
-#define DRAW_LINE 							0x21
-#define DRAW_RECTANGLE 						0x22
-#define COPY 								0x23
-#define DIW_WINDOW 							0x24
-#define CLEAR_WINDOW 						0x25
-#define FILL_TOGGLE 						0x26
-#define CONTINUOUS_X_AND_Y_SCROLLING_SETUP	0x27
-#define DEACTIVATE_SCROLLING 				0x2E
-#define ACTIVATE_SCROLLING 					0x2F
-
-#define COLOR_ORDER_RGB						0x72
-#define COLOR_ORDER_BGR						0x76
+enum ssd1331_commands {
+	SET_COLUMN_ADDRESS     			   = 0x15,
+	SET_ROW_ADDRESS        			   = 0x75,
+	SET_CONTRAST_COLOR_A   			   = 0x81,
+	SET_CONTRAST_COLOR_B   			   = 0x82,
+	SET_CONTRAST_COLOR_C   			   = 0x83,
+	MASTER_CURRENT_CONTROL 			   = 0x87,
+	SET_SECOND_PRECHARGE_SPEED_COLOR_A = 0x8A,
+	SET_SECOND_PRECHARGE_SPEED_COLOR_B = 0x8B,
+	SET_SECOND_PRECHARGE_SPEED_COLOR_C = 0x8C,
+	SET_REMAP_AND_DATA_FORMAT 		   = 0xA0,
+	SET_DISPLAY_START_LINE 			   = 0xA1,
+	SET_DISPLAY_OFFSET 				   = 0xA2,
+	SET_DISPLAY_MODE_NORMAL 		   = 0xA4,
+	SET_DISPLAY_MODE_ENTIRE_ON 		   = 0xA5,
+	SET_DISPLAY_MODE_ENTIRE_OFF 	   = 0xA6,
+	SET_DISPLAY_MODE_INVERSE 		   = 0xA7,
+	SET_MULTIPLEX_RATIO 			   = 0xA8,
+	DIM_MODE_SETTING 				   = 0xAB,
+	SET_MASTER_CONFIGURATION 		   = 0xAD,
+	SET_DISPLAY_DIM_MODE_DISPLAY_ON    = 0xAC,
+	SET_DISPLAY_OFF					   = 0xAE,
+	SET_DISPLAY_ON  				   = 0xAF,
+	POWER_SAVE_MODE 				   = 0xB0,
+	PHASE_1_AND_2_PERIOD_ADJUSTMENT    = 0xB1,
+	SET_DISPLAY_CLOCK_DIVIDE_RATIO 	   = 0xB3,
+	SET_GRAY_SCALE_TABLE			   = 0xB8,
+	ENABLE_LINEAR_GRAY_SCALE_TABLE	   = 0xB9,
+	SET_PRECHARGE_VOLTAGE			   = 0xBB,
+	SET_Vcomh_VOLTAGE				   = 0xBE,
+	NOP								   = 0xBC, // or 0xBD or 0xE3
+	SET_COMMAND_LOCK 				   = 0xFD,
+	DRAW_LINE 						   = 0x21,
+	DRAW_RECTANGLE 					   = 0x22,
+	COPY 							   = 0x23,
+	DIW_WINDOW 						   = 0x24,
+	CLEAR_WINDOW 					   = 0x25,
+	FILL_TOGGLE 					   = 0x26,
+	CONTINUOUS_X_AND_Y_SCROLLING_SETUP = 0x27,
+	DEACTIVATE_SCROLLING 			   = 0x2E,
+	ACTIVATE_SCROLLING 				   = 0x2F,
+	COLOR_ORDER_RGB					   = 0x72,
+	COLOR_ORDER_BGR					   = 0x76
+};
 
 #endif

@@ -23,7 +23,7 @@ void ssd1306_turn_on(const ssd1306_128x32_t *self);
 
 void ssd1306_write_command(const ssd1306_128x32_t *self, const uint8_t command);
 
-void ssd1306_write_commands(const ssd1306_128x32_t *self, const uint8_t *commands, const size_t size);
+void ssd1306_write_commands(const ssd1306_128x32_t *self, const uint8_t *commands, const uint len);
 
 enum ssd1306_commands {
     SSD1306_SET_DISPLAY_OFF				   = 0xAE, // sleep mode
@@ -50,8 +50,7 @@ enum ssd1306_commands {
     SSD1306_SET_INVERSE_DISPLAY            = 0xA7,
 
     SSD1306_DEACTIVATE_SCROLL              = 0x2E,
-    SSD1306_ACTIVATE_SCROLL                = 0x2F,
-
+    SSD1306_ACTIVATE_SCROLL                = 0x2F
 };
 
 #endif

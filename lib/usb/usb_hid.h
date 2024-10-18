@@ -35,6 +35,8 @@ struct usb_consumer_control_report {
 
 void usb_send_keyboard_report(const struct usb_keyboard_report *report);
 
+void usb_send_mouse_report(const struct usb_mouse_report *report);
+
 void usb_send_single_keycode(uint8_t keycode);
 
 void release_keyboard(void);
