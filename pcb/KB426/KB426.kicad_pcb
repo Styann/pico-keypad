@@ -26357,7 +26357,7 @@
 	(footprint "MCU_RaspberryPi_and_Boards:RPi_Pico_SMD_TH"
 		(layer "F.Cu")
 		(uuid "7a73caf3-3ec5-4c50-a36c-fc2bd5cbe5f7")
-		(at 132.06 100 90)
+		(at 132.06 101.5 90)
 		(descr "Through hole straight pin header, 2x20, 2.54mm pitch, double rows")
 		(tags "Through hole pin header THT 2x20 2.54mm double row")
 		(property "Reference" "U1"
@@ -34846,7 +34846,7 @@
 	(footprint "MountingHole:MountingHole_2.2mm_M2_Pad"
 		(layer "F.Cu")
 		(uuid "a9002dfe-563e-442b-b00f-8d708827d47a")
-		(at 108.56 84.19)
+		(at 109.2 86.575)
 		(descr "Mounting Hole 2.2mm, M2")
 		(tags "mounting hole 2.2mm m2")
 		(property "Reference" "H1"
@@ -55010,7 +55010,7 @@
 		(uuid "b524fc23-f195-4cb9-a67b-7cf364c13408")
 	)
 	(gr_rect
-		(start 96.17 76.17)
+		(start 105.95 82.225)
 		(end 416.23 216.23)
 		(stroke
 			(width 0.05)
