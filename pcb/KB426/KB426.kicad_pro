@@ -440,7 +440,9 @@
     }
   },
   "libraries": {
-    "pinned_footprint_libs": [],
+    "pinned_footprint_libs": [
+      "SPI_Displays"
+    ],
     "pinned_symbol_libs": []
   },
   "meta": {
