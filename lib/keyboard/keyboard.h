@@ -12,7 +12,6 @@
 
 typedef struct keyboard_matrix {
     const uint8_t *layout;
-    const uint8_t *fn_layout;
     const uint8_t *rows_pins;
     const uint8_t *columns_pins;
     const uint16_t row_length;

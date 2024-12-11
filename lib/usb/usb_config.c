@@ -92,6 +92,15 @@ static const struct usb_endpoint_descriptor ep2_in_descriptor = {
     .bInterval        = 5 // ms
 };
 
+static const struct usb_endpoint_descriptor ep_control_descriptor = {
+    .bLength = sizeof(struct usb_endpoint_descriptor),
+    .bDescriptorType  = USB_DESCRIPTOR_TYPE_ENDPOINT,
+    .bEndpointAddress = 0x40,
+    .bmAttributes     = USB_TRANSFER_TYPE_CONTROL,
+    .wMaxPacketSize   = 64,
+    .bInterval        = 0
+};
+
 static const struct usb_string_language_descriptor language_descriptor = {
     .bLength = sizeof(struct usb_string_language_descriptor),
     .bDescriptorType = USB_DESCRIPTOR_TYPE_STRING,

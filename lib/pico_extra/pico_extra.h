@@ -94,12 +94,12 @@ static inline void spi_set_format_from_inst(spi_inst_t *spi, uint data_bits) {
     spi_cpol_t cpol = SPI_CPOL_0;
     spi_cpha_t cpha = SPI_CPHA_0;
 
-    if (spi != spi0) {
+    if (spi == spi1) {
         cpol = SPI_CPOL_1;
-        cpha = SPI_CPHA_0;
+        cpha = SPI_CPHA_1;
     }
 
-    spi_set_format(spi, data_bits, cpol,  cpha, SPI_MSB_FIRST);
+    spi_set_format(spi, data_bits, cpol, cpha, SPI_MSB_FIRST);
 }
 
 static inline void spi_set_format_8(spi_inst_t *spi) {

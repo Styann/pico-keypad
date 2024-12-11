@@ -30,6 +30,12 @@
     font-size: 3em;
 }
 
+button {
+    height: 70px;
+    width: 160px;
+    border: none;
+}
+
 .div1 { grid-area: 1 / 1 / 2 / 2; }
 .div2 { grid-area: 1 / 2 / 2 / 3; }
 .div3 { grid-area: 1 / 3 / 2 / 4; }
@@ -167,10 +173,19 @@
 
     <h3 id="output">0x0000000000000000</h3>
 
-    <button style="height: 70px; width: 160px;" onclick="clear_matrix()">clear</button>
-    <button style="height: 70px; width: 160px;" onclick="copy()">copy</button>
+    <p>
+        <sub>* mode horizontal: each row is a byte</sub><br>
+        <sub>* mode vertical: each column is a byte</sub>
+    </p>
+
+    <button id="mode_button" onclick="set_mode()">mode = horizontal</button>
+    <button onclick="clear_matrix()">clear</button>
+    <button onclick="copy()">copy</button>
 
     <script>
+        let horizontal_mode = true;
+        const mode_button = document.getElementById('mode_button');
+
         const matrix = document.getElementById('matrix');
         const checkboxes = [...split_array_into_chunks([].slice.call(matrix.children), 8)];
         const output_element = document.getElementById('output');
@@ -200,6 +215,11 @@
             }
         }
 
+        const set_mode = () => {
+            horizontal_mode = !horizontal_mode;
+            mode_button.innerHTML = `mode = ${(horizontal_mode) ? 'horizontal' : 'vertical'}`;
+        };
+
         const compute = () => {
             let output = 0x0000000000000000n;
 
@@ -209,7 +229,7 @@
                 let byte = 0x00n;
 
                 for (let x = 0n; x < 8n; x++) {
-                    const checkbox = checkboxes[y][x];
+                    const checkbox = (horizontal_mode) ? checkboxes[y][x] : checkboxes[x][y];
                     const bit = BigInt(checkbox.classList.contains('checked')) & 0b1n;
                     byte |= bit << (7n - x);
                 }

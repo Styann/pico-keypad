@@ -263,25 +263,23 @@ void usb_set_device_configuration(volatile struct usb_setup_packet *pkt) {
  */
 void usb_handle_setup_packet(void) {
     volatile struct usb_setup_packet *pkt = (volatile struct usb_setup_packet *) &usb_dpram->setup_packet;
-    uint8_t req_direction = pkt->bmRequestType;
-    uint8_t req = pkt->bRequest;
 
     // Reset PID to 1 for EP0 IN
     pico.ep0_in.next_pid = 1u;
 
-    if (req_direction == USB_DIR_OUT) {
-        if (req == USB_REQUEST_SET_ADDRESS) {
+    if (pkt->bmRequestType == USB_DIR_OUT) {
+        if (pkt->bRequest == USB_REQUEST_SET_ADDRESS) {
             usb_set_device_address(pkt);
         }
-        else if (req == USB_REQUEST_SET_CONFIGURATION) {
+        else if (pkt->bRequest == USB_REQUEST_SET_CONFIGURATION) {
             usb_set_device_configuration(pkt);
         }
         else {
             usb_acknowledge_out_request();
         }
     }
-    else if (req_direction == USB_DIR_IN) {
-        if (req == USB_REQUEST_GET_DESCRIPTOR) {
+    else if (pkt->bmRequestType == USB_DIR_IN) {
+        if (pkt->bRequest == USB_REQUEST_GET_DESCRIPTOR) {
             uint16_t descriptor_type = pkt->wValue >> 8;
 
             switch (descriptor_type) {
@@ -303,20 +301,20 @@ void usb_handle_setup_packet(void) {
 
         }
     }
-    else if (req_direction == 0x21) {
-        if (req == USB_REQUEST_SET_IDLE) {
+    else if (pkt->bmRequestType == 0x21) {
+        if (pkt->bRequest == USB_REQUEST_SET_IDLE) {
             //uint8_t value = pkt->wValue;
             usb_acknowledge_out_request();
 
         }
-        else if (req == USB_REQUEST_SET_REPORT) {
+        else if (pkt->bRequest == USB_REQUEST_SET_REPORT) {
             struct usb_endpoint *ep = &(pico.hid_interfaces[0].endpoint);
             set_report_callback(ep->data_buffer, pkt->wLength);
             usb_acknowledge_out_request();
         }
     }
-    else if (req_direction == EP_IN_HID) {
-        if (req == USB_REQUEST_GET_DESCRIPTOR) {
+    else if (pkt->bmRequestType == EP_IN_HID) {
+        if (pkt->bRequest == USB_REQUEST_GET_DESCRIPTOR) {
             uint16_t descriptor_type = pkt->wValue >> 8;
 
             switch (descriptor_type) {
