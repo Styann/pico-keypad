@@ -7,7 +7,7 @@
 #include "../pico_extra/pico_extra.h"
 #include "hardware/gpio.h"
 
-void rotary_encoder_init(rotary_encoder_t *self, bool internal_pull_up) {
+void rotary_encoder_init(rotary_encoder_t *self, bool use_internal_pull_up) {
     self->state = 0;
     self->state_CLK = LOW;
 
@@ -17,7 +17,7 @@ void rotary_encoder_init(rotary_encoder_t *self, bool internal_pull_up) {
     gpio_set_dir(self->pin_CLK, GPIO_IN);
     gpio_set_dir(self->pin_DT, GPIO_IN);
 
-    if (internal_pull_up) {
+    if (use_internal_pull_up) {
         gpio_pull_up(self->pin_CLK);
         gpio_pull_up(self->pin_DT);
     }

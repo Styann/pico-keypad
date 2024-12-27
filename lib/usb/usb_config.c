@@ -38,7 +38,7 @@ static const struct usb_interface_descriptor keyboard_interface_descriptor = {
     .bInterfaceNumber   = 0,
     .bAlternateSetting  = 0,
     .bNumEndpoints      = 0x01, // Interface has 1 endpoints
-    .bInterfaceClass    = USB_INTERFACE_CLASS_TYPE_HID, // Vendor specific endpoint
+    .bInterfaceClass    = USB_INTERFACE_CLASS_TYPE_HID,
     .bInterfaceSubClass = USB_INTERFACE_SUBCLASS_TYPE_BOOT_INTERFACE,
     .bInterfaceProtocol = USB_INTERFACE_PROTOCOL_KEYBOARD,
     .iInterface         = 0
@@ -205,7 +205,7 @@ static const uint8_t mouse_report_descriptor[] = {
 static const struct usb_hid_descriptor keyboard_hid_descriptor = {
     .bLength         = sizeof(struct usb_hid_descriptor),
     .bDescriptorType = USB_DESCRIPTOR_TYPE_HID,
-    .bcdHID          = 0x0111, // usb hid version
+    .bcdHID          = 0x0111,
     .bCountryCode    = USB_COUNTRY_CODE_FRENCH,
     .bNumDescriptors = 0x01,
     .bReportType     = USB_DESCRIPTOR_TYPE_REPORT,
@@ -215,7 +215,7 @@ static const struct usb_hid_descriptor keyboard_hid_descriptor = {
 static const struct usb_hid_descriptor mouse_hid_descriptor = {
     .bLength         = sizeof(struct usb_hid_descriptor),
     .bDescriptorType = USB_DESCRIPTOR_TYPE_HID,
-    .bcdHID          = 0x0111, // usb hid version
+    .bcdHID          = 0x0111,
     .bCountryCode    = USB_COUNTRY_CODE_FRENCH,
     .bNumDescriptors = 0x01,
     .bReportType     = USB_DESCRIPTOR_TYPE_REPORT,
@@ -288,6 +288,8 @@ void usb_handle_device_descriptor(const uint16_t wLength) {
     // struct usb_endpoint *ep = usb_get_endpoint_configuration(0x80);
     // ep->next_pid = 1;
     // usb_xfer(ep, (uint8_t *)pico.device_descriptor, pico.device_descriptor->bLength);
+
+    pico.ep0_in.next_pid = 1;
     usb_xfer_ep0_in((uint8_t*)pico.device_descriptor, pico.device_descriptor->bLength);
 }
 

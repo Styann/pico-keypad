@@ -241,8 +241,6 @@ void ssd1306_print(ssd1306_t *const self, const char string[]) {
     char *chunk = strtok(string_cpy, "\n");
 
     while (chunk != NULL) {
-        uart_puts(uart0, chunk);
-
         memset(buffer, 0, sizeof(buffer));
 
         uint nb_chars = 0;

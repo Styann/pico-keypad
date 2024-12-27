@@ -6,20 +6,35 @@
 # sudo apt install g++
 
 export PICO_KEYPAD_PATH="/home/boudiou/Workspace/pico-keypad"
-
 BUILD_PATH="$PICO_KEYPAD_PATH/build"
-MAKEFILE_PATH="$BUILD_PATH/Makefile"
+BIN_UF2="$BUILD_PATH/pico-keypad.uf2"
+BIN_ELF="$BUILD_PATH/pico-keypad.elf"
 PICO_USB_DISK_PATH="/media/boudiou/RPI-RP2/"
+CHIP="rp2040"
 
-if ! test -f $MAKEFILE_PATH; then
-    echo "executing 'cmake'"
-    cmake -S $PICO_KEYPAD_PATH -B $BUILD_PATH
-fi
+# Loop through all arguments
+for arg in "$@"; do
+    if [ "$arg" == "-b" ] || [ "$arg" == "--build" ]; then
+        cmake -DCMAKE_BUILD_TYPE=Debug -S $PICO_KEYPAD_PATH -B $BUILD_PATH;
+        # -DCMAKE_BUILD_TYPE=Debug
+        # -G Ninja
+    fi
 
-if test -d $PICO_USB_DISK_PATH; then
-    cd $BUILD_PATH && make &&
-    echo "COPYING UF2 to pi pico" &&
-    cp $BUILD_PATH/pico-keypad.uf2 $PICO_USB_DISK_PATH;
-else
-    echo -e "\e[31mERROR: pico unmounted or unmounted as a mass storage device.\e[0m"
-fi
+    if [ "$arg" == "-c" ] || [ "$arg" == "--compile" ]; then
+        cd $BUILD_PATH && make;
+    fi
+
+    if [ "$arg" == "-f" ] || [ "$arg" == "--flash" ]; then
+        if test -d $PICO_USB_DISK_PATH; then
+            echo "COPYING UF2 to pi pico" && cp $BIN_UF2 $PICO_USB_DISK_PATH;
+        else
+            echo -e "\e[31mERROR: pico unmounted or unmounted as a mass storage device.\e[0m"
+        fi
+    fi
+
+    if [ "$arg" == "-d" ] || [ "$arg" == "--debug" ]; then
+        cd $BUILD_PATH && make -j4
+        openocd -f interface/cmsis-dap.cfg -f target/$CHIP.cfg -c "adapter speed 5000" -c "program $BIN_ELF verify reset exit"
+        openocd -f interface/cmsis-dap.cfg -f target/$CHIP.cfg -c "adapter speed 5000"
+    fi
+done

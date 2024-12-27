@@ -90,18 +90,17 @@ void usb_setup_endpoints(void) {
 }
 
 /**
- * @brief Set up the USB controller in device mode, clearing any previous state.
+ * @brief set up the USB controller in device mode, clearing any previous state.
  */
 void usb_device_init(void) {
-
-    // Reset usb controller
+    // reset usb controller
     reset_block(RESETS_RESET_USBCTRL_BITS);
     unreset_block_wait(RESETS_RESET_USBCTRL_BITS);
 
-    // Clear any previous state in dpram just in case
-    memset(usb_dpram, 0, sizeof(*usb_dpram)); // <1>
+    // clear dpram
+    memset(usb_dpram, 0, sizeof(*usb_dpram));
 
-    // Enable USB interrupt at processor
+    // enable USB interrupt at processor
     irq_set_enabled(USBCTRL_IRQ, true);
 
     // Mux the controller to the onboard usb phy
@@ -118,9 +117,7 @@ void usb_device_init(void) {
 
     // Enable interrupts for when a buffer is done, when the bus is reset,
     // and when a setup packet is received
-    usb_hw->inte = USB_INTS_BUFF_STATUS_BITS |
-                   USB_INTS_BUS_RESET_BITS |
-                   USB_INTS_SETUP_REQ_BITS;
+    usb_hw->inte = USB_INTS_BUFF_STATUS_BITS | USB_INTS_BUS_RESET_BITS | USB_INTS_SETUP_REQ_BITS;
 
     // Set up endpoints (endpoint control registers)
     // described by device configuration
@@ -286,19 +283,13 @@ void usb_handle_setup_packet(void) {
                 case USB_DESCRIPTOR_TYPE_DEVICE:
                     usb_handle_device_descriptor(pkt->wLength);
                     break;
-
                 case USB_DESCRIPTOR_TYPE_CONFIG:
                     usb_handle_config_descriptor(pkt->wLength);
                     break;
-
                 case USB_DESCRIPTOR_TYPE_STRING:
                     usb_handle_string_descriptor(pkt->wValue & 0xFF, pkt->wIndex);
                     break;
-
-                default:
             }
-        } else {
-
         }
     }
     else if (pkt->bmRequestType == 0x21) {

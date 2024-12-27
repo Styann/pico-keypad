@@ -25,6 +25,7 @@ add_executable(pico-keypad
     $ENV{PICO_KEYPAD_PATH}/lib/button/button.c
     $ENV{PICO_KEYPAD_PATH}/lib/joystick8way/joystick8way.c
     $ENV{PICO_KEYPAD_PATH}/lib/graphics/color.c
+    $ENV{PICO_KEYPAD_PATH}/lib/led/led.c
 )
 
 target_sources(pico-keypad PUBLIC
@@ -42,6 +43,7 @@ target_sources(pico-keypad PUBLIC
     $ENV{PICO_KEYPAD_PATH}/lib/button/button.c
     $ENV{PICO_KEYPAD_PATH}/lib/joystick8way/joystick8way.c
     $ENV{PICO_KEYPAD_PATH}/lib/graphics/color.c
+    $ENV{PICO_KEYPAD_PATH}/lib/led/led.c
 )
 
 target_link_libraries(pico-keypad

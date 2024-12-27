@@ -10,8 +10,6 @@
 
 #include <string.h>
 
-void debug_callback(uint32_t data) __attribute__((weak));
-
 void set_report_callback(volatile uint8_t *buf, uint16_t len) __attribute__((weak));
 
 bool is_configured(void);
