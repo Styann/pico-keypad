@@ -15,13 +15,9 @@ CHIP="rp2040"
 # Loop through all arguments
 for arg in "$@"; do
     if [ "$arg" == "-b" ] || [ "$arg" == "--build" ]; then
-        cmake -DCMAKE_BUILD_TYPE=Debug -S $PICO_KEYPAD_PATH -B $BUILD_PATH;
+        cmake -S $PICO_KEYPAD_PATH -B $BUILD_PATH && cd $BUILD_PATH && make;
         # -DCMAKE_BUILD_TYPE=Debug
         # -G Ninja
-    fi
-
-    if [ "$arg" == "-c" ] || [ "$arg" == "--compile" ]; then
-        cd $BUILD_PATH && make;
     fi
 
     if [ "$arg" == "-f" ] || [ "$arg" == "--flash" ]; then
