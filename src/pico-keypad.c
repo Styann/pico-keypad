@@ -11,10 +11,8 @@
 #include "hardware/pwm.h"
 
 #include "../lib/pico_extra/pico_extra.h"
-
 #include "../lib/usb/usb.h"
 #include "../lib/usb/usb_hid.h"
-
 #include "../lib/debounce/debounce.h"
 #include "../lib/keyboard/keyboard.h"
 #include "../lib/rotary_encoder/rotary_encoder.h"
@@ -23,19 +21,49 @@
 #include "../lib/ssd1306/ssd1306.h"
 #include "../lib/led/led.h"
 
+#include "../include/bongocat.h"
+
 #define USE_CAPSLOCK_LED
 #define USE_KEYBOARD
 #define USE_KNOB
-#define USE_WS2812B
+// #define USE_WS2812B
 #define USE_SSD1306
 
-#define DEBOUNCE_MS 10
+enum multicore_flags {
+    BONGOCAT_TAP_FLAG = 0xC0,
+    BONGOCAT_PAWS_UP_FLAG,
+    USB_SUSPEND_FLAG,
+    USB_RESUME_FLAG
+};
 
+#define DEBOUNCE_MS 10
+extern usb_device_t pico;
 volatile uint8_t modifiers = 0b00000000;
 volatile bool is_fn_pressed = false;
 
 #ifdef USE_CAPSLOCK_LED
 led_t capslock_led = { .pin = GPIO27, .state = LOW };
+#endif
+
+#ifdef USE_SSD1306
+ssd1306_t output = {
+    .pin_SCK = GPIO21,
+    .pin_SDA = GPIO20,
+    .i2c_inst = i2c0
+};
+#endif
+
+#ifdef USE_WS2812B
+struct grb leds_buffer[16];
+uint8_t leds_spi_buffer[16][bitsizeof(struct grb)];
+
+struct ws2812b led_strip = {
+    .pin_Din = GPIO19,
+    .spi_inst = spi0,
+    .num_leds = 16,
+    .leds_buffer = leds_buffer,
+    .spi_buffer = &leds_spi_buffer[0][0],
+};
 #endif
 
 #ifdef USE_KNOB
@@ -106,11 +134,6 @@ bool macro_task(struct usb_keyboard_report *report) {
 
     if (report->keycodes[0] == KC_FN) {
         is_fn_pressed = true;
-
-        if (report->keycodes[1] == KC_O) {
-            if (multicore_fifo_wready()) multicore_fifo_push_blocking(0x0FF);
-            match = true;
-        }
     }
     else if (report->modifiers == MOD_CTRL_LEFT | MOD_CTRL_RIGHT) {
         switch (report->keycodes[0]) {
@@ -144,10 +167,20 @@ void keyboard_task(void) {
                 if (!is_keyboard_report_empty(&keyboard_report)) {
                     usb_send_keyboard_report(&keyboard_report);
                     can_release = true;
+
+                    #ifdef USE_SSD1306
+                    multicore_fifo_drain();
+                    multicore_fifo_push_blocking(BONGOCAT_TAP_FLAG);
+                    #endif
                 }
                 else if (can_release) {
                     release_keyboard();
                     can_release = false;
+
+                    #ifdef USE_SSD1306
+                    multicore_fifo_drain();
+                    multicore_fifo_push_blocking(BONGOCAT_PAWS_UP_FLAG);
+                    #endif
                 }
             }
 
@@ -157,61 +190,93 @@ void keyboard_task(void) {
 }
 #endif
 
-#ifdef USE_SSD1306
-ssd1306_t output = {
-    .pin_SCK = GPIO21,
-    .pin_SDA = GPIO20,
-    .i2c_inst = i2c0
-};
-#endif
-
-#ifdef USE_WS2812B
-struct grb leds_buffer[16];
-uint8_t leds_spi_buffer[16][bitsizeof(struct grb)];
-
-struct ws2812b led_strip = {
-    .pin_Din = GPIO19,
-    .spi_inst = spi0,
-    .num_leds = 16,
-    .leds_buffer = leds_buffer,
-    .spi_buffer = &leds_spi_buffer[0][0],
-};
-#endif
-
 void main_core1(void) {
-    #ifdef USE_SSD1306
-    ssd1306_init(&output, 400000);
-    ssd1306_print(&output, "Mazda =^.^=\nToyota >_<\nNissan :D");
-    #endif
+    core1_resume: {
+        uint32_t multicore_flag = 0;
 
-    #ifdef USE_WS2812B
-    ws2812b_init(&led_strip);
-    #endif
-
-    while (true) {
-        #ifdef USE_WS2812B
-        for (uint8_t i = 0; i < 100; i++) {
-            ws2812b_set_all(&led_strip, grb(i, 0, 0));
-            ws2812b_write(&led_strip);
-            sleep_ms(10);
-        }
-
-        for (uint8_t i = 0; i < 128; i++) {
-            ws2812b_set_all(&led_strip, grb(0, i, 0));
-            ws2812b_write(&led_strip);
-            sleep_ms(10);
-        }
-
-        for (uint8_t i = 0; i < 128; i++) {
-            ws2812b_set_all(&led_strip, grb(0, 0, i));
-            ws2812b_write(&led_strip);
-            sleep_ms(10);
-        }
+        #ifdef USE_SSD1306
+        ssd1306_init(&output, 400000);
+        ssd1306_write_all(&output, bongocat_paws_up);
+        uint32_t bongocat_paw_state = 0;
+        uint32_t bongocat_timer = 0;
         #endif
+
+        #ifdef USE_WS2812B
+        ws2812b_init(&led_strip);
+        #endif
+
+        while (true) {
+            if (multicore_fifo_rvalid()) {
+                multicore_flag = multicore_fifo_pop_blocking();
+            }
+
+            if (multicore_flag == USB_SUSPEND_FLAG) {
+                multicore_flag = 0;
+                goto core1_suspend;
+            }
+
+            #ifdef USE_SSD1306
+            switch (multicore_flag) {
+                case BONGOCAT_TAP_FLAG:
+                    ssd1306_write_all(&output, bongocat_paw_down[bongocat_paw_state]);
+                    bongocat_paw_state ^= 1;
+                    multicore_flag = 0;
+                    break;
+                case BONGOCAT_PAWS_UP_FLAG:
+                    ssd1306_write_all(&output, bongocat_paws_up);
+                    multicore_flag = 0;
+                    break;
+            }
+            #endif
+
+            #ifdef USE_WS2812B
+            for (uint8_t i = 0; i < 100; i++) {
+                ws2812b_set_all(&led_strip, grb(i, 0, 0));
+                ws2812b_write(&led_strip);
+                sleep_ms(10);
+            }
+
+            for (uint8_t i = 0; i < 128; i++) {
+                ws2812b_set_all(&led_strip, grb(0, i, 0));
+                ws2812b_write(&led_strip);
+                sleep_ms(10);
+            }
+
+            for (uint8_t i = 0; i < 128; i++) {
+                ws2812b_set_all(&led_strip, grb(0, 0, i));
+                ws2812b_write(&led_strip);
+                sleep_ms(10);
+            }
+            #endif
+        }
+    }
+
+    core1_suspend: {
+        #ifdef USE_SSD1306
+        ssd1306_deinit(&output);
+        #endif
+
+        #ifdef USE_WS2812B
+        ws2812b_deinit(&led_strip);
+        #endif
+
+        while (true) {
+            uint32_t flag = (multicore_fifo_rvalid()) ? multicore_fifo_pop_blocking() : 0;
+
+            if (flag == USB_RESUME_FLAG) {
+                goto core1_resume;
+            }
+        }
     }
 }
 
 void set_report_callback(volatile uint8_t *buf, uint16_t len) {
+    if (len >= 2 ) {
+        char str[32];
+        sprintf(str, "len(%d) %d %d\n", len, buf[0], buf[1]);
+        uart_puts(uart0, str);
+    }
+
     release_keyboard();
 
     #ifdef USE_CAPSLOCK_LED
@@ -219,19 +284,18 @@ void set_report_callback(volatile uint8_t *buf, uint16_t len) {
     #endif
 }
 
+void usb_suspend_callback(void) {
+    multicore_fifo_drain();
+    multicore_fifo_push_blocking(USB_SUSPEND_FLAG);
+}
+
+void usb_resume_callback(void) {
+    multicore_fifo_drain();
+    multicore_fifo_push_blocking(USB_RESUME_FLAG);
+}
+
 int main(void) {
     built_in_led_init();
-
-    #ifdef USE_CAPSLOCK_LED
-    led_init(&capslock_led);
-    #endif
-
-    usb_device_init();
-
-    while (!is_configured()) {
-        tight_loop_contents();
-    }
-
     built_in_led_on();
 
     uart_init(uart0, 115200);
@@ -239,14 +303,26 @@ int main(void) {
     gpio_set_function(GPIO17, UART_FUNCSEL_NUM(uart0, GPIO17));
     uart_puts(uart0, "initing pico !\n");
 
-    multicore_launch_core1(main_core1);
+    #ifdef USE_CAPSLOCK_LED
+    led_init(&capslock_led);
+    #endif
+
+    usb_device_init();
+
+    while (!pico.configured) {
+        tight_loop_contents();
+    }
+
+    built_in_led_off();
+
+    multicore_launch_core1(&main_core1);
 
     #ifdef USE_KEYBOARD
     keyboard_matrix_init(&keyboard_matrix);
     #endif
 
     #ifdef USE_KNOB
-    rotary_encoder_init(&volume_knob, true);
+    rotary_encoder_init(&volume_knob, false);
     #endif
 
     while (true) {

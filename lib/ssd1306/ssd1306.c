@@ -88,14 +88,15 @@ void ssd1306_init(ssd1306_t *const self, const uint baudrate) {
     self->page = PAGE3;
     self->column = 0;
 
+    self->is_on = true;
+
     const uint8_t commands[] = {
         SET_DISPLAY_OFF,
         SET_DISPLAY_CLOCK_DIVIDE_RATIO, 0x80,
         SET_MULTIPLEX_RATIO, 32 - 1,
         SET_DISPLAY_OFFSET, 0x00,
         SET_START_LINE | 0x00,
-        CHARGE_PUMP_SETTING,
-        ENABLE_CHARGE_PUMP,
+        CHARGE_PUMP_SETTING, ENABLE_CHARGE_PUMP,
         SET_SEGMENT_REMAP | 0x01,
         SET_COM_SCAN_DIRECTION,
         SET_COM_PINS, 0x02,
@@ -110,11 +111,27 @@ void ssd1306_init(ssd1306_t *const self, const uint baudrate) {
     ssd1306_write_commands(self, commands, sizeof(commands));
 
     ssd1306_clear(self);
+}
 
-    self->is_on = true;
+void ssd1306_deinit(ssd1306_t *const self) {
+    // TODO: disbable charge pump
+    ssd1306_write_command(self, SET_DISPLAY_OFF);
+
+    self->is_on = false;
+
+    gpio_disable_pulls(self->pin_SCK);
+    gpio_set_function(self->pin_SCK, GPIO_FUNC_NULL);
+    gpio_deinit(self->pin_SCK);
+
+    gpio_disable_pulls(self->pin_SDA);
+    gpio_set_function(self->pin_SDA, GPIO_FUNC_NULL);
+    gpio_deinit(self->pin_SDA);
+
+    i2c_deinit(self->i2c_inst);
 }
 
 void ssd1306_write(const ssd1306_t *const self, const uint8_t *const buffer, const uint len) {
+    if (!self->is_on) return;
     i2c_write_blocking(self->i2c_inst, SSD1306_I2C_ADDR, buffer, len, false);
 }
 
@@ -129,20 +146,32 @@ void ssd1306_write_commands(const ssd1306_t *const self, const uint8_t *const co
     }
 }
 
-void ssd1306_clear(const ssd1306_t *const self) {
+/**
+ * @brief used to write pixels
+ * @param buffer
+ */
+void ssd1306_write_all(const ssd1306_t *const self, const uint8_t *const buffer) {
     const uint8_t commands[] = {
         MEMORY_ADDRESSING_MODE, HORIZONTAL_ADDRESSING_MODE,
         SET_PAGE_ADDRESS, 0, 3,
         SET_COLUMN_ADDRESS, 0, 127
     };
 
+    uint8_t final_buffer[1 + BUFFER_SIZE];
+    final_buffer[0] = DATA;
+    memcpy(final_buffer + 1, buffer, BUFFER_SIZE);
+
     ssd1306_write_commands(self, commands, sizeof(commands));
+    ssd1306_write(self, final_buffer, sizeof(final_buffer));
+}
 
-    uint8_t buffer[BUFFER_SIZE + 1];
-    memset(buffer, 0, sizeof(buffer));
-    buffer[0] = DATA;
+void ssd1306_clear(ssd1306_t *const self) {
+    uint8_t buffer[BUFFER_SIZE];
+    memset(buffer, 0, BUFFER_SIZE);
+    ssd1306_write_all(self, buffer);
 
-    ssd1306_write(self, buffer, sizeof(buffer));
+    self->column = 0;
+    self->page = PAGE3;
 }
 
 void push_col_in_page(uint8_t *const col, const uint8_t value) {
@@ -201,7 +230,7 @@ uint ssd1306_fill_buffer(const ssd1306_t *const self, uint8_t *const buffer, con
     return buf_i;
 }
 
-static void ssd1306_set_addr(ssd1306_t *const self, uint8_t page, uint8_t column) {
+void ssd1306_set_addr(ssd1306_t *const self, uint8_t page, uint8_t column) {
     self->page = page;
     self->column = column;
 

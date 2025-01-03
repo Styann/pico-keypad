@@ -1,7 +1,7 @@
 #include "usb_hid.h"
 #include "usb.h"
 
-extern struct usb_device pico;
+extern usb_device_t pico;
 
 /**
  * @brief send keyboard report to host

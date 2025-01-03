@@ -19,22 +19,23 @@ typedef struct {
 
 void ssd1306_init(ssd1306_t *const self, const uint baudrate);
 
+void ssd1306_deinit(ssd1306_t *const self);
+
 void ssd1306_write(const ssd1306_t *const self, const uint8_t *const buffer, const uint len);
 
 void ssd1306_write_command(const ssd1306_t *const self, const uint8_t command);
 
 void ssd1306_write_commands(const ssd1306_t *const self, const uint8_t *const commands, const uint len);
 
-// void ssd1306_enter_page_mode(const ssd1306_t *const self);
-// void ssd1306_enter_horizontal_mode(const ssd1306_t *const self);
+void ssd1306_write_all(const ssd1306_t *const self, const uint8_t *const buffer);
 
-void ssd1306_clear(const ssd1306_t *const self);
+void ssd1306_clear(ssd1306_t *const self);
 
 void push_col_in_page(uint8_t *const col, const uint8_t value);
 
 uint ssd1306_fill_buffer(const ssd1306_t *const self, uint8_t *const buffer, const char *const string, uint *const nb_chars);
 
-static void ssd1306_set_addr(ssd1306_t *const self, uint8_t page, uint8_t column);
+void ssd1306_set_addr(ssd1306_t *const self, uint8_t page, uint8_t column);
 
 static void ssd1306_newline(ssd1306_t *const self);
 
