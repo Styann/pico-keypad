@@ -20,6 +20,8 @@ struct ws2812b {
 
 void ws2812b_init(struct ws2812b *const self);
 
+void ws2812b_deinit(struct ws2812b *const self);
+
 void ws2812b_set_all(struct ws2812b *const self, struct grb color);
 
 void ws2812b_set_one(struct ws2812b *const self, uint16_t led, struct grb color);

@@ -16,7 +16,6 @@ add_executable(pico-keypad
     $ENV{PICO_KEYPAD_PATH}/lib/keyboard/keyboard.c
     $ENV{PICO_KEYPAD_PATH}/lib/usb/usb.c
     $ENV{PICO_KEYPAD_PATH}/lib/usb/usb_hid.c
-    $ENV{PICO_KEYPAD_PATH}/lib/usb/usb_config.c
     $ENV{PICO_KEYPAD_PATH}/lib/rotary_encoder/rotary_encoder.c
     $ENV{PICO_KEYPAD_PATH}/lib/ws2812b/ws2812b.c
     $ENV{PICO_KEYPAD_PATH}/lib/ssd1331/ssd1331.c
@@ -34,7 +33,6 @@ target_sources(pico-keypad PUBLIC
     $ENV{PICO_KEYPAD_PATH}/lib/keyboard/keyboard.c
     $ENV{PICO_KEYPAD_PATH}/lib/usb/usb.c
     $ENV{PICO_KEYPAD_PATH}/lib/usb/usb_hid.c
-    $ENV{PICO_KEYPAD_PATH}/lib/usb/usb_config.c
     $ENV{PICO_KEYPAD_PATH}/lib/rotary_encoder/rotary_encoder.c
     $ENV{PICO_KEYPAD_PATH}/lib/ws2812b/ws2812b.c
     $ENV{PICO_KEYPAD_PATH}/lib/ssd1331/ssd1331.c

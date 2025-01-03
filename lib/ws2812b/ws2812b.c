@@ -22,6 +22,13 @@ void ws2812b_init(struct ws2812b *const self) {
     ws2812b_set_off(self);
 }
 
+void ws2812b_deinit(struct ws2812b *const self) {
+    ws2812b_set_off(self);
+    gpio_set_function(self->pin_Din, GPIO_FUNC_NULL);
+    spi_deinit(self->spi_inst);
+    gpio_deinit(self->pin_Din);
+}
+
 /**
  * @brief set one color to all leds
  * @param color
