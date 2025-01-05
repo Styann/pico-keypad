@@ -1,7 +1,7 @@
 #ifndef USB_DESCRIPTORS_H
 #define USB_DESCRIPTORS_H
 
-#include <stdint.h>
+#include "pico/types.h"
 
 // b mean byte
 // w mean word

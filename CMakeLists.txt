@@ -12,6 +12,7 @@ message("PICO_KEYPAD_PATH is $ENV{PICO_KEYPAD_PATH}")
 
 add_executable(pico-keypad
     $ENV{PICO_KEYPAD_PATH}/src/pico-keypad.c
+    $ENV{PICO_KEYPAD_PATH}/lib/pico_extra/pico_extra.c
     $ENV{PICO_KEYPAD_PATH}/lib/debounce/debounce.c
     $ENV{PICO_KEYPAD_PATH}/lib/keyboard/keyboard.c
     $ENV{PICO_KEYPAD_PATH}/lib/usb/usb.c
@@ -30,6 +31,7 @@ add_executable(pico-keypad
 target_sources(pico-keypad PUBLIC
     $ENV{PICO_KEYPAD_PATH}/src/pico-keypad.c
     $ENV{PICO_KEYPAD_PATH}/lib/debounce/debounce.c
+    $ENV{PICO_KEYPAD_PATH}/lib/pico_extra/pico_extra.c
     $ENV{PICO_KEYPAD_PATH}/lib/keyboard/keyboard.c
     $ENV{PICO_KEYPAD_PATH}/lib/usb/usb.c
     $ENV{PICO_KEYPAD_PATH}/lib/usb/usb_hid.c

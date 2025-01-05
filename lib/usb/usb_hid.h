@@ -2,6 +2,7 @@
 #define USB_HID_H
 
 #include "pico/stdlib.h"
+#include "usb_structs.h"
 
 #define EP_IN_HID 0x81
 
@@ -33,19 +34,21 @@ struct usb_consumer_control_report {
     uint16_t consumer_control;
 } __packed;
 
-void usb_send_keyboard_report(const struct usb_keyboard_report *report);
+void usb_send_keyboard_report(struct usb_endpoint *const endpoint, const struct usb_keyboard_report *const report);
 
-void usb_send_mouse_report(const struct usb_mouse_report *report);
+void usb_send_mouse_report(struct usb_endpoint *const endpoint, const struct usb_mouse_report *const report);
 
-void usb_send_single_keycode(uint8_t keycode);
+void usb_send_single_keycode(struct usb_endpoint *const endpoint, uint8_t keycode);
 
-void release_keyboard(void);
+void release_keyboard(struct usb_endpoint *const endpoint);
 
-void usb_send_consumer_control_report(struct usb_consumer_control_report *report);
+void usb_send_consumer_control_report(struct usb_endpoint *const endpoint, const struct usb_consumer_control_report *const report);
 
-void usb_send_consumer_control(uint16_t consumer_control);
+void usb_send_consumer_control(struct usb_endpoint *const endpoint, const uint16_t consumer_control);
 
-void usb_send_gamepad_report(struct usb_gamepad_report *report);
+void usb_send_gamepad_report(struct usb_endpoint *const endpoint, const struct usb_gamepad_report *const report);
+
+uint hid_interface_cpy(uint8_t *buffer, const struct usb_hid_interface *const hid_interface);
 
 enum usb_keycodes {
     KC_NONE                       = 0x00,

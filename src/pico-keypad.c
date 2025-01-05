@@ -9,6 +9,7 @@
 #include "hardware/gpio.h"
 #include "hardware/timer.h"
 #include "hardware/pwm.h"
+#include "hardware/structs/usb.h"
 
 #include "../lib/pico_extra/pico_extra.h"
 #include "../lib/usb/usb.h"
@@ -22,6 +23,7 @@
 #include "../lib/led/led.h"
 
 #include "../include/bongocat.h"
+#include "../include/usb_descriptors.h"
 
 #define USE_CAPSLOCK_LED
 #define USE_KEYBOARD
@@ -36,10 +38,105 @@ enum multicore_flags {
     USB_RESUME_FLAG
 };
 
-#define DEBOUNCE_MS 10
-extern usb_device_t pico;
 volatile uint8_t modifiers = 0b00000000;
 volatile bool is_fn_pressed = false;
+
+void ep0_out_handler(uint8_t *buf, uint16_t len);
+void ep0_in_handler(uint8_t *buf, uint16_t len);
+void ep1_in_handler(uint8_t *buf, uint16_t len);
+
+usb_device_t pico = {
+    .addr = 0x00,
+    .should_set_addr = false,
+    .suspended = false,
+    .configured = false,
+    .endpoints = {
+        {
+            .descriptor = &ep0_in_descriptor,
+            .handler = &ep0_in_handler,
+            .endpoint_control = NULL, // NA for EP0,
+            .buffer_control = &usb_dpram->ep_buf_ctrl[0].in,
+            // EP0 in and out share a data buffer
+            .data_buffer = &usb_dpram->ep0_buf_a[0],
+        },
+        {
+            .descriptor = &ep0_out_descriptor,
+            .handler = &ep0_out_handler,
+            .endpoint_control = NULL, // NA for EP0
+            .buffer_control = &usb_dpram->ep_buf_ctrl[0].out,
+            // EP0 in and out share a data buffer
+            .data_buffer = &usb_dpram->ep0_buf_a[0],
+        },
+        {
+            .descriptor = &ep1_in_descriptor,
+            .handler = &ep1_in_handler,
+            .endpoint_control = &usb_dpram->ep_ctrl[0].in,
+            .buffer_control = &usb_dpram->ep_buf_ctrl[1].in,
+            .data_buffer = &usb_dpram->epx_data[0 * 64]
+        }
+    },
+    .device_descriptor = &device_descriptor,
+    .configuration_descriptor = &config_descriptor,
+    .language_descriptor = &language_descriptor,
+    .vendor = "Seegson Electronics",
+    .product = "USB Keyboard",
+};
+
+void ep0_out_handler(uint8_t *buf, uint16_t len) {
+
+}
+
+void ep0_in_handler(uint8_t *buf, uint16_t len) {
+    if (pico.should_set_addr) {
+        // Set actual device address in hardware
+        usb_hw->dev_addr_ctrl = pico.addr;
+        pico.should_set_addr = false;
+    } else {
+        // Receive a zero length status packet from the host on EP0 OUT
+        usb_xfer(usb_get_endpoint(&pico, USB_DIR_OUT), NULL, 0);
+    }
+}
+
+void ep1_in_handler(uint8_t *buf, uint16_t len) {
+
+}
+
+struct usb_hid_interface keyboard_interface = {
+    .interface_descriptor = &keyboard_interface_descriptor,
+    .hid_descriptor = &keyboard_hid_descriptor,
+    .endpoint = &pico.endpoints[2]
+};
+
+void usb_handle_hid_report(const uint16_t bDescriptorIndex, const uint16_t wInterfaceNumber, const uint16_t wDescriptorLength) {
+    switch (wInterfaceNumber) {
+        case 0:
+            usb_xfer_ep0_in(&pico, (uint8_t *)keyboard_report_descriptor, sizeof(keyboard_report_descriptor));
+            break;
+    }
+}
+
+void usb_handle_config_descriptor(usb_device_t *const device, const uint16_t wLength) {
+    uint8_t buffer[128];
+    uint8_t *buffer_ptr = buffer;
+
+    memcpy((void *)buffer_ptr, device->configuration_descriptor, device->configuration_descriptor->bLength);
+    buffer_ptr += device->configuration_descriptor->bLength;
+
+    if (wLength >= device->configuration_descriptor->wTotalLength) {
+        buffer_ptr += hid_interface_cpy(buffer_ptr, &keyboard_interface);
+    }
+
+    usb_xfer_ep0_in(device, buffer, buffer_ptr - buffer);
+}
+
+struct usb_endpoint *const keyboard_ep = &pico.endpoints[2];
+
+/**
+ * @brief USB interrupt handler
+ */
+void isr_usbctrl(void) {
+    isr_usbctrl_task(&pico);
+}
 
 #ifdef USE_CAPSLOCK_LED
 led_t capslock_led = { .pin = GPIO27, .state = LOW };
@@ -69,25 +166,25 @@ struct ws2812b led_strip = {
 #ifdef USE_KNOB
 void knob_cw_callback(uint32_t state) {
     if (is_fn_pressed) {
-        usb_send_consumer_control(CC_NEXT_TRACK);
+        usb_send_consumer_control(keyboard_ep, CC_NEXT_TRACK);
     }
     else if (modifiers & MOD_CTRL_LEFT) {
-        usb_send_single_keycode(KC_ARROW_DOWN);
+        usb_send_single_keycode(keyboard_ep, KC_ARROW_DOWN);
     }
     else {
-        usb_send_consumer_control(CC_VOLUME_INCREMENT);
+        usb_send_consumer_control(keyboard_ep, CC_VOLUME_INCREMENT);
     }
 }
 
 void knob_ccw_callback(uint32_t state) {
     if (is_fn_pressed) {
-        usb_send_consumer_control(CC_PREVIOUS_TRACK);
+        usb_send_consumer_control(keyboard_ep, CC_PREVIOUS_TRACK);
     }
     else if (modifiers & MOD_CTRL_LEFT) {
-        usb_send_single_keycode(KC_ARROW_UP);
+        usb_send_single_keycode(keyboard_ep, KC_ARROW_UP);
     }
     else {
-        usb_send_consumer_control(CC_VOLUME_DECREMENT);
+        usb_send_consumer_control(keyboard_ep, CC_VOLUME_DECREMENT);
     }
 }
 
@@ -100,6 +197,7 @@ rotary_encoder_t volume_knob = {
 #endif
 
 #ifdef USE_KEYBOARD
+#define DEBOUNCE_MS 10
 #define LAYOUT_COLUMN_SIZE 8
 #define LAYOUT_ROW_SIZE 9
 
@@ -138,11 +236,11 @@ bool macro_task(struct usb_keyboard_report *report) {
     else if (report->modifiers == MOD_CTRL_LEFT | MOD_CTRL_RIGHT) {
         switch (report->keycodes[0]) {
             case KC_ARROW_LEFT:
-                usb_send_single_keycode(KC_HOME);
+                usb_send_single_keycode(keyboard_ep, KC_HOME);
                 match = true;
                 break;
             case KC_ARROW_RIGHT:
-                usb_send_single_keycode(KC_END);
+                usb_send_single_keycode(keyboard_ep, KC_END);
                 match = true;
                 break;
         }
@@ -165,7 +263,7 @@ void keyboard_task(void) {
         if (!keyboard_report_cmp(&keyboard_report, &previous_report)) {
             if (!macro_task(&keyboard_report)) {
                 if (!is_keyboard_report_empty(&keyboard_report)) {
-                    usb_send_keyboard_report(&keyboard_report);
+                    usb_send_keyboard_report(keyboard_ep, &keyboard_report);
                     can_release = true;
 
                     #ifdef USE_SSD1306
@@ -174,7 +272,7 @@ void keyboard_task(void) {
                     #endif
                 }
                 else if (can_release) {
-                    release_keyboard();
+                    release_keyboard(keyboard_ep);
                     can_release = false;
 
                     #ifdef USE_SSD1306
@@ -271,13 +369,14 @@ void main_core1(void) {
 }
 
 void set_report_callback(volatile uint8_t *buf, uint16_t len) {
-    if (len >= 2 ) {
-        char str[32];
-        sprintf(str, "len(%d) %d %d\n", len, buf[0], buf[1]);
-        uart_puts(uart0, str);
-    }
+    // if (len >= 2 ) {
+    //     char str[32];
+    //     sprintf(str, "len(%d) %d %d\n", len, buf[0], buf[1]);
+    //     uart_puts(uart0, str);
+    // }
 
-    release_keyboard();
+    usb_control_xfer(&pico, NULL, 0);
+    release_keyboard(keyboard_ep);
 
     #ifdef USE_CAPSLOCK_LED
     led_toggle(&capslock_led);
@@ -307,7 +406,7 @@ int main(void) {
     led_init(&capslock_led);
     #endif
 
-    usb_device_init();
+    usb_device_init(&pico);
 
     while (!pico.configured) {
         tight_loop_contents();

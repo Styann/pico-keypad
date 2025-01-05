@@ -1,7 +1,7 @@
 #ifndef COLOR_H
 #define COLOR_H
 
-#include <stdint.h>
+#include "pico/types.h"
 
 #define RGB_BIT_SIZE 24
 #define GRB_BIT_SIZE 24

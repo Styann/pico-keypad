@@ -7,10 +7,8 @@
 #define PICO_EXTRA_H
 
 #include "pico/stdlib.h"
+#include "pico/types.h"
 #include "hardware/spi.h"
-
-#define LOW 0
-#define HIGH 1
 
 #define U16_HIGH(u16) (u16 >> 8)
 #define U16_LOW(u16) (u16 & 0xFF)
@@ -19,7 +17,14 @@
 
 #define bitsizeof(type) (sizeof(type) * 8)
 
-enum GPIO {
+#define lengthof(array) (sizeof(array) / sizeof(array[0]))
+
+enum gpio_states {
+    LOW = 0,
+    HIGH = 1
+};
+
+enum gpios {
     GPIO0 = 0,
     GPIO1,
     GPIO2,
@@ -44,11 +49,16 @@ enum GPIO {
     GPIO21,
     GPIO22,
     GPIO25 = 25,
-    GPIO26 = 26,
-    GPIO27 = 27,
-    GPIO28 = 28,
+    GPIO26,
+    GPIO27,
+    GPIO28
 };
 
+void utf8_to_utf16(const char *utf8, const uint utf8_len, uint16_t *utf16_buffer);
+
+/**
+ * @brief like arduino millis()
+ */
 static inline uint32_t millis(void) {
     return to_ms_since_boot(get_absolute_time());
 }
@@ -56,6 +66,10 @@ static inline uint32_t millis(void) {
 static inline void built_in_led_init(void) {
     gpio_init(PICO_DEFAULT_LED_PIN);
     gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
+}
+
+static inline void built_in_led_deinit(void) {
+    gpio_deinit(PICO_DEFAULT_LED_PIN);
 }
 
 static inline void built_in_led_on(void) {
@@ -66,7 +80,7 @@ static inline void built_in_led_off(void) {
     gpio_put(PICO_DEFAULT_LED_PIN, LOW);
 }
 
-static inline void built_in_led_put(bool value) {
+static inline void built_in_led_put(const bool value) {
     gpio_put(PICO_DEFAULT_LED_PIN, value);
 }
 
