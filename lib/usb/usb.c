@@ -132,14 +132,8 @@ void usb_xfer_pkt(struct usb_endpoint *ep, const uint8_t *buf, uint16_t len) {
     }
 
     // Set pid and flip for next transfer
-    if (ep->next_pid == 0) {
-        val |= USB_BUF_CTRL_DATA0_PID;
-        ep->next_pid = 1;
-    }
-    else {
-        val |= USB_BUF_CTRL_DATA1_PID;
-        ep->next_pid = 0;
-    }
+    val |= ep->next_pid ? USB_BUF_CTRL_DATA1_PID : USB_BUF_CTRL_DATA0_PID;
+    ep->next_pid ^= 1;
 
     // val |= USB_BUF_CTRL_LAST;
 
@@ -253,7 +247,7 @@ void usb_handle_setup_packet(usb_device_t *const device, volatile struct usb_set
         }
         case USB_DIR_IN: {
             if (pkt->bRequest == USB_REQUEST_GET_DESCRIPTOR) {
-                uint16_t descriptor_type = pkt->wValue >> 8;
+                const uint16_t descriptor_type = pkt->wValue >> 8;
 
                 switch (descriptor_type) {
                     case USB_DESCRIPTOR_TYPE_DEVICE:
@@ -284,7 +278,7 @@ void usb_handle_setup_packet(usb_device_t *const device, volatile struct usb_set
         }
         case EP_IN_HID: {
             if (pkt->bRequest == USB_REQUEST_GET_DESCRIPTOR) {
-                uint16_t descriptor_type = pkt->wValue >> 8;
+                const uint16_t descriptor_type = pkt->wValue >> 8;
 
                 if (descriptor_type == USB_DESCRIPTOR_TYPE_REPORT) {
                     usb_handle_hid_report(pkt->bRequest, pkt->wIndex, pkt->wLength);
@@ -380,7 +374,7 @@ void set_report_callback(volatile uint8_t *buf, uint16_t len) {
 void usb_handle_device_descriptor(usb_device_t *const device, const uint16_t wLength) {
     // Always respond with pid 1
     usb_get_endpoint(device, USB_DIR_IN)->next_pid = 1;
-    usb_xfer_ep0_in(device, (uint8_t *)device->device_descriptor, device->device_descriptor->bLength);
+    usb_xfer_ep0_in(device, (uint8_t *)device->device_descriptor, wLength);
 }
 
 

@@ -26,7 +26,7 @@ const struct usb_configuration_descriptor config_descriptor = {
     .wTotalLength        = sizeof(struct usb_configuration_descriptor) + (
                                 (sizeof(struct usb_interface_descriptor)
                                 + sizeof(struct usb_hid_descriptor)
-                                + sizeof(struct usb_endpoint_descriptor)) * 2
+                                + sizeof(struct usb_endpoint_descriptor))
                             ),
     .bNumInterfaces      = 1,
     .bConfigurationValue = 1, // Configuration 1
