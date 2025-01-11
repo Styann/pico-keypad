@@ -45,8 +45,8 @@ void keyboard_matrix_scan(keyboard_matrix_t *self, struct usb_keyboard_report *r
     uint8_t pressed_keys_count = 0;
 
     for (uint8_t r = 0; pressed_keys_count < KRO && r < self->row_length; r++) {
-        gpio_put(self->rows_pins[r], LOW);
-        busy_wait_us_32(1);
+        gpio_put(self->rows_pins[r], LOW); // low output pin act as a ground
+        busy_wait_us_32(10); // I fucking broke one pcb for this shit
 
         for (uint8_t c = 0; pressed_keys_count < KRO && c < self->column_length; c++) {
             uint8_t keycode = self->layout[r * self->column_length + c];

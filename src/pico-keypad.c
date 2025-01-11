@@ -205,21 +205,21 @@ const uint8_t columns_pins[LAYOUT_COLUMN_SIZE] = { GPIO0, GPIO1, GPIO2, GPIO3, G
 const uint8_t rows_pins[LAYOUT_ROW_SIZE] = { GPIO8, GPIO9, GPIO10, GPIO11, GPIO12, GPIO13, GPIO14, GPIO15, GPIO18 };
 
 const uint8_t layout[LAYOUT_ROW_SIZE][LAYOUT_COLUMN_SIZE] = {
-    { KC_ESCAPE,     KC_1,        KC_2,         KC_3,                   KC_4,                    KC_5,         KC_6,           KC_7           },
-    { KC_TAB,        KC_Q,        KC_W,         KC_E,                   KC_R,                    KC_T,         KC_Y,           KC_U           },
-    { KC_CAPS_LOCK,  KC_A,        KC_S,         KC_D,                   KC_F,                    KC_G,         KC_H,           KC_J           },
-    { KC_SHIFT_LEFT, KC_Z,        KC_X,         KC_C,                   KC_V,                    KC_B,         KC_N,           KC_M           },
-    { KC_CTRL_LEFT,  KC_GUI_LEFT, KC_ALT_LEFT,  KC_SPACE,               KC_ALT_RIGHT,            KC_FN,        KC_CTRL_RIGHT,  KC_ARROW_RIGHT },
-    { KC_8,          KC_9,        KC_0,         KC_MINUS,               KC_EQUAL,                KC_BACKSPACE, KC_GRAVE,       KC_PAUSE       },
-    { KC_I,          KC_O,        KC_P,         KC_SQUARE_BRACKET_LEFT, KC_SQUARE_BRACKET_RIGHT, KC_BACKSLASH, KC_DELETE,      KC_NONE        },
-    { KC_K,          KC_L,        KC_SEMICOLON, KC_APOSTROPHE,          KC_ENTER,                KC_HOME,      KC_ARROW_RIGHT, KC_NONE        },
-    { KC_COMMA,      KC_PERIOD,   KC_SLASH,     KC_SHIFT_RIGHT,         KC_ARROW_UP,             KC_END,       KC_ARROW_DOWN , KC_NONE        },
+    { KC_ESCAPE,     KC_1,        KC_2,         KC_3,                   KC_4,                    KC_5,         KC_6,           KC_7          },
+    { KC_TAB,        KC_Q,        KC_W,         KC_E,                   KC_R,                    KC_T,         KC_Y,           KC_U          },
+    { KC_CAPS_LOCK,  KC_A,        KC_S,         KC_D,                   KC_F,                    KC_G,         KC_H,           KC_J          },
+    { KC_SHIFT_LEFT, KC_Z,        KC_X,         KC_C,                   KC_V,                    KC_B,         KC_N,           KC_M          },
+    { KC_CTRL_LEFT,  KC_GUI_LEFT, KC_ALT_LEFT,  KC_SPACE,               KC_ALT_RIGHT,            KC_FN,        KC_CTRL_RIGHT,  KC_ARROW_LEFT },
+    { KC_8,          KC_9,        KC_0,         KC_MINUS,               KC_EQUAL,                KC_BACKSPACE, KC_GRAVE,       KC_PAUSE      },
+    { KC_I,          KC_O,        KC_P,         KC_SQUARE_BRACKET_LEFT, KC_SQUARE_BRACKET_RIGHT, KC_BACKSLASH, KC_DELETE,      KC_NONE       },
+    { KC_K,          KC_L,        KC_SEMICOLON, KC_APOSTROPHE,          KC_ENTER,                KC_HOME,      KC_ARROW_RIGHT, KC_NONE       },
+    { KC_COMMA,      KC_PERIOD,   KC_SLASH,     KC_SHIFT_RIGHT,         KC_ARROW_UP,             KC_END,       KC_ARROW_DOWN , KC_NONE       },
 };
 
 keyboard_matrix_t keyboard_matrix = {
     .layout = &layout[0][0],
-    .rows_pins = rows_pins,
     .columns_pins = columns_pins,
+    .rows_pins = rows_pins,
     .row_length = LAYOUT_ROW_SIZE,
     .column_length = LAYOUT_COLUMN_SIZE
 };
@@ -369,18 +369,25 @@ void main_core1(void) {
 }
 
 void set_report_callback(volatile uint8_t *buf, uint16_t len) {
-    // if (len >= 2 ) {
-    //     char str[32];
-    //     sprintf(str, "len(%d) %d %d\n", len, buf[0], buf[1]);
-    //     uart_puts(uart0, str);
-    // }
 
-    usb_control_xfer(&pico, NULL, 0);
     release_keyboard(keyboard_ep);
 
-    #ifdef USE_CAPSLOCK_LED
-    led_toggle(&capslock_led);
-    #endif
+    // #ifdef USE_CAPSLOCK_LED
+    // led_toggle(&capslock_led);
+    // #endif
+
+    // char str[2];
+
+    // if (len == 1) {
+        // usb_control_xfer(&pico, NULL, 0);
+        // sprintf(str, "%d", len);
+        // uart_puts(uart0, str);
+    // }
+    // else {
+        // usb_control_xfer(&pico, NULL, 0);
+        // sprintf(str, "%d", len);
+        // uart_puts(uart0, str);
+    // }
 }
 
 void usb_suspend_callback(void) {
