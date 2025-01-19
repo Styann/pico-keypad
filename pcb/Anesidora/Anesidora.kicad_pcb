@@ -278,7 +278,7 @@
 		)
 		(path "/f9373606-5cd3-4b24-8211-2ad7539b3c57")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -615,7 +615,7 @@
 		)
 		(path "/e578d15d-6758-4222-8955-39106ea5c53e")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -980,7 +980,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/9919ae9d-b9aa-446e-be96-bea4402c36ff")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -1316,7 +1316,7 @@
 		)
 		(path "/9237d416-1c50-4113-9747-fa0b21ab0abe")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -1653,7 +1653,7 @@
 		)
 		(path "/69dda29f-e826-4941-8164-3924775ce45c")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -1987,7 +1987,7 @@
 		)
 		(path "/1daa73ec-8abc-4f8f-b1e3-05b78f3abbd6")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 10.5 -25.5)
@@ -4192,7 +4192,7 @@
 		)
 		(path "/5238947f-0dc0-4465-afcd-fa044f416f62")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -4526,7 +4526,7 @@
 		)
 		(path "/818a2d8c-dd96-428e-b6c4-c6de4dd779b6")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -4891,7 +4891,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/99e6b875-ab27-40be-b574-f2b7148ee6b5")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -5255,7 +5255,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/6b08afb6-ade3-4ebb-b386-9391624174d3")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -5592,7 +5592,7 @@
 		(property ki_fp_filters "RotaryEncoder*Switch*")
 		(path "/e685cad7-9cfa-4d30-81c4-e7543800b996")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -0.3 -1.6)
@@ -6049,7 +6049,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/0eee4c32-b10a-4241-a547-27c8d2c377b9")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -6385,7 +6385,7 @@
 		)
 		(path "/615c7df1-383c-473f-ad36-cbab0216f12c")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_rect
 			(start -19 -6)
@@ -6605,7 +6605,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/231f685f-fdd4-4ecc-91aa-085cae33a70e")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -6941,7 +6941,7 @@
 		)
 		(path "/842bda73-d453-47b2-a007-1697ae489023")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -7275,7 +7275,7 @@
 		)
 		(path "/6b92dd74-02b8-4319-a356-7885fce7dad2")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -7613,7 +7613,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/d50a3647-b49d-417d-9fe2-81731d9373d2")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.04 0)
@@ -7884,7 +7884,7 @@
 		)
 		(path "/e8d5b5fe-67e0-447e-8f7d-e0446c3c89fd")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -8249,7 +8249,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/1a20c816-f637-444a-97be-a10a5da83638")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -8585,7 +8585,7 @@
 		)
 		(path "/5923e42e-fdf1-4162-a6f9-4ade9092b7d5")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -8922,7 +8922,7 @@
 		)
 		(path "/7d3b0220-4636-42c8-8e19-a111c03a8592")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -9260,7 +9260,7 @@
 		(property ki_fp_filters "LED* LED_SMD:* LED_THT:*")
 		(path "/6b9b3af7-bae7-4963-a61e-df04f2fe6d36")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -1.29 -1.545)
@@ -9739,7 +9739,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/90e6718d-8a43-4420-a0f9-65ac4e1916bf")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -10078,7 +10078,7 @@
 		(property ki_fp_filters "MountingHole*")
 		(path "/8b6255e7-235a-4166-94e9-45a4a6c3b561")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr exclude_from_pos_files)
 		(fp_circle
 			(center 0 0)
@@ -10219,7 +10219,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/2a1dcbe6-67ef-4e33-816a-d89524c58c4b")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -10552,7 +10552,7 @@
 		)
 		(path "/77d97071-5758-4dc5-87f5-8e9cd3222663")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -10892,7 +10892,7 @@
 		(property ki_fp_filters "MountingHole*")
 		(path "/a7b5c53a-ebc9-4411-ada3-a1ea7166c0f6")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr exclude_from_pos_files)
 		(fp_circle
 			(center 0 0)
@@ -11033,7 +11033,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/94ee3ea5-928f-4a86-9708-6fdddc8b0563")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -11397,7 +11397,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/b595a898-d105-4681-87e1-b50993170bf5")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 5.93 1.12)
@@ -11761,7 +11761,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/8c3f1de3-aaa3-4e44-9244-6dff75454ae7")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -12125,7 +12125,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/03325885-cb61-4522-8136-51c43e360bbd")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -12461,7 +12461,7 @@
 		)
 		(path "/fb1cb8af-ae32-464b-b88c-0c46cce459af")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -13043,7 +13043,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/49ac9bf8-eb83-4222-baaa-9a3251565453")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -13379,7 +13379,7 @@
 		)
 		(path "/7abb3985-2227-4e12-b6ce-ecaa6c37eee8")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -13744,7 +13744,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/fb409f93-4932-454b-b696-05e60b3f7f0f")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -14080,7 +14080,7 @@
 		)
 		(path "/6982d212-055c-43cf-83ba-23a4ce39a4d6")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -14420,7 +14420,7 @@
 		(property ki_fp_filters "MountingHole*")
 		(path "/d47aa60e-5237-48dd-93cb-09cb443fa4d1")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr exclude_from_pos_files)
 		(fp_circle
 			(center 0 0)
@@ -14561,7 +14561,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/9c870c08-ff8e-4257-bdac-837f140cccc7")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -14925,7 +14925,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/370f573b-5dce-411f-92b7-cee2fd1fda4c")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -15261,7 +15261,7 @@
 		)
 		(path "/90e76911-addb-44a1-a260-9ce7aade8178")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -15626,7 +15626,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/90aace6c-8ad5-459a-aa75-c7950944ef7e")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -15990,7 +15990,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/bf6e6016-7422-4040-b0c7-1de025c76a0b")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -16326,7 +16326,7 @@
 		)
 		(path "/ce788828-6210-4161-bf90-610a42c162dc")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -16663,7 +16663,7 @@
 		)
 		(path "/0f283cbe-89d3-48d1-a6f6-623fe2234b6f")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -17003,7 +17003,7 @@
 		(property ki_fp_filters "MountingHole*")
 		(path "/e8af0277-ed83-4b82-9bed-e0f74ed2c526")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr exclude_from_pos_files)
 		(fp_circle
 			(center 0 0)
@@ -17119,7 +17119,7 @@
 		(property ki_fp_filters "MountingHole*")
 		(path "/5cb4511e-3072-4443-99b3-60ebcc93b420")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr exclude_from_pos_files)
 		(fp_circle
 			(center 0 0)
@@ -17260,7 +17260,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/f4768063-0eed-4abf-96e3-1f40b2f8f486")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -17624,7 +17624,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/ff571551-bba9-469a-acb4-fbf0fdff6755")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -17988,7 +17988,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/b815cc43-9c41-469a-9a3f-b8ad4df85d8e")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -18352,7 +18352,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/841cbcf9-64c6-40ee-bd41-a1343dcc6671")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -18716,7 +18716,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/2e680efe-f837-4698-be4d-ad1332314f97")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -19080,7 +19080,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/1df91942-4588-428e-bdba-2b3009b464a9")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -19413,7 +19413,7 @@
 		)
 		(path "/0c4d0bee-7937-4d38-bc1c-9f5775c56897")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -19778,7 +19778,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/a7346d5f-e95e-4040-8b30-780f359ce14d")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -20117,7 +20117,7 @@
 		(property ki_fp_filters "MountingHole*")
 		(path "/ac9654e0-8a6c-4f33-a275-f490309ac853")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr exclude_from_pos_files)
 		(fp_circle
 			(center 0 0)
@@ -20231,7 +20231,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/cb92e569-7c09-49eb-a38e-5e14a61f5ce2")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 0.621 0.92)
@@ -20446,7 +20446,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/0400ecca-4f24-490a-a707-234cf15b0a84")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 9.12 0)
@@ -20748,7 +20748,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/256d1c4a-81e0-4f26-a2d6-30f7d94a1575")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -21085,7 +21085,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/ffc3cd81-9f95-4c51-b672-a6d6cb5dbe05")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.04 0)
@@ -21387,7 +21387,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/fbeb3fdb-4a0a-41f1-a844-2f25729e006b")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -21720,7 +21720,7 @@
 		)
 		(path "/a3107f12-5125-4c86-9f69-d543ebcb8f34")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -22085,7 +22085,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/495f9f67-fcc0-4a32-8c1e-0f3d6b44a70e")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -22449,7 +22449,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/bcf124b1-48a0-42ae-a63b-8517e75fea67")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -22782,7 +22782,7 @@
 		)
 		(path "/8585ad5e-0dc1-4f03-b8a7-261a962b5728")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -23147,7 +23147,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/775f74d9-3aa9-401b-ab40-b667d503ce80")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -23483,7 +23483,7 @@
 		)
 		(path "/5393a373-0872-47fd-8e8c-4eeb8310c3ae")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -23820,7 +23820,7 @@
 		)
 		(path "/26f76a09-2289-4d67-922d-c6a6db42a8a7")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -24185,7 +24185,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/b9f39dcd-fbfc-4641-acd7-3f539c88df21")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -24518,7 +24518,7 @@
 		)
 		(path "/4d880ccc-c05d-455d-b175-e70213c4d8b6")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -24883,7 +24883,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/0a60119e-d631-48b4-bdf5-0e037da0f6f9")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -25220,7 +25220,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/7be41561-2de2-49aa-ac0e-9ae043a67f35")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 0.621 0.92)
@@ -25434,7 +25434,7 @@
 		)
 		(path "/1ccd56eb-eed1-445c-8fc3-731f8267ad82")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -25768,7 +25768,7 @@
 		)
 		(path "/a0f5b3f6-d835-4995-96ca-88682dc6f560")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -26133,7 +26133,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/0de717b4-63c9-456c-b514-265c3997b71b")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -26469,7 +26469,7 @@
 		)
 		(path "/98b64aa1-fea4-44f7-9bc4-7c0f3e67418d")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -26834,7 +26834,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/03570e31-efc0-40b4-a0e0-8142783f8d2c")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -27170,7 +27170,7 @@
 		)
 		(path "/577a08e3-aff4-427a-b634-871a023ea002")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -27535,7 +27535,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/8ae4d66b-ca5c-4ff8-bf60-ea3c075ece54")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -27899,7 +27899,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/1d9e4391-35e6-404f-8e03-09147d06fbae")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -28263,7 +28263,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/4d4df0a3-c870-4e85-9ee6-d8b967f4ee92")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -28599,7 +28599,7 @@
 		)
 		(path "/932e48db-6128-4dbf-ae09-da8f85b1ddd4")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -28933,7 +28933,7 @@
 		)
 		(path "/8e31f4c5-9dae-4871-b8fa-3fc86366860f")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -29273,7 +29273,7 @@
 		(property ki_fp_filters "MountingHole*")
 		(path "/d5750235-ecb5-41e0-976d-47e49d8ee449")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr exclude_from_pos_files)
 		(fp_circle
 			(center 0 0)
@@ -29386,7 +29386,7 @@
 		)
 		(path "/ce1f322e-a38a-444c-8390-50f88003cfcd")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 6.75 3)
@@ -29742,7 +29742,7 @@
 		)
 		(path "/c38e2ba8-c79e-4741-84a3-617d99551613")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -30076,7 +30076,7 @@
 		)
 		(path "/408e61c9-67e7-472e-9da0-b762534375ef")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -30441,7 +30441,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/603cb93a-16b9-4ba4-a1e5-2937696e28b0")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -30778,7 +30778,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/03eab9ec-e5da-40d1-8a2e-c1fcb0b61cee")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.04 0)
@@ -31052,7 +31052,7 @@
 		)
 		(path "/519a8243-3d58-404f-8e1e-3f806ddcca43")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -31386,7 +31386,7 @@
 		)
 		(path "/8201ac72-075e-48b6-a217-dbbe297a6047")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -31726,7 +31726,7 @@
 		(property ki_fp_filters "MountingHole*")
 		(path "/ceb87665-7ed7-4c79-9dbd-692c692b94d4")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr exclude_from_pos_files)
 		(fp_circle
 			(center 0 0)
@@ -31867,7 +31867,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/fa2dda3d-5a96-4d2b-90d9-d5d8d1681a3e")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -32231,7 +32231,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/671094df-04a9-443f-af2d-cc37dec11548")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -32595,7 +32595,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/37f92d2e-54f9-4d26-9433-55aac7c67a6f")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -32931,7 +32931,7 @@
 		)
 		(path "/36b115e5-ff12-4d09-a902-157d693ba36b")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -33268,7 +33268,7 @@
 		)
 		(path "/f732dbdf-831c-4379-bcf8-45a2c33b62fe")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -33633,7 +33633,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/1a1d0c53-8fae-40e1-9ac8-dabee40331af")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -33997,7 +33997,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/71df6205-ba2e-4652-892e-1620172c4e57")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -34361,7 +34361,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/39290ae9-daf9-4a3c-ba35-2b45a61c0fae")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -34945,7 +34945,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/132df7d0-620d-40fe-a587-3b8e2d152376")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -35281,7 +35281,7 @@
 		)
 		(path "/460b9fc3-7fc7-486f-bf1d-55c7091f37aa")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -35619,7 +35619,7 @@
 		(property ki_fp_filters "LED* LED_SMD:* LED_THT:*")
 		(path "/4759fa49-468d-4a8d-9bb7-63a4ecc9584b")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -1.290001 -1.545)
@@ -35878,7 +35878,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/71c056a1-acc0-4b73-883b-833909f091c2")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -36211,7 +36211,7 @@
 		)
 		(path "/96a2143e-1e67-4d84-87f2-93ff080b0dba")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -36549,7 +36549,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/bcf06bb2-6196-457e-865e-df0d52fa1395")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -1.33 -1.33)
@@ -36879,7 +36879,7 @@
 		)
 		(path "/c3c7588c-2c0c-4459-8920-728e792803bc")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -37216,7 +37216,7 @@
 		)
 		(path "/30681cfd-a3b9-4fe9-8ccf-6047c4a286f5")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -37553,7 +37553,7 @@
 		)
 		(path "/b20bd2fb-ac33-438f-948d-f13487e1723f")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -37890,7 +37890,7 @@
 		)
 		(path "/dc317e12-30ed-4285-a589-4b6931721ad9")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -38224,7 +38224,7 @@
 		)
 		(path "/38ccd10f-409a-4f71-b80f-4c55d0ccfeb3")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -38589,7 +38589,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/29bfb343-ebf8-4769-9a7b-0fa5dd74c90c")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -38953,7 +38953,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/11c1651f-9742-4ac6-9592-694898858eb6")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -39317,7 +39317,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/e1cd60d3-9603-4521-8b7c-c23a3ca9caf7")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -39681,7 +39681,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/c1e4df63-004f-4405-9fbb-5a5333b52938")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -40017,7 +40017,7 @@
 		)
 		(path "/451b6753-9762-4817-af40-869bb6839290")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -40354,7 +40354,7 @@
 		)
 		(path "/48803c1b-e55e-420b-b0a3-cb708023780e")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -40691,7 +40691,7 @@
 		)
 		(path "/7069f592-c946-409e-b728-763b01ec21dc")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -41028,7 +41028,7 @@
 		)
 		(path "/cbb9b153-c4d8-48e5-9883-03b9924f2c22")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -41393,7 +41393,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/d35d4d91-dfc8-45d5-a356-fbf1495e6166")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -41977,7 +41977,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/af436728-a547-43e8-a42c-abcb2a03f9e8")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -42313,7 +42313,7 @@
 		)
 		(path "/8dc0a4c0-b4bc-490d-bafb-f8157315ac0b")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -42647,7 +42647,7 @@
 		)
 		(path "/43e694af-5006-4cfc-9aa1-19f6c3222195")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -43012,7 +43012,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/1c8bd933-a802-42ac-8097-a233ff23dfc6")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -43376,7 +43376,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/8710b6e1-c626-4edc-9890-ce564ad5f7ad")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -43712,7 +43712,7 @@
 		)
 		(path "/d981f65d-8782-409a-b705-44608ba407e6")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -44046,7 +44046,7 @@
 		)
 		(path "/cbdd2da0-200e-4d15-be38-0a24ab0c83cc")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -44380,7 +44380,7 @@
 		)
 		(path "/8e8c049c-e95f-4d00-b10e-9fc12ed23a26")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -44745,7 +44745,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/0e68f3a8-0946-49b1-b906-32bfa31509c3")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -45078,7 +45078,7 @@
 		)
 		(path "/dd8d5065-d4f3-4913-a094-91c0707bf209")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -45415,7 +45415,7 @@
 		)
 		(path "/22557433-4483-4ca3-9514-609e9f9278e3")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -45780,7 +45780,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/6d63ba50-ab07-4320-aa58-19813b19b6ef")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -46144,7 +46144,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/e5a277fa-0547-4921-a072-ee6307b03cff")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -46477,7 +46477,7 @@
 		)
 		(path "/115af165-04c1-476c-ba05-13b4644fa5ba")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -46814,7 +46814,7 @@
 		)
 		(path "/0e65a93a-d52d-4b78-b7c7-50ab0b0c0c7b")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -47179,7 +47179,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/328f029c-b1fa-4970-81f0-a3a843fa3ce6")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -47543,7 +47543,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/800f1849-2eb4-4c1a-b498-74ba00877453")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -47876,7 +47876,7 @@
 		)
 		(path "/6813dd47-5452-4d36-8f0a-ead288d43a09")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -48241,7 +48241,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/ef1748a1-c3cd-4c7c-a20a-0a683f2abf8f")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -48605,7 +48605,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/a5e2e366-584a-4bce-a120-843c572ab255")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -48941,7 +48941,7 @@
 		)
 		(path "/07cb27c6-0b14-44c5-9a3a-f8fc1ec4a52e")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -49281,7 +49281,7 @@
 		(property ki_fp_filters "MountingHole*")
 		(path "/44aac555-080e-4fde-83f4-48bc479be7ef")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr exclude_from_pos_files)
 		(fp_circle
 			(center 0 0)
@@ -49394,7 +49394,7 @@
 		)
 		(path "/39e0f7ed-f27f-4424-accd-876b03c14122")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -49759,7 +49759,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/9bda1d27-3255-4396-a5b5-aa58f06c777c")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -50095,7 +50095,7 @@
 		)
 		(path "/35353c44-2c21-4c5d-a437-4cd1b9901f39")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -50432,7 +50432,7 @@
 		)
 		(path "/b7bf2783-fdeb-42ea-bca0-c7ed5637e881")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -50796,7 +50796,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/5090e323-c450-4fce-8cdf-be0e97e1339e")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -51133,7 +51133,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/97472b17-3547-4ab9-8f1a-e98bfabf5c3d")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 9.12 0)
@@ -51407,7 +51407,7 @@
 		)
 		(path "/a98d75eb-c39a-4149-be6a-24c25e90957e")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -51772,7 +51772,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/4904730f-d37b-4a52-a96d-42de6b0c3a88")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -52105,7 +52105,7 @@
 		)
 		(path "/b8557e43-929a-4e48-a94a-959efb5c70b6")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -52442,7 +52442,7 @@
 		)
 		(path "/8bd0cca7-d95c-47fe-a9b5-0ca066e2377d")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -52779,7 +52779,7 @@
 		)
 		(path "/0e3d16b5-7c0c-4bd0-b382-d0b34cd357a3")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -53117,7 +53117,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/a8ef994f-2836-4178-be1b-81fa64161c1c")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.04 0)
@@ -53419,7 +53419,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/396ca68f-ba15-4a86-a339-8ac6fcaf7e50")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -53783,7 +53783,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/2ec02c5d-6a79-43c9-91be-e93600dafe99")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -54147,7 +54147,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/10aee618-d491-4430-9389-6f1e431a11b7")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -54480,7 +54480,7 @@
 		)
 		(path "/613cb6f7-2a39-4e1c-8b39-145c25188089")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -54845,7 +54845,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/89dac9a5-4ad0-4958-9da0-18500b25b6a8")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -55181,7 +55181,7 @@
 		)
 		(path "/a8352aac-3fdd-4388-93d7-157cc618a75f")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -55521,7 +55521,7 @@
 		(property ki_fp_filters "MountingHole*")
 		(path "/2a240c8e-ab64-4e54-bce2-2fe3062bc3f4")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr exclude_from_pos_files)
 		(fp_circle
 			(center 0 0)
@@ -55662,7 +55662,7 @@
 		(property ki_fp_filters "D*DO?35*")
 		(path "/f8f3dbe4-aaed-4fb0-a039-4a03b186f58d")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.69 1.12)
@@ -55995,7 +55995,7 @@
 		)
 		(path "/c7ec5859-0af6-4cfa-a32d-0a0a9160598f")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -7.1 -7.1)
@@ -56338,7 +56338,7 @@
 		(property ki_fp_filters "LED*WS2812*PLCC*5.0x5.0mm*P3.2mm*")
 		(path "/a1d23a2c-febb-4c85-8614-6011ffa99676")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 3.65 2.75)
@@ -56606,7 +56606,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/08af8832-f405-4f76-a9a9-63665de29146")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 0.14058 -0.51)
@@ -56825,7 +56825,7 @@
 		(property ki_fp_filters "LED*WS2812*PLCC*5.0x5.0mm*P3.2mm*")
 		(path "/0df1be2f-da8c-42e1-94be-0329e6fa970a")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 3.65 2.75)
@@ -57093,7 +57093,7 @@
 		(property ki_fp_filters "LED*WS2812*PLCC*5.0x5.0mm*P3.2mm*")
 		(path "/03417848-22b8-482b-91a3-308125d643ba")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 3.65 2.75)
@@ -57361,7 +57361,7 @@
 		(property ki_fp_filters "LED*WS2812*PLCC*5.0x5.0mm*P3.2mm*")
 		(path "/e49bf5cf-260b-4feb-be53-6d27bc45e7aa")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 3.65 2.75)
@@ -57629,7 +57629,7 @@
 		(property ki_fp_filters "LED*WS2812*PLCC*5.0x5.0mm*P3.2mm*")
 		(path "/79ece4bc-d15c-4a48-8fb8-2581330c046f")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 3.65 2.75)
@@ -57897,7 +57897,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/f4f66484-1855-449c-9e1c-cb52abddbdc8")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 0.14058 -0.51)
@@ -58116,7 +58116,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/ec548609-34db-46fa-85fe-dbff94315899")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 0.14058 -0.51)
@@ -58335,7 +58335,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/74f3aec4-3cba-4ad6-b639-18210635f846")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 0.14058 -0.51)
@@ -58554,7 +58554,7 @@
 		(property ki_fp_filters "LED*WS2812*PLCC*5.0x5.0mm*P3.2mm*")
 		(path "/f10de0fc-bd72-40da-b8fd-d44c83f01849")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 3.65 2.75)
@@ -58822,7 +58822,7 @@
 		(property ki_fp_filters "LED*WS2812*PLCC*5.0x5.0mm*P3.2mm*")
 		(path "/65a86e41-e74d-4048-9c9b-ccb96a0f768c")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 3.65 2.75)
@@ -59090,7 +59090,7 @@
 		(property ki_fp_filters "LED*WS2812*PLCC*5.0x5.0mm*P3.2mm*")
 		(path "/e4106739-f6db-448f-b9b3-0a86b66b9347")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 3.65 2.75)
@@ -59358,7 +59358,7 @@
 		(property ki_fp_filters "LED*WS2812*PLCC*5.0x5.0mm*P3.2mm*")
 		(path "/c68d2a42-e1b6-4f0a-bc43-a9944bde09b9")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 3.65 2.75)
@@ -59626,7 +59626,7 @@
 		(property ki_fp_filters "LED*WS2812*PLCC*5.0x5.0mm*P3.2mm*")
 		(path "/8dfacb48-1f16-4a31-8793-048429e85f14")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 3.65 2.75)
@@ -59894,7 +59894,7 @@
 		(property ki_fp_filters "LED*WS2812*PLCC*5.0x5.0mm*P3.2mm*")
 		(path "/7c54f2c7-87c9-442d-972c-3d3f3a8c7d4a")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 3.65 2.75)
@@ -60162,7 +60162,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/e134e3f3-186d-4004-8b04-fbd5fc5bdd7f")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 0.14058 -0.51)
@@ -60381,7 +60381,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/adaa03df-acb1-470a-b763-7cf20d75ffe7")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 0.14058 -0.51)
@@ -60600,7 +60600,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/73d0a3c9-21cc-4138-ab40-622482d3a6e1")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 0.14058 -0.51)
@@ -60819,7 +60819,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/594678fb-9c1b-429b-b480-94f566111057")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 0.14058 -0.51)
@@ -61038,7 +61038,7 @@
 		(property ki_fp_filters "LED*WS2812*PLCC*5.0x5.0mm*P3.2mm*")
 		(path "/f9bb3780-3783-4fdb-ab82-90f253a1c36b")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 3.65 2.75)
@@ -61306,7 +61306,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/4164fc0a-8bad-45e0-9058-09b26b319665")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 0.14058 -0.51)
@@ -61525,7 +61525,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/6d9d01f9-f6ba-4379-83c2-c2c078be1859")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 0.14058 -0.51)
@@ -61744,7 +61744,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/b7262fec-c853-462a-beb6-e37537b10958")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 0.14058 -0.51)
@@ -61963,7 +61963,7 @@
 		(property ki_fp_filters "LED*WS2812*PLCC*5.0x5.0mm*P3.2mm*")
 		(path "/5a0754bc-6d37-4961-adf8-5cf64a3c0666")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 3.65 2.75)
@@ -62231,7 +62231,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/d37392f0-4ec3-4274-8c4a-dcf4e3877201")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 0.14058 -0.51)
@@ -62450,7 +62450,7 @@
 		(property ki_fp_filters "LED*WS2812*PLCC*5.0x5.0mm*P3.2mm*")
 		(path "/14fb5d07-9d7f-46e8-a05e-6e213702e514")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 3.65 2.75)
@@ -62718,7 +62718,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/697dce0d-c7b0-4ab4-9816-1a3c1c01df7c")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 0.14058 -0.51)
@@ -62937,7 +62937,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/28d9184e-e00c-4628-9d05-7eb04d745ca6")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 0.14058 -0.51)
@@ -63156,7 +63156,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/b7bfd75d-49a3-4a14-9530-8ad1c37ed055")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 0.14058 -0.51)
@@ -63375,7 +63375,7 @@
 		(property ki_fp_filters "LED*WS2812*PLCC*5.0x5.0mm*P3.2mm*")
 		(path "/7447d7a3-8128-4e52-98f9-1f30785e9260")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 3.65 2.75)
@@ -63643,7 +63643,7 @@
 		(property ki_fp_filters "LED*WS2812*PLCC*5.0x5.0mm*P3.2mm*")
 		(path "/e0f92415-7919-419f-b38f-915847b3fc91")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 3.65 2.75)
@@ -63911,7 +63911,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/b682e3b0-2079-428a-bb97-8c3a4c44ae4e")
 		(sheetname "Racine")
-		(sheetfile "KB426.kicad_sch")
+		(sheetfile "Anesidora.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 0.14058 -0.51)
