@@ -1,4 +1,4 @@
-# pico-keypad
+# Anesidora
 
 A 65% keyboard PCB for the Raspberry pi pico made with KiCad 8 and a custom firmware.
 
@@ -32,7 +32,7 @@ Install the pico C/C++ SDK (https://www.raspberrypi.com/documentation/microcontr
 
 2.
 ```sh
-export PICO_SDK_PATH="path/to/pico-keypad"
+export ANESIDORA_PATH="path/to/Anesidora"
 ```
 
 3.

@@ -1,14 +1,14 @@
 #!/bin/bash
 
-BUILD_PATH="$PICO_KEYPAD_PATH/build"
-UF2="$BUILD_PATH/pico-keypad.uf2"
-ELF="$BUILD_PATH/pico-keypad.elf"
+BUILD_PATH="$ANESIDORA_PATH/build"
+UF2="$BUILD_PATH/anesidora.uf2"
+ELF="$BUILD_PATH/anesidora.elf"
 CHIP="rp2040"
 
 # Loop through all arguments
 for arg in "$@"; do
     if [ "$arg" == "-b" ] || [ "$arg" == "--build" ]; then
-        cmake -S $PICO_KEYPAD_PATH -B $BUILD_PATH && cd $BUILD_PATH && make;
+        cmake -S $ANESIDORA_PATH -B $BUILD_PATH && cd $BUILD_PATH && make;
         # -DCMAKE_BUILD_TYPE=Debug
         # -G Ninja
     fi
