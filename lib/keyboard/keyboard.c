@@ -40,13 +40,15 @@ static bool is_key_pressed(uint8_t column_pin) {
  * @brief loop through the matrix and add pressed keys to a keyboard report
  * @param matrix
  * @param report
+ * @returns is report empty or not
  */
-void keyboard_matrix_scan(keyboard_matrix_t *self, struct usb_keyboard_report *report) {
+bool keyboard_matrix_scan(const keyboard_matrix_t *const self, struct usb_keyboard_report *report) {
+    bool is_empty = true;
     uint8_t pressed_keys_count = 0;
 
     for (uint8_t r = 0; pressed_keys_count < KRO && r < self->row_length; r++) {
         gpio_put(self->rows_pins[r], LOW); // low output pin act as a ground
-        busy_wait_us_32(10); // I fucking broke one pcb for this shit
+        busy_wait_us_32(5); // waiting for the trace to be physically low
 
         for (uint8_t c = 0; pressed_keys_count < KRO && c < self->column_length; c++) {
             uint8_t keycode = self->layout[r * self->column_length + c];
@@ -54,16 +56,20 @@ void keyboard_matrix_scan(keyboard_matrix_t *self, struct usb_keyboard_report *r
             if (is_key_pressed(self->columns_pins[c]) && keycode != KC_NONE) {
                 if (keycode >= KC_CTRL_LEFT && keycode <= KC_GUI_RIGHT) {
                     report->modifiers |= get_modifier_from_keycode(keycode);
+                    is_empty = false;
                 }
                 else {
                     push_keycode(report, keycode);
                     pressed_keys_count++;
+                    is_empty = false;
                 }
             }
         }
 
         gpio_put(self->rows_pins[r], HIGH);
     }
+
+    return is_empty;
 }
 
 /**
@@ -88,7 +94,7 @@ static void push_keycode(struct usb_keyboard_report *report, uint8_t keycode) {
     }
 }
 
-bool is_key_in_report(const struct usb_keyboard_report *report, const uint8_t keycode) {
+bool keyboard_report_includes(const struct usb_keyboard_report *const report, const uint8_t keycode) {
     for (uint8_t i = 0; i < KRO; i++) {
         if (report->keycodes[i] == keycode) return true;
     }

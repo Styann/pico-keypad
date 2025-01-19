@@ -391,7 +391,7 @@ void usb_handle_string_descriptor(usb_device_t *const device, const uint8_t desc
         const uint string_len = strlen(*string);
         const uint8_t bLength = 2 + string_len * 2;
 
-        uint16_t string_descriptor_buffer[40];
+        uint16_t string_descriptor_buffer[127];
         string_descriptor_buffer[0] = USB_DESCRIPTOR_TYPE_STRING << 8 | bLength;
         utf8_to_utf16(*string, string_len, &string_descriptor_buffer[1]);
 

@@ -9,7 +9,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "hardware/uart.h"
 
 #define SSD1306_I2C_ADDR 0x3C
 #define BUFFER_SIZE 512

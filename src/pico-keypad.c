@@ -10,6 +10,7 @@
 #include "hardware/timer.h"
 #include "hardware/pwm.h"
 #include "hardware/structs/usb.h"
+#include "hardware/uart.h"
 
 #include "../lib/pico_extra/pico_extra.h"
 #include "../lib/usb/usb.h"
@@ -28,14 +29,15 @@
 #define USE_CAPSLOCK_LED
 #define USE_KEYBOARD
 #define USE_KNOB
-// #define USE_WS2812B
+#define USE_WS2812B
 #define USE_SSD1306
 
 enum multicore_flags {
     BONGOCAT_TAP_FLAG = 0xC0,
     BONGOCAT_PAWS_UP_FLAG,
     USB_SUSPEND_FLAG,
-    USB_RESUME_FLAG
+    USB_RESUME_FLAG,
+    LEDS_CHANGE_COLOR
 };
 
 volatile uint8_t modifiers = 0b00000000;
@@ -151,42 +153,23 @@ ssd1306_t output = {
 #endif
 
 #ifdef USE_WS2812B
-struct grb leds_buffer[16];
-uint8_t leds_spi_buffer[16][bitsizeof(struct grb)];
+#define NUM_LEDS 16
+
+struct grb leds_buffer[NUM_LEDS];
+uint8_t leds_spi_buffer[NUM_LEDS][bitsizeof(struct grb)];
 
 struct ws2812b led_strip = {
     .pin_Din = GPIO19,
     .spi_inst = spi0,
-    .num_leds = 16,
+    .num_leds = NUM_LEDS,
     .leds_buffer = leds_buffer,
     .spi_buffer = &leds_spi_buffer[0][0],
 };
 #endif
 
 #ifdef USE_KNOB
-void knob_cw_callback(uint32_t state) {
-    if (is_fn_pressed) {
-        usb_send_consumer_control(keyboard_ep, CC_NEXT_TRACK);
-    }
-    else if (modifiers & MOD_CTRL_LEFT) {
-        usb_send_single_keycode(keyboard_ep, KC_ARROW_DOWN);
-    }
-    else {
-        usb_send_consumer_control(keyboard_ep, CC_VOLUME_INCREMENT);
-    }
-}
-
-void knob_ccw_callback(uint32_t state) {
-    if (is_fn_pressed) {
-        usb_send_consumer_control(keyboard_ep, CC_PREVIOUS_TRACK);
-    }
-    else if (modifiers & MOD_CTRL_LEFT) {
-        usb_send_single_keycode(keyboard_ep, KC_ARROW_UP);
-    }
-    else {
-        usb_send_consumer_control(keyboard_ep, CC_VOLUME_DECREMENT);
-    }
-}
+void knob_cw_callback(uint32_t state);
+void knob_ccw_callback(uint32_t state);
 
 rotary_encoder_t volume_knob = {
     .pin_DT = GPIO22,
@@ -194,6 +177,14 @@ rotary_encoder_t volume_knob = {
     .cw_callback = &knob_cw_callback,
     .ccw_callback = &knob_ccw_callback
 };
+
+void knob_cw_callback(uint32_t state) {
+    usb_send_consumer_control(keyboard_ep, CC_VOLUME_INCREMENT);
+}
+
+void knob_ccw_callback(uint32_t state) {
+    usb_send_consumer_control(keyboard_ep, CC_VOLUME_DECREMENT);
+}
 #endif
 
 #ifdef USE_KEYBOARD
@@ -225,28 +216,15 @@ keyboard_matrix_t keyboard_matrix = {
 };
 
 bool macro_task(struct usb_keyboard_report *report) {
-    bool match = false;
-
     modifiers = report->modifiers;
-    is_fn_pressed = false;
 
-    if (report->keycodes[0] == KC_FN) {
-        is_fn_pressed = true;
-    }
-    else if (report->modifiers == MOD_CTRL_LEFT | MOD_CTRL_RIGHT) {
-        switch (report->keycodes[0]) {
-            case KC_ARROW_LEFT:
-                usb_send_single_keycode(keyboard_ep, KC_HOME);
-                match = true;
-                break;
-            case KC_ARROW_RIGHT:
-                usb_send_single_keycode(keyboard_ep, KC_END);
-                match = true;
-                break;
-        }
+    if (report->keycodes[0] == KC_FN && report->keycodes[1] == KC_L) {
+        multicore_fifo_drain();
+        multicore_fifo_push_blocking(LEDS_CHANGE_COLOR);
+        return true;
     }
 
-    return match;
+    return false;
 }
 
 void keyboard_task(void) {
@@ -254,15 +232,15 @@ void keyboard_task(void) {
 
     if (debounce(&timer, DEBOUNCE_MS)) {
         static bool can_release = false;
-        static struct usb_keyboard_report previous_report = {};
+        static struct usb_keyboard_report previous_report = { 0x01, 0, 0, { 0, 0, 0, 0, 0, 0 }};
 
         struct usb_keyboard_report keyboard_report = { 0x01, 0, 0, { 0, 0, 0, 0, 0, 0 } };
-        keyboard_matrix_scan(&keyboard_matrix, &keyboard_report);
+        const bool is_empty = keyboard_matrix_scan(&keyboard_matrix, &keyboard_report);
 
         // if there is a change between actual and previous report
         if (!keyboard_report_cmp(&keyboard_report, &previous_report)) {
             if (!macro_task(&keyboard_report)) {
-                if (!is_keyboard_report_empty(&keyboard_report)) {
+                if (!is_empty) {
                     usb_send_keyboard_report(keyboard_ep, &keyboard_report);
                     can_release = true;
 
@@ -289,6 +267,15 @@ void keyboard_task(void) {
 #endif
 
 void main_core1(void) {
+    const struct grb colors[] = {
+        grb(255, 0, 0),
+        grb(251, 255, 0), // yellow
+        grb(39, 238, 255), // magenta
+        grb(255, 39, 255), // cyan
+        grb(128, 255, 0), // orange
+        grb(0, 0, 0)
+    };
+
     core1_resume: {
         uint32_t multicore_flag = 0;
 
@@ -300,7 +287,10 @@ void main_core1(void) {
         #endif
 
         #ifdef USE_WS2812B
+        uint8_t color_index = 0;
         ws2812b_init(&led_strip);
+        ws2812b_set_all(&led_strip, colors[color_index]);
+        ws2812b_write(&led_strip);
         #endif
 
         while (true) {
@@ -328,22 +318,16 @@ void main_core1(void) {
             #endif
 
             #ifdef USE_WS2812B
-            for (uint8_t i = 0; i < 100; i++) {
-                ws2812b_set_all(&led_strip, grb(i, 0, 0));
-                ws2812b_write(&led_strip);
-                sleep_ms(10);
-            }
+            switch (multicore_flag) {
+                case LEDS_CHANGE_COLOR:
+                    color_index++;
+                    if (color_index > (lengthof(colors) - 1)) color_index = 0;
 
-            for (uint8_t i = 0; i < 128; i++) {
-                ws2812b_set_all(&led_strip, grb(0, i, 0));
-                ws2812b_write(&led_strip);
-                sleep_ms(10);
-            }
+                    ws2812b_set_all(&led_strip, colors[color_index]);
+                    ws2812b_write(&led_strip);
 
-            for (uint8_t i = 0; i < 128; i++) {
-                ws2812b_set_all(&led_strip, grb(0, 0, i));
-                ws2812b_write(&led_strip);
-                sleep_ms(10);
+                    multicore_flag = 0;
+                    break;
             }
             #endif
         }
@@ -355,6 +339,8 @@ void main_core1(void) {
         #endif
 
         #ifdef USE_WS2812B
+        ws2812b_set_all(&led_strip, grb(0, 0, 0));
+        ws2812b_write(&led_strip);
         ws2812b_deinit(&led_strip);
         #endif
 
@@ -369,7 +355,6 @@ void main_core1(void) {
 }
 
 void set_report_callback(volatile uint8_t *buf, uint16_t len) {
-
     release_keyboard(keyboard_ep);
 
     // #ifdef USE_CAPSLOCK_LED
