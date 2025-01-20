@@ -1,6 +1,6 @@
 # Anesidora
 
-A 65% keyboard PCB for the Raspberry pi pico made with KiCad 8 and a custom firmware.
+A 65% keyboard PCB for the Raspberry pi pico made with KiCad 8, and a custom firmware.
 
 <img src="pictures/pcb_assembled.jpg"/>
 <img src="pictures/pcb_front.jpg"/>
@@ -23,7 +23,7 @@ A 65% keyboard PCB for the Raspberry pi pico made with KiCad 8 and a custom firm
 - 2.54mm Male Pin Header 2x6
 
 ### SMD components
-- WS2812B (x16)
+- leds WS2812B (x16)
 - SMD Capacitors 0603 100nF (x16)
 
 ## 📦 Build the firmware
@@ -32,12 +32,12 @@ Install the pico C/C++ SDK (https://www.raspberrypi.com/documentation/microcontr
 
 2.
 ```sh
-export ANESIDORA_PATH="path/to/Anesidora"
+export ANESIDORA_PATH=path/to/Anesidora
 ```
 
 3.
 ```sh
-export PICO_USB_DISK_PATH="path/to/RPI-RP2"
+export PICO_USB_DISK_PATH=path/to/RPI-RP2
 ```
 
 4.
